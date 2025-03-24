@@ -5,6 +5,14 @@ namespace PS
     public class PlayerState
     {
         public static IdleState idle;
+        public static WalkState walk;
+
+        public PlayerState HandleInput()
+        {
+            // Check for other inputs and return corresponding state
+
+            return null;
+        }
     }
 
     public class IdleState : PlayerState
