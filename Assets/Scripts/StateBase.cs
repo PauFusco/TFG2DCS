@@ -1,16 +1,24 @@
-using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace PFSM
 {
-    public interface IState
+    public abstract class BaseState
     {
-        void HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx);
+        public PlayerBehaviour player;
 
-        void OnEnter();
+        public BaseState(PlayerBehaviour player)
+        {
+            this.player = player;
+        }
 
-        void Update();
+        public abstract BaseState HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx);
 
-        void OnExit();
+        public abstract void OnEnter();
+
+        public abstract void OnExit();
+
+        public abstract void Update();
+
+        public abstract void FixedUpdate();
     }
 }
