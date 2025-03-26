@@ -5,12 +5,10 @@ namespace PFSM
     public class IdleState : BaseState
     {
         public IdleState(PlayerBehaviour player) : base(player)
-        {
-        }
+        { }
 
         public override void FixedUpdate()
-        {
-        }
+        { }
 
         public override BaseState HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx)
         {
@@ -21,15 +19,12 @@ namespace PFSM
         }
 
         public override void OnEnter()
-        {
-        }
+        { }
 
         public override void OnExit()
-        {
-        }
+        { }
 
         public override void Update()
-        {
-        }
+        { }
     }
 }

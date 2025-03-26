@@ -13,19 +13,17 @@ namespace PFSM
 
         public override void OnEnter()
         {
-            player.grounded = true;
+            player.grounded = false;
         }
 
         public override void Update()
-        {
-
-        }
+        { }
 
         public override void FixedUpdate()
         {
             if(player.rigidBody.linearVelocity.y == 0)
             {
-                
+                // Change State to ground
             }
         }
 
@@ -52,18 +50,14 @@ namespace PFSM
 
         public override void OnEnter()
         {
-            player.grounded = false;
+            player.grounded = true;
         }
 
         public override void Update()
-        {
-
-        }
+        { }
 
         public override void FixedUpdate()
-        {
-            
-        }
+        { }
 
         public override void OnExit()
         { }
