@@ -24,21 +24,17 @@ namespace PFSM
         }
 
         public override void OnEnter()
-        {
-        }
-
-        public override void OnExit()
-        {
-        }
+        { }
 
         public override void Update()
-        {
-
-        }
+        { }
 
         public override void FixedUpdate()
         {
             player.Move(move);
         }
+
+        public override void OnExit()
+        { }
     }
 }

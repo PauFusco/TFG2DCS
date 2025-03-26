@@ -3,13 +3,13 @@ using UnityEngine.InputSystem;
 
 public class PlayerBehaviour : MonoBehaviour
 {
-    [SerializeField] private float mSpeed;
+    public Rigidbody2D rigidBody;
 
-    private PSFM.PlayerFSM[2] playerFSMs;
+    [SerializeField] private float mSpeed;
+    [SerializeField] private float mJumpStrength;
 
     private PFSM.MovementFSM movementFSM;
-    private PSFM.JumpFSM jumpFSM;
-    private Rigidbody2D rigidBody;
+    private PFSM.JumpFSM jumpFSM;
 
     private void Awake()
     {
@@ -17,34 +17,28 @@ public class PlayerBehaviour : MonoBehaviour
 
         movementFSM = new(this);
         jumpFSM = new(this);
-        
-        playerFSMs = new({movementFSM, jumpFSM});
-
-        grounded = true;
     }
 
     private void Update()
     {
-        foreach (var FSM in playerFSMs)
-            FSM.Update();
-
+        movementFSM.Update();
+        jumpFSM.Update();
     }
 
     private void FixedUpdate()
     {
-        foreach (var FSM in playerFSMs)
-            FSM.FixedUpdate();
-        
+        movementFSM.FixedUpdate();
+        jumpFSM.FixedUpdate();
     }
 
     public void Move(Vector2 value)
     {
-        rigidBody.linearVelocity = new(value.x * mSpeed, value.y);
+        rigidBody.linearVelocityX = value.x * mSpeed;
     }
 
     public void Jump()
     {
-        Debug.Log("Jump");
+        rigidBody.linearVelocityY = mJumpStrength;
     }
 
     public void HandleMovementInput(InputAction.CallbackContext ctx)
@@ -55,15 +49,5 @@ public class PlayerBehaviour : MonoBehaviour
     public void HandleJumpInput(InputAction.CallbackContext ctx)
     {
         jumpFSM.HandleInput(this, ctx);
-    }
-
-    void OnCollisionEnter(Collision collision)
-    {
-        foreach (ContactPoint contact in collision.contacts)
-        {
-            Debug.Log(contact);
-            // If with contact with floor collider call event of input from jumpFSM
-        }
-        
     }
 }

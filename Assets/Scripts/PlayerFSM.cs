@@ -7,20 +7,23 @@ namespace PFSM
     {
         public BaseState currentState;
 
-        protected virtual BaseState HandleInput(PlayerBehaviour player, InputAction.CallbackContrext ctx)
+        public virtual void HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx)
         {
             BaseState checkState = currentState.HandleInput(player, ctx);
 
             if (currentState != checkState) ChangeState(checkState);
         }
+
         public virtual void Update()
         {
             currentState.Update();
         }
+
         public virtual void FixedUpdate()
         {
             currentState.FixedUpdate();
         }
+
         protected virtual void ChangeState(BaseState state)
         {
             var prevState = currentState;
@@ -30,35 +33,6 @@ namespace PFSM
             postState.OnEnter();
 
             currentState = state;
-        }       
-    }
-
-    public class MovementFSM : PlayerFSM
-    {
-        protected static IdleState idle;
-        protected static WalkState walk;
-
-        public MovementFSM(PlayerBehaviour player)
-        {
-            idle = new(player);
-            walk = new(player);
-
-            currentState = idle;
         }
-    }
-
-    public class JumpFSM : PlayerFSM
-    {
-        protected AirState airState;
-        protected GroundState groundState;
-        
-        public JumpFSM(PlayerBehaviour player)
-        {
-            airState = new();
-            groundState = new();
-
-            currentState = groundState;
-        }
-
     }
 }
