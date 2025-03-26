@@ -33,11 +33,12 @@ namespace PFSM
 
         public override void Update()
         {
-            player.Move(move);
+
         }
 
         public override void FixedUpdate()
         {
+            player.Move(move);
         }
     }
 }

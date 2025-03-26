@@ -12,7 +12,6 @@ namespace PFSM
         }
 
         public abstract BaseState HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx);
-
         public abstract void OnEnter();
 
         public abstract void OnExit();
