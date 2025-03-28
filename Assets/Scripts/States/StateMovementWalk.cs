@@ -15,8 +15,11 @@ namespace PFSM
         public override BaseState HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx)
         {
             move = ctx.ReadValue<Vector2>();
-            Vector2 notmove = new(0, 0);
 
+            if (ctx.action.name == "Dash")
+                return MovementFSM.dash;
+
+            Vector2 notmove = new(0, 0);
             if (move == notmove)
                 return MovementFSM.idle;
 

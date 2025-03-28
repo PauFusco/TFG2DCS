@@ -15,6 +15,9 @@ namespace PFSM
             if (ctx.action.name == "Move")
                 return MovementFSM.walk;
 
+            if (ctx.action.name == "Dash")
+                return MovementFSM.dash;
+
             return MovementFSM.idle;
         }
 
