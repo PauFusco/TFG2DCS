@@ -5,8 +5,6 @@
         public static AirState airState;
         public static GroundState groundState;
 
-        private PlayerBehaviour player;
-
         public JumpFSM(PlayerBehaviour player)
         {
             this.player = player;

@@ -1,3 +1,4 @@
+using PFSM;
 using Unity.VisualScripting;
 using UnityEngine.InputSystem;
 
@@ -6,6 +7,8 @@ namespace PFSM
     public abstract class PlayerFSM
     {
         public BaseState currentState;
+
+        protected PlayerBehaviour player;
 
         public virtual void HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx)
         {

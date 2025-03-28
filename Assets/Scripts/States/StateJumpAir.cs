@@ -20,9 +20,14 @@ namespace PFSM
         { }
 
         public override void FixedUpdate()
-        { }
+        {
+            if (player.rigidBody.linearVelocityY > 0) player.rigidBody.gravityScale = 1;
+            else player.rigidBody.gravityScale = player.jFallGravityMultiplier;
+        }
 
         public override void OnExit()
-        { }
+        {
+            if (player.rigidBody.linearVelocityY <= 0) player.rigidBody.gravityScale = 1;
+        }
     }
 }

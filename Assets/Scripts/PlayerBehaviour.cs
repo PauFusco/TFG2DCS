@@ -4,9 +4,10 @@ using UnityEngine.InputSystem;
 public class PlayerBehaviour : MonoBehaviour
 {
     public Rigidbody2D rigidBody;
+    public float jFallGravityMultiplier;
 
-    [SerializeField] private float mSpeed;
-    [SerializeField] private float mJumpStrength;
+    [SerializeField] private float speed;
+    [SerializeField] private float jumpForce;
 
     private PFSM.MovementFSM movementFSM;
     private PFSM.JumpFSM jumpFSM;
@@ -33,12 +34,12 @@ public class PlayerBehaviour : MonoBehaviour
 
     public void Move(Vector2 value)
     {
-        rigidBody.linearVelocityX = value.x * mSpeed;
+        rigidBody.linearVelocityX = value.x * speed;
     }
 
     public void Jump()
     {
-        rigidBody.linearVelocityY = mJumpStrength;
+        rigidBody.linearVelocityY = jumpForce;
     }
 
     public void HandleMovementInput(InputAction.CallbackContext ctx)

@@ -9,7 +9,7 @@ namespace PFSM
 
         public override BaseState HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx)
         {
-            if (ctx.action.name == "Jump")
+            if (ctx.action.name == "Jump" && ctx.action.IsPressed())
             {
                 player.Jump();
 
