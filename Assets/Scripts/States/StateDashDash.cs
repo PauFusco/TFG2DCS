@@ -5,13 +5,13 @@ namespace PFSM
 {
     public class DashState : BaseState
     {
-        private readonly float baseDashDuration;
-        public float dashState;
+        public readonly float fullDashDuration;
+        public float currentDashDuration;
 
-        public DashState(PlayerBehaviour player, float baseDashDuration) : base(player)
+        public DashState(PlayerBehaviour player, float dashMaximumDuration) : base(player)
         {
-            this.baseDashDuration = baseDashDuration;
-            dashState = this.baseDashDuration;
+            fullDashDuration = dashMaximumDuration;
+            currentDashDuration = .0f;
         }
 
         public override BaseState HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx)
@@ -22,11 +22,12 @@ namespace PFSM
         public override void OnEnter()
         {
             player.invulnerable = true;
+            currentDashDuration = .0f;
         }
 
         public override void Update()
         {
-            dashState -= Time.deltaTime;
+            currentDashDuration += Time.deltaTime;
         }
 
         public override void FixedUpdate()
@@ -36,9 +37,8 @@ namespace PFSM
 
         public override void OnExit()
         {
-            dashState = baseDashDuration;
             player.invulnerable = false;
-            player.Move(new(0, 0));
+            player.SetSpeedX(0);
         }
     }
 }

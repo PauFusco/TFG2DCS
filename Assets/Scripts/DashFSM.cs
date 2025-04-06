@@ -19,7 +19,8 @@
         {
             currentState.Update();
 
-            if (currentState == dash && dash.dashState <= 0.0f)
+            if (currentState == dash &&
+                dash.currentDashDuration >= dash.fullDashDuration)
             {
                 ChangeState(idle);
             }

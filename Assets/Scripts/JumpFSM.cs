@@ -5,11 +5,11 @@
         public static AirState airState;
         public static GroundState groundState;
 
-        public JumpFSM(PlayerBehaviour player, float fallGravityMultiplier)
+        public JumpFSM(PlayerBehaviour player, float fallGravityMultiplier, float jumpMaxDuration)
         {
             this.player = player;
 
-            airState = new(player, fallGravityMultiplier);
+            airState = new(player, fallGravityMultiplier, jumpMaxDuration);
             groundState = new(player);
 
             currentState = groundState;

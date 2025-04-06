@@ -1007,7 +1007,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidBody: {fileID: 964720860}
+  jumping: 0
   invulnerable: 0
+  lookDirection: 0
 --- !u!114 &964720865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1022,10 +1024,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   dashSpeed: 15
-  jumpForce: 7
-  fallGravityMultiplier: 12
-  dashCooldown: 0.5
+  dashCooldown: 0.2
   dashDuration: 0.2
+  jumpForce: 7
+  jumpMaxDuration: 0.3
+  fallGravityMultiplier: 12
 --- !u!1 &1566772647
 GameObject:
   m_ObjectHideFlags: 0

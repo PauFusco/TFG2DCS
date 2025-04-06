@@ -1,4 +1,5 @@
 ﻿using UnityEngine.InputSystem;
+using UnityEngine;
 
 namespace PFSM
 {
@@ -9,10 +10,10 @@ namespace PFSM
 
         public override BaseState HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx)
         {
-            if (ctx.action.name == "Jump" && ctx.action.IsPressed())
+            if (ctx.action.name == "Jump" && ctx.action.inProgress)
             {
                 player.Jump();
-
+                player.jumping = true;
                 return JumpFSM.airState;
             }
 

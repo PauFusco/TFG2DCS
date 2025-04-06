@@ -36,7 +36,7 @@ namespace PFSM
         public override void FixedUpdate()
         {
             if (player.GetFSM(player.dashFSMIdx).currentState != PFSM.DashFSM.dash)
-            { player.Move(move); }
+            { player.SetSpeedX(move.x); }
         }
 
         public override void OnExit()

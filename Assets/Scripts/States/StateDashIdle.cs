@@ -20,7 +20,6 @@ namespace PFSM
                 ctx.action.name == "Dash" &&
                 ctx.action.inProgress)
             {
-                dashCD = .0f;
                 return DashFSM.dash;
             }
 
@@ -28,7 +27,9 @@ namespace PFSM
         }
 
         public override void OnEnter()
-        { }
+        {
+            dashCD = .0f;
+        }
 
         public override void Update()
         {

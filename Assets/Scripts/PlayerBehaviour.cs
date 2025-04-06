@@ -12,10 +12,12 @@ public class PlayerBehaviour : MonoBehaviour
         jumpForce,
         dashCooldown,
         dashDuration,
+        jumpMaxDuration,
         fallGravityMultiplier;
 
     private PlayerFSM[] PFSMs;
 
+    public bool jumping;
     public bool invulnerable;
     public bool lookDirection;
 
@@ -34,19 +36,21 @@ public class PlayerBehaviour : MonoBehaviour
         jumpForce = config.jumpForce;
         dashCooldown = config.dashCooldown;
         dashDuration = config.dashDuration;
+        jumpMaxDuration = config.jumpMaxDuration;
         fallGravityMultiplier = config.fallGravityMultiplier;
 
         PFSMs = new PlayerFSM[3];
 
         MovementFSM moveFSM = new(this);
-        JumpFSM jumpFSM = new(this, fallGravityMultiplier);
         DashFSM dashFSM = new(this, dashCooldown, dashDuration);
+        JumpFSM jumpFSM = new(this, fallGravityMultiplier, jumpMaxDuration);
 
         PFSMs[moveFSMIdx] = moveFSM;
         PFSMs[jumpFSMIdx] = jumpFSM;
         PFSMs[dashFSMIdx] = dashFSM;
 
-        invulnerable = true;
+        jumping = false;
+        invulnerable = false;
         lookDirection = true;
     }
 
@@ -62,13 +66,17 @@ public class PlayerBehaviour : MonoBehaviour
         { FSM.FixedUpdate(); }
     }
 
-    public void Move(Vector2 value)
-    { rigidBody.linearVelocityX = value.x * speed; }
+    public void SetSpeed(Vector2 value)
+    { rigidBody.linearVelocity = value * speed; }
+
+    public void SetSpeedX(float value)
+    { rigidBody.linearVelocityX = value * speed; }
+
+    public void SetSpeedY(float value)
+    { rigidBody.linearVelocityY = value * speed; }
 
     public void Jump()
-    {
-        rigidBody.linearVelocityY = jumpForce;
-    }
+    { rigidBody.linearVelocityY = jumpForce; }
 
     public void Dash()
     {
