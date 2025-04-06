@@ -710,6 +710,7 @@ GameObject:
   m_Component:
   - component: {fileID: 964720862}
   - component: {fileID: 964720861}
+  - component: {fileID: 964720865}
   - component: {fileID: 964720864}
   - component: {fileID: 964720863}
   - component: {fileID: 964720860}
@@ -936,7 +937,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 964720864}
         m_TargetAssemblyTypeName: PlayerBehaviour, Assembly-CSharp
-        m_MethodName: HandleMovementInput
+        m_MethodName: HandleDashInput
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1006,9 +1007,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidBody: {fileID: 964720860}
-  jFallGravityMultiplier: 2.5
+  invulnerable: 0
+--- !u!114 &964720865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 964720858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2978fb56762bb6248a5b6a9cc1fb13f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   speed: 3
-  jumpForce: 7
+  dashSpeed: 15
+  jumpForce: 5
+  fallGravityMultiplier: 15
+  dashCooldown: 0.5
+  dashDuration: 0.2
 --- !u!1 &1566772647
 GameObject:
   m_ObjectHideFlags: 0

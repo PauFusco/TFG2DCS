@@ -16,10 +16,8 @@ namespace PFSM
         {
             move = ctx.ReadValue<Vector2>();
 
-            if (ctx.action.name == "Dash")
-                return MovementFSM.dash;
-
             Vector2 notmove = new(0, 0);
+
             if (move == notmove)
                 return MovementFSM.idle;
 
@@ -34,7 +32,8 @@ namespace PFSM
 
         public override void FixedUpdate()
         {
-            player.Move(move);
+            if (player.GetFSM(player.dashFSMIdx).currentState != PFSM.DashFSM.dash)
+            { player.Move(move); }
         }
 
         public override void OnExit()

@@ -5,8 +5,12 @@ namespace PFSM
 {
     public class AirState : BaseState
     {
-        public AirState(PlayerBehaviour player) : base(player)
-        { }
+        private float fallGravMult;
+
+        public AirState(PlayerBehaviour player, float fallGravityMultiplier) : base(player)
+        {
+            this.fallGravMult = fallGravityMultiplier;
+        }
 
         public override BaseState HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx)
         {
@@ -22,7 +26,7 @@ namespace PFSM
         public override void FixedUpdate()
         {
             if (player.rigidBody.linearVelocityY > 0) player.rigidBody.gravityScale = 1;
-            else player.rigidBody.gravityScale = player.jFallGravityMultiplier;
+            else player.rigidBody.gravityScale = fallGravMult;
         }
 
         public override void OnExit()
