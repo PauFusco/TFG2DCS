@@ -16,7 +16,9 @@ namespace PFSM
 
         public override BaseState HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx)
         {
-            if (dashCD >= baseDashCD && ctx.action.name == "Dash")
+            if (dashCD >= baseDashCD &&
+                ctx.action.name == "Dash" &&
+                ctx.action.inProgress)
             {
                 dashCD = .0f;
                 return DashFSM.dash;
