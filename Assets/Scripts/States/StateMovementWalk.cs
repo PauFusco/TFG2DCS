@@ -21,6 +21,9 @@ namespace PFSM
             if (move == notmove)
                 return MovementFSM.idle;
 
+            if (move.x < 0) player.lookDirection = false;
+            else player.lookDirection = true;
+
             return MovementFSM.walk;
         }
 

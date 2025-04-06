@@ -17,6 +17,7 @@ public class PlayerBehaviour : MonoBehaviour
     private PlayerFSM[] PFSMs;
 
     public bool invulnerable;
+    public bool lookDirection;
 
     public readonly uint moveFSMIdx = 0;
     public readonly uint jumpFSMIdx = 1;
@@ -44,6 +45,9 @@ public class PlayerBehaviour : MonoBehaviour
         PFSMs[moveFSMIdx] = moveFSM;
         PFSMs[jumpFSMIdx] = jumpFSM;
         PFSMs[dashFSMIdx] = dashFSM;
+
+        invulnerable = true;
+        lookDirection = true;
     }
 
     private void Update()
@@ -59,9 +63,7 @@ public class PlayerBehaviour : MonoBehaviour
     }
 
     public void Move(Vector2 value)
-    {
-        rigidBody.linearVelocityX = value.x * speed;
-    }
+    { rigidBody.linearVelocityX = value.x * speed; }
 
     public void Jump()
     {
@@ -70,8 +72,8 @@ public class PlayerBehaviour : MonoBehaviour
 
     public void Dash()
     {
-        if (rigidBody.linearVelocityX >= 0) rigidBody.linearVelocityX = dashSpeed;
-        if (rigidBody.linearVelocityX < 0) rigidBody.linearVelocityX = -dashSpeed;
+        if (lookDirection) rigidBody.linearVelocityX = dashSpeed;
+        else rigidBody.linearVelocityX = -dashSpeed;
     }
 
     public PlayerFSM GetFSM(uint index)
