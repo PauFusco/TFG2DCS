@@ -28,6 +28,7 @@ namespace PFSM
                 
                 return MovementFSM.accelerate;
             }
+
             return MovementFSM.idle;
         }
 

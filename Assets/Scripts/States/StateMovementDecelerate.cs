@@ -30,35 +30,36 @@ namespace PFSM
         {
             if (ctx.action.name == "Move")
             {
-                if (ctx.action.inProgress)
+                if (!ctx.action.inProgress) return MovementFSM.decelerate;
+
+                float speedMult = ctx.ReadValue<Vector2>().x;
+                bool speedMultiplierDirection = speedMult >= 0;
+
+                if (speedMultiplierDirection != player.lookDirection)
                 {
-                    float speedMult = ctx.ReadValue<Vector2>().x;
-                    bool speedMultiplierDirection = speedMult >= 0;
+                    player.lookDirection = speedMultiplierDirection;
 
-                    if (speedMultiplierDirection != player.lookDirection)
-                    {
-                        player.lookDirection = speedMultiplierDirection;
+                    MovementFSM.turn.targetSpeed = speedMult * maxSpeed;
 
-                        MovementFSM.turn.targetSpeed = speedMult * maxSpeed;
+                    MovementFSM.turn.targetDirection =
+                        player.lookDirection ? 1.0f : -1.0f;
 
-                        MovementFSM.turn.targetDirection =
-                            player.lookDirection ? 1.0f : -1.0f;
-
-                        return MovementFSM.turn;
-                    }
-                    else
-                    {
-                        player.lookDirection = speedMult >= 0;
-
-                        MovementFSM.accelerate.targetSpeed = speedMult * maxSpeed;
-
-                        MovementFSM.accelerate.direction =
-                            player.lookDirection ? 1.0f : -1.0f;
-
-                        return MovementFSM.accelerate;
-                    }
+                    return MovementFSM.turn;
                 }
+                else
+                {
+                    player.lookDirection = speedMult >= 0;
+
+                    MovementFSM.accelerate.targetSpeed = speedMult * maxSpeed;
+
+                    MovementFSM.accelerate.direction =
+                        player.lookDirection ? 1.0f : -1.0f;
+
+                    return MovementFSM.accelerate;
+                }
+
             }
+
             return MovementFSM.decelerate;
         }
 

@@ -31,11 +31,10 @@ namespace PFSM
         {
             if (ctx.action.name == "Move")
             {
+                if (!ctx.action.inProgress) return MovementFSM.decelerate;
+
                 float speedMultiplier = ctx.ReadValue<Vector2>().x;
                 targetSpeed = speedMultiplier * maxSpeed * targetDirection;
-
-                if (!ctx.action.inProgress)
-                    return MovementFSM.decelerate;
             }
 
             return MovementFSM.turn;
