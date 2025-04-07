@@ -5,19 +5,27 @@ namespace PFSM
 {
     public class MIdleState : BaseState
     {
-        private float speedMultiplier;
-
         public MIdleState(
             PlayerFSM parentFSM,
             PlayerBehaviour player)
             : base(parentFSM, player)
-        { }
+        {
+            thisState = State.IDLE;
+        }
 
         public override BaseState HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx)
         {
             if (ctx.action.name == "Move")
             {
-                speedMultiplier = ctx.ReadValue<Vector2>().x;
+                float speedMult = ctx.ReadValue<Vector2>().x;
+
+                player.lookDirection = speedMult >= 0;
+
+                MovementFSM.accelerate.targetSpeed = speedMult;
+
+                MovementFSM.accelerate.direction =
+                    player.lookDirection ? 1.0f : -1.0f;
+                
                 return MovementFSM.accelerate;
             }
             return MovementFSM.idle;
@@ -34,12 +42,7 @@ namespace PFSM
 
         public override void OnExit()
         {
-            player.lookDirection = speedMultiplier >= 0;
 
-            MovementFSM.accelerate.targetSpeed = speedMultiplier;
-
-            MovementFSM.accelerate.direction =
-                player.lookDirection ? 1.0f : -1.0f;
         }
     }
 }

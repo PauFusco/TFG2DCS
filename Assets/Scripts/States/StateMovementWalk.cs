@@ -5,7 +5,7 @@ namespace PFSM
 {
     public class WalkState : BaseState
     {
-        private float maxSpeed;
+        private readonly float maxSpeed;
 
         public float speed;
         public float direction;
@@ -16,33 +16,34 @@ namespace PFSM
             float maxSpeed)
             : base(parentFSM, player)
         {
-            speed = new();
             this.maxSpeed = maxSpeed;
+            thisState = State.WALK;
         }
 
         public override BaseState HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx)
         {
             if (ctx.action.name == "Move")
             {
-                if (ctx.action.inProgress)
+                if (!ctx.action.inProgress) return MovementFSM.decelerate;
+                
+                float speedMult = ctx.ReadValue<Vector2>().x;
+                speed = speedMult * maxSpeed * direction;
+
+                bool speedMultiplierDirection = speedMult >= 0;
+
+                Debug.Log(speedMult);
+
+                if (speedMultiplierDirection != player.lookDirection)
                 {
-                    float speedMultiplier = ctx.ReadValue<Vector2>().x;
+                    player.lookDirection = speedMultiplierDirection;
 
-                    bool speedMultiplierDirection = speedMultiplier >= 0;
+                    MovementFSM.turn.targetSpeed = speed;
 
-                    if (speedMultiplierDirection != player.lookDirection)
-                    {
-                        player.lookDirection = speedMultiplierDirection;
+                    MovementFSM.turn.targetDirection =
+                        player.lookDirection ? 1.0f : -1.0f;
 
-                        MovementFSM.turn.targetSpeed = speedMultiplier * maxSpeed;
-
-                        MovementFSM.turn.targetDirection =
-                            player.lookDirection ? 1.0f : -1.0f;
-
-                        return MovementFSM.turn;
-                    }
+                    return MovementFSM.turn;
                 }
-                else return MovementFSM.decelerate;
             }
 
             return MovementFSM.walk;
@@ -56,14 +57,10 @@ namespace PFSM
 
         public override void FixedUpdate()
         {
-            if (player.GetFSM(player.dashFSMIdx).currentState != DashFSM.dash)
-                player.SetSpeedX(speed * direction);
+            player.SetSpeedX(speed * direction);
         }
 
         public override void OnExit()
-        {
-            MovementFSM.decelerate.speedToReduce = speed;
-            MovementFSM.decelerate.direction = direction;
-        }
+        { }
     }
 }

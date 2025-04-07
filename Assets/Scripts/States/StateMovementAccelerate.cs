@@ -22,6 +22,7 @@ namespace PFSM
         {
             this.maxSpeed = maxSpeed;
             this.accelerationFrames = accelerationFrames;
+            thisState = State.ACCELERATE;
 
             currentFrame = .0f;
         }
@@ -30,26 +31,26 @@ namespace PFSM
         {
             if (ctx.action.name == "Move")
             {
-                if (ctx.action.inProgress)
+                if (!ctx.action.inProgress) return MovementFSM.decelerate;
+
+                float speedMult = ctx.ReadValue<Vector2>().x;
+                bool speedMultiplierDirection = speedMult >= 0;
+
+                if (speedMultiplierDirection != player.lookDirection)
                 {
-                    float speedMultiplier = ctx.ReadValue<Vector2>().x;
+                    player.lookDirection = speedMultiplierDirection;
 
-                    bool speedMultiplierDirection = speedMultiplier >= 0;
+                    MovementFSM.turn.targetSpeed = speedMult * maxSpeed;
 
-                    if (speedMultiplierDirection != player.lookDirection)
-                    {
-                        player.lookDirection = speedMultiplierDirection;
+                    MovementFSM.turn.targetDirection =
+                        player.lookDirection ? 1.0f : -1.0f;
 
-                        MovementFSM.turn.targetSpeed = speedMultiplier * maxSpeed;
-
-                        MovementFSM.turn.targetDirection =
-                            player.lookDirection ? 1.0f : -1.0f;
-
-                        return MovementFSM.turn;
-                    }
-                    else targetSpeed = speedMultiplier * maxSpeed * direction;
+                    return MovementFSM.turn;
                 }
-                else return MovementFSM.decelerate;
+                else
+                {
+                    targetSpeed = speedMult * maxSpeed * direction;
+                }
             }
 
             return MovementFSM.accelerate;

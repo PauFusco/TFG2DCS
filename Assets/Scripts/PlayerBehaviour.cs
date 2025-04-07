@@ -1,11 +1,8 @@
-using PFSM;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerBehaviour : MonoBehaviour
 {
-    public Rigidbody2D rigidBody;
-
     private float
         maxSpeed,
         turnFrames,
@@ -20,7 +17,11 @@ public class PlayerBehaviour : MonoBehaviour
         fallDurationFrames,
         fallGravityMultiplier;
 
-    private PlayerFSM[] PFSMs;
+    private PFSM.PlayerFSM[] PFSMs;
+
+    public Rigidbody2D rigidBody;
+
+    public PFSM.State currentState = new();
 
     public float currentSpeed;
     public bool jumping;
@@ -37,17 +38,17 @@ public class PlayerBehaviour : MonoBehaviour
 
         UpdatePlayerData();
 
-        PFSMs = new PlayerFSM[3];
+        PFSMs = new PFSM.PlayerFSM[3];
 
-        MovementFSM moveFSM = new(
+        PFSM.MovementFSM moveFSM = new(
             this,
             maxSpeed,
             turnFrames,
             accelerationFrames,
             decelerationFrames);
 
-        DashFSM dashFSM = new(this, dashCooldownFrames, dashFrames);
-        JumpFSM jumpFSM = new(this, fallGravityMultiplier, jumpMaxFrames);
+        PFSM.DashFSM dashFSM = new(this, dashCooldownFrames, dashFrames);
+        PFSM.JumpFSM jumpFSM = new(this, fallGravityMultiplier, jumpMaxFrames);
 
         PFSMs[moveFSMIdx] = moveFSM;
         PFSMs[jumpFSMIdx] = jumpFSM;
@@ -57,19 +58,22 @@ public class PlayerBehaviour : MonoBehaviour
         jumping = false;
         invulnerable = false;
         lookDirection = true;
+        currentState = PFSM.State.IDLE;
     }
 
     private void Update()
     {
         UpdatePlayerData();
 
-        foreach (PlayerFSM FSM in PFSMs)
+        currentState = PFSMs[moveFSMIdx].currentState.thisState;
+
+        foreach (PFSM.PlayerFSM FSM in PFSMs)
         { FSM.Update(); }
     }
 
     private void FixedUpdate()
-    {
-        foreach (PlayerFSM FSM in PFSMs)
+    {       
+        foreach (PFSM.PlayerFSM FSM in PFSMs)
         { FSM.FixedUpdate(); }
     }
 
@@ -105,9 +109,7 @@ public class PlayerBehaviour : MonoBehaviour
     { rigidBody.linearVelocityY = value; }
 
     public void Jump()
-    {
-        //rigidBody.linearVelocityY = jumpForce;
-    }
+    { }
 
     public void Dash()
     {
@@ -115,7 +117,7 @@ public class PlayerBehaviour : MonoBehaviour
         else rigidBody.linearVelocityX = -dashSpeed;
     }
 
-    public PlayerFSM GetFSM(uint index)
+    public PFSM.PlayerFSM GetFSM(uint index)
     { return PFSMs[index]; }
 
     public void HandleMovementInput(InputAction.CallbackContext ctx)

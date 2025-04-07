@@ -21,11 +21,10 @@ namespace PFSM
             float decFrames)
             : base(parentFSM, player)
         {
+            thisState = State.DECELERATE;
             decelerationFrames = decFrames;
             this.maxSpeed = maxSpeed;
         }
-
-
 
         public override BaseState HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx)
         {
@@ -33,20 +32,30 @@ namespace PFSM
             {
                 if (ctx.action.inProgress)
                 {
-                    float speedMultiplier = ctx.ReadValue<Vector2>().x;
-
-                    bool speedMultiplierDirection = speedMultiplier >= 0;
+                    float speedMult = ctx.ReadValue<Vector2>().x;
+                    bool speedMultiplierDirection = speedMult >= 0;
 
                     if (speedMultiplierDirection != player.lookDirection)
                     {
                         player.lookDirection = speedMultiplierDirection;
 
-                        MovementFSM.turn.targetSpeed = speedMultiplier * maxSpeed;
+                        MovementFSM.turn.targetSpeed = speedMult * maxSpeed;
 
                         MovementFSM.turn.targetDirection =
                             player.lookDirection ? 1.0f : -1.0f;
 
                         return MovementFSM.turn;
+                    }
+                    else
+                    {
+                        player.lookDirection = speedMult >= 0;
+
+                        MovementFSM.accelerate.targetSpeed = speedMult * maxSpeed;
+
+                        MovementFSM.accelerate.direction =
+                            player.lookDirection ? 1.0f : -1.0f;
+
+                        return MovementFSM.accelerate;
                     }
                 }
             }
@@ -57,7 +66,10 @@ namespace PFSM
         {
             currentFrame = .0f;
 
-            speedReductionPerFrame = speedToReduce / decelerationFrames * direction;
+            speedToReduce = player.rigidBody.linearVelocityX;
+            direction = player.lookDirection ? 1.0f : -1.0f;
+
+            speedReductionPerFrame = speedToReduce / decelerationFrames;
         }
 
         public override void Update()

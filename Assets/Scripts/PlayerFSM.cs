@@ -4,6 +4,11 @@ using UnityEngine.InputSystem;
 
 namespace PFSM
 {
+    public enum State
+    {
+        IDLE, ACCELERATE, WALK, DECELERATE, TURN, Default
+    }
+
     public abstract class PlayerFSM
     {
         public BaseState currentState;
