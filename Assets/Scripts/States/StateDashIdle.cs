@@ -8,7 +8,7 @@ namespace PFSM
         private float dashCD;
         private readonly float baseDashCD;
 
-        public DIdleState(PlayerBehaviour player, float baseDashCooldown) : base(player)
+        public DIdleState(PlayerFSM parentFSM, PlayerBehaviour player, float baseDashCooldown) : base(parentFSM, player)
         {
             baseDashCD = baseDashCooldown;
             dashCD = .0f;

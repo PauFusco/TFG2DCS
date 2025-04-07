@@ -8,7 +8,7 @@ namespace PFSM
         public readonly float fullDashDuration;
         public float currentDashDuration;
 
-        public DashState(PlayerBehaviour player, float dashMaximumDuration) : base(player)
+        public DashState(PlayerFSM parentFSM, PlayerBehaviour player, float dashMaximumDuration) : base(parentFSM, player)
         {
             fullDashDuration = dashMaximumDuration;
             currentDashDuration = .0f;

@@ -1007,6 +1007,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidBody: {fileID: 964720860}
+  currentSpeed: 0
   jumping: 0
   invulnerable: 0
   lookDirection: 0
@@ -1022,13 +1023,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2978fb56762bb6248a5b6a9cc1fb13f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  maxSpeed: 10
+  turnFrames: 20
+  accelerationFrames: 10
+  decelerationFrames: 10
   dashSpeed: 15
-  dashCooldown: 0.2
-  dashDuration: 0.2
-  jumpForce: 7
-  jumpMaxDuration: 0.3
+  dashFrames: 4
+  dashCooldownFrames: 3
+  jumpHeight: 4
+  jumpMaxFrames: 3
+  jumpCutoffFrames: 5
   fallGravityMultiplier: 12
+  fallDurationFrames: 3
 --- !u!1 &1566772647
 GameObject:
   m_ObjectHideFlags: 0

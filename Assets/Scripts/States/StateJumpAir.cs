@@ -8,7 +8,12 @@ namespace PFSM
         private readonly float fallGravMult, jumpMaxDuration;
         private float jumpDuration;
 
-        public AirState(PlayerBehaviour player, float fallGravityMultiplier, float jumpMaximumDuration) : base(player)
+        public AirState(
+            PlayerFSM parentFSM,
+            PlayerBehaviour player,
+            float fallGravityMultiplier,
+            float jumpMaximumDuration)
+            : base(parentFSM, player)
         {
             fallGravMult = fallGravityMultiplier;
             jumpMaxDuration = jumpMaximumDuration;

@@ -9,8 +9,8 @@
         {
             this.player = player;
 
-            airState = new(player, fallGravityMultiplier, jumpMaxDuration);
-            groundState = new(player);
+            airState = new(this, player, fallGravityMultiplier, jumpMaxDuration);
+            groundState = new(this, player);
 
             currentState = groundState;
         }

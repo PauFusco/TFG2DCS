@@ -27,7 +27,7 @@ namespace PFSM
             currentState.FixedUpdate();
         }
 
-        protected virtual void ChangeState(BaseState state)
+        public virtual void ChangeState(BaseState state)
         {
             var prevState = currentState;
             var postState = state;

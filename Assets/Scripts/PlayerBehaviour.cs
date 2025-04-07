@@ -7,16 +7,22 @@ public class PlayerBehaviour : MonoBehaviour
     public Rigidbody2D rigidBody;
 
     private float
-        speed,
+        maxSpeed,
+        turnFrames,
+        accelerationFrames,
+        decelerationFrames,
         dashSpeed,
-        jumpForce,
-        dashCooldown,
-        dashDuration,
-        jumpMaxDuration,
+        dashFrames,
+        dashCooldownFrames,
+        jumpHeight,
+        jumpMaxFrames,
+        jumpCutoffFrames,
+        fallDurationFrames,
         fallGravityMultiplier;
 
     private PlayerFSM[] PFSMs;
 
+    public float currentSpeed;
     public bool jumping;
     public bool invulnerable;
     public bool lookDirection;
@@ -29,26 +35,25 @@ public class PlayerBehaviour : MonoBehaviour
     {
         rigidBody = GetComponent<Rigidbody2D>();
 
-        PlayerConfig config = GetComponent<PlayerConfig>();
-
-        speed = config.speed;
-        dashSpeed = config.dashSpeed;
-        jumpForce = config.jumpForce;
-        dashCooldown = config.dashCooldown;
-        dashDuration = config.dashDuration;
-        jumpMaxDuration = config.jumpMaxDuration;
-        fallGravityMultiplier = config.fallGravityMultiplier;
+        UpdatePlayerData();
 
         PFSMs = new PlayerFSM[3];
 
-        MovementFSM moveFSM = new(this);
-        DashFSM dashFSM = new(this, dashCooldown, dashDuration);
-        JumpFSM jumpFSM = new(this, fallGravityMultiplier, jumpMaxDuration);
+        MovementFSM moveFSM = new(
+            this,
+            maxSpeed,
+            turnFrames,
+            accelerationFrames,
+            decelerationFrames);
+
+        DashFSM dashFSM = new(this, dashCooldownFrames, dashFrames);
+        JumpFSM jumpFSM = new(this, fallGravityMultiplier, jumpMaxFrames);
 
         PFSMs[moveFSMIdx] = moveFSM;
         PFSMs[jumpFSMIdx] = jumpFSM;
         PFSMs[dashFSMIdx] = dashFSM;
 
+        currentSpeed = .0f;
         jumping = false;
         invulnerable = false;
         lookDirection = true;
@@ -56,6 +61,8 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void Update()
     {
+        UpdatePlayerData();
+
         foreach (PlayerFSM FSM in PFSMs)
         { FSM.Update(); }
     }
@@ -66,17 +73,41 @@ public class PlayerBehaviour : MonoBehaviour
         { FSM.FixedUpdate(); }
     }
 
+    private void UpdatePlayerData()
+    {
+        PlayerConfig config = GetComponent<PlayerConfig>();
+
+        maxSpeed = config.maxSpeed;
+        turnFrames = config.turnFrames;
+        accelerationFrames = config.accelerationFrames;
+        decelerationFrames = config.decelerationFrames;
+
+        dashSpeed = config.dashSpeed;
+        dashFrames = config.dashFrames;
+        dashCooldownFrames = config.dashCooldownFrames;
+
+        jumpHeight = config.jumpHeight;
+        jumpMaxFrames = config.jumpMaxFrames;
+        jumpCutoffFrames = config.jumpCutoffFrames;
+        fallDurationFrames = config.fallDurationFrames;
+        fallGravityMultiplier = config.fallGravityMultiplier;
+
+        currentSpeed = rigidBody.linearVelocityX;
+    }
+
     public void SetSpeed(Vector2 value)
-    { rigidBody.linearVelocity = value * speed; }
+    { rigidBody.linearVelocity = value; }
 
     public void SetSpeedX(float value)
-    { rigidBody.linearVelocityX = value * speed; }
+    { rigidBody.linearVelocityX = value; }
 
     public void SetSpeedY(float value)
-    { rigidBody.linearVelocityY = value * speed; }
+    { rigidBody.linearVelocityY = value; }
 
     public void Jump()
-    { rigidBody.linearVelocityY = jumpForce; }
+    {
+        //rigidBody.linearVelocityY = jumpForce;
+    }
 
     public void Dash()
     {

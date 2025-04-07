@@ -1,24 +1,31 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace PFSM
 {
-    public class WalkState : BaseState
+    public class DecelerateState : BaseState
     {
-        private float maxSpeed;
+        private readonly float decelerationFrames;
+        private readonly float maxSpeed;
 
-        public float speed;
+        private float currentFrame;
+        private float speedReductionPerFrame;
+
         public float direction;
+        public float speedToReduce;
 
-        public WalkState(
+        public DecelerateState(
             PlayerFSM parentFSM,
             PlayerBehaviour player,
-            float maxSpeed)
+            float maxSpeed,
+            float decFrames)
             : base(parentFSM, player)
         {
-            speed = new();
+            decelerationFrames = decFrames;
             this.maxSpeed = maxSpeed;
         }
+
+
 
         public override BaseState HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx)
         {
@@ -42,28 +49,34 @@ namespace PFSM
                         return MovementFSM.turn;
                     }
                 }
-                else return MovementFSM.decelerate;
             }
-
-            return MovementFSM.walk;
+            return MovementFSM.decelerate;
         }
 
         public override void OnEnter()
-        { }
+        {
+            currentFrame = .0f;
+
+            speedReductionPerFrame = speedToReduce / decelerationFrames * direction;
+        }
 
         public override void Update()
-        { }
+        {
+            player.SetSpeedX(speedReductionPerFrame * (decelerationFrames - currentFrame));
+
+            if (currentFrame >= decelerationFrames)
+            {
+                parentFSM.ChangeState(MovementFSM.idle);
+            }
+        }
 
         public override void FixedUpdate()
         {
-            if (player.GetFSM(player.dashFSMIdx).currentState != DashFSM.dash)
-                player.SetSpeedX(speed * direction);
+            currentFrame++;
         }
 
         public override void OnExit()
-        {
-            MovementFSM.decelerate.speedToReduce = speed;
-            MovementFSM.decelerate.direction = direction;
-        }
+        { }
+
     }
 }

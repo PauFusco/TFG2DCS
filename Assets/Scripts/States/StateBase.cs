@@ -5,9 +5,11 @@ namespace PFSM
     public abstract class BaseState
     {
         public PlayerBehaviour player;
+        protected PlayerFSM parentFSM;
 
-        public BaseState(PlayerBehaviour player)
+        public BaseState(PlayerFSM parentFSM, PlayerBehaviour player)
         {
+            this.parentFSM = parentFSM;
             this.player = player;
         }
 

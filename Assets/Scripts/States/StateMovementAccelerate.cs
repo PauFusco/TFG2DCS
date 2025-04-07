@@ -1,23 +1,29 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace PFSM
 {
-    public class WalkState : BaseState
+    public class AccelerateState : BaseState
     {
-        private float maxSpeed;
+        private readonly float maxSpeed;
+        private readonly float accelerationFrames;
 
-        public float speed;
+        private float currentFrame;
+
         public float direction;
+        public float targetSpeed;
 
-        public WalkState(
+        public AccelerateState(
             PlayerFSM parentFSM,
             PlayerBehaviour player,
-            float maxSpeed)
+            float maxSpeed,
+            float accelerationFrames)
             : base(parentFSM, player)
         {
-            speed = new();
             this.maxSpeed = maxSpeed;
+            this.accelerationFrames = accelerationFrames;
+
+            currentFrame = .0f;
         }
 
         public override BaseState HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx)
@@ -41,29 +47,39 @@ namespace PFSM
 
                         return MovementFSM.turn;
                     }
+                    else targetSpeed = speedMultiplier * maxSpeed * direction;
                 }
                 else return MovementFSM.decelerate;
             }
 
-            return MovementFSM.walk;
+            return MovementFSM.accelerate;
         }
 
         public override void OnEnter()
-        { }
+        {
+            currentFrame = .0f;
+            player.lookDirection = targetSpeed >= 0;
+        }
 
         public override void Update()
-        { }
+        {
+            player.SetSpeedX(targetSpeed / accelerationFrames * currentFrame * direction);
+
+            if (currentFrame >= accelerationFrames)
+            {
+                MovementFSM.walk.speed = targetSpeed;
+                MovementFSM.walk.direction = direction;
+
+                parentFSM.ChangeState(MovementFSM.walk);
+            }
+        }
 
         public override void FixedUpdate()
         {
-            if (player.GetFSM(player.dashFSMIdx).currentState != DashFSM.dash)
-                player.SetSpeedX(speed * direction);
+            currentFrame++;
         }
 
         public override void OnExit()
-        {
-            MovementFSM.decelerate.speedToReduce = speed;
-            MovementFSM.decelerate.direction = direction;
-        }
+        { }
     }
 }

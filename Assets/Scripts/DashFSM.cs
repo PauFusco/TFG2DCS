@@ -9,8 +9,8 @@
         {
             this.player = player;
 
-            idle = new(player, dashCooldown);
-            dash = new(player, dashDuration);
+            idle = new(this, player, dashCooldown);
+            dash = new(this, player, dashDuration);
 
             currentState = idle;
         }

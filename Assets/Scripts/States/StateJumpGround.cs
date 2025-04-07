@@ -5,7 +5,7 @@ namespace PFSM
 {
     public class GroundState : BaseState
     {
-        public GroundState(PlayerBehaviour player) : base(player)
+        public GroundState(PlayerFSM parentFSM, PlayerBehaviour player) : base(parentFSM, player)
         { }
 
         public override BaseState HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx)
