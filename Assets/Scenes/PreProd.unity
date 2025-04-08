@@ -1034,10 +1034,10 @@ MonoBehaviour:
   dashFrames: 10
   dashCooldownFrames: 60
   jumpSpeed: 10
-  jumpHeight: 1
-  jumpCutoffFrames: 10
-  baseGravity: 1
-  fallGravityMultiplier: 12
+  jumpHeight: 3
+  jumpCutoffFrames: 4
+  baseGravity: 2
+  fallGravityMultiplier: 5
 --- !u!1 &1566772647
 GameObject:
   m_ObjectHideFlags: 0
