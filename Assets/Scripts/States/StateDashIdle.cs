@@ -9,10 +9,14 @@ namespace PFSM
 
         private float currentFrame;
 
-        public DIdleState(PlayerFSM parentFSM, PlayerBehaviour player, float cooldownFrames) : base(parentFSM, player)
+        public DIdleState(
+            PlayerFSM parentFSM,
+            PlayerBehaviour player,
+            float cooldownFrames)
+            : base(parentFSM, player)
         {
             this.cooldownFrames = cooldownFrames;
-            currentFrame = .0f;
+            currentFrame = this.cooldownFrames;
         }
 
         public override BaseState HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx)
