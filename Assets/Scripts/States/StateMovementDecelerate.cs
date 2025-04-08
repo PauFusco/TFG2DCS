@@ -21,7 +21,7 @@ namespace PFSM
             float decFrames)
             : base(parentFSM, player)
         {
-            thisState = State.DECELERATE;
+            thisMoveState = MoveStateE.DECELERATE;
             decelerationFrames = decFrames;
             this.maxSpeed = maxSpeed;
         }

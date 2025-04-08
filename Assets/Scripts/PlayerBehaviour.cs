@@ -5,26 +5,29 @@ public class PlayerBehaviour : MonoBehaviour
 {
     private float
         maxSpeed,
+        baseGravity,
         turnFrames,
         accelerationFrames,
         decelerationFrames,
         dashSpeed,
         dashFrames,
         dashCooldownFrames,
+        jumpSpeed,
         jumpHeight,
-        jumpMaxFrames,
         jumpCutoffFrames,
-        fallDurationFrames,
-        fallGravityMultiplier;
+        fallGravity;
 
     private PFSM.PlayerFSM[] PFSMs;
 
+    [SerializeField] private GameObject floor;
+
     public Rigidbody2D rigidBody;
 
-    public PFSM.State currentState = new();
+    public PFSM.MoveStateE currentMoveState = new();
+    public PFSM.JumpStateE currentJumpState = new();
 
     public float currentSpeed;
-    public bool jumping;
+    public bool grounded;
     public bool invulnerable;
     public bool lookDirection;
 
@@ -46,26 +49,39 @@ public class PlayerBehaviour : MonoBehaviour
             turnFrames,
             accelerationFrames,
             decelerationFrames);
-
-        PFSM.DashFSM dashFSM = new(this, dashSpeed, dashCooldownFrames, dashFrames);
-        PFSM.JumpFSM jumpFSM = new(this, fallGravityMultiplier, jumpMaxFrames);
+        PFSM.DashFSM dashFSM = new(
+            this,
+            dashSpeed,
+            dashCooldownFrames,
+            dashFrames);
+        PFSM.JumpFSM jumpFSM = new(
+            this,
+            jumpSpeed,
+            jumpHeight,
+            jumpCutoffFrames,
+            baseGravity,
+            fallGravity);
 
         PFSMs[moveFSMIdx] = moveFSM;
         PFSMs[jumpFSMIdx] = jumpFSM;
         PFSMs[dashFSMIdx] = dashFSM;
 
         currentSpeed = .0f;
-        jumping = false;
+
+        grounded = false;
         invulnerable = false;
         lookDirection = true;
-        currentState = PFSM.State.IDLE;
+
+        currentMoveState = PFSM.MoveStateE.Default;
+        currentJumpState = PFSM.JumpStateE.Default;
     }
 
     private void Update()
     {
         UpdatePlayerData();
 
-        currentState = PFSMs[moveFSMIdx].currentState.thisState;
+        currentMoveState = PFSMs[moveFSMIdx].currentState.thisMoveState;
+        currentJumpState = PFSMs[jumpFSMIdx].currentState.thisJumpState;
 
         foreach (PFSM.PlayerFSM FSM in PFSMs)
         { FSM.Update(); }
@@ -80,8 +96,9 @@ public class PlayerBehaviour : MonoBehaviour
     private void UpdatePlayerData()
     {
         PlayerConfig config = GetComponent<PlayerConfig>();
-
         maxSpeed = config.maxSpeed;
+        baseGravity = config.baseGravity;
+
         turnFrames = config.turnFrames;
         accelerationFrames = config.accelerationFrames;
         decelerationFrames = config.decelerationFrames;
@@ -90,11 +107,10 @@ public class PlayerBehaviour : MonoBehaviour
         dashFrames = config.dashFrames;
         dashCooldownFrames = config.dashCooldownFrames;
 
+        jumpSpeed = config.jumpSpeed;
         jumpHeight = config.jumpHeight;
-        jumpMaxFrames = config.jumpMaxFrames;
         jumpCutoffFrames = config.jumpCutoffFrames;
-        fallDurationFrames = config.fallDurationFrames;
-        fallGravityMultiplier = config.fallGravityMultiplier;
+        fallGravity = config.fallGravityMultiplier;
 
         currentSpeed = rigidBody.linearVelocityX;
     }
@@ -107,9 +123,6 @@ public class PlayerBehaviour : MonoBehaviour
 
     public void SetSpeedY(float value)
     { rigidBody.linearVelocityY = value; }
-
-    public void Jump()
-    { }
 
     public void Dash(float speed)
     { SetSpeedX(speed); }
@@ -125,4 +138,16 @@ public class PlayerBehaviour : MonoBehaviour
 
     public void HandleDashInput(InputAction.CallbackContext ctx)
     { PFSMs[dashFSMIdx].HandleInput(this, ctx); }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.Equals(floor))
+            grounded = true;
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.Equals(floor))
+            grounded = false;
+    }
 }

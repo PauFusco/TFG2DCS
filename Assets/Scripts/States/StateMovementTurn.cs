@@ -22,7 +22,7 @@ namespace PFSM
             float turnFrames)
             : base(parentFSM, player)
         {
-            thisState = State.TURN;
+            thisMoveState = MoveStateE.TURN;
             this.maxSpeed = maxSpeed;
             this.turnFrames = turnFrames;
         }

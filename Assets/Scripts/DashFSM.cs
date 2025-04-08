@@ -5,7 +5,11 @@
         public static DIdleState idle;
         public static DashState dash;
 
-        public DashFSM(PlayerBehaviour player, float dashSpeed, float dashCooldownFrames, float dashFrames)
+        public DashFSM(
+            PlayerBehaviour player,
+            float dashSpeed,
+            float dashCooldownFrames,
+            float dashFrames)
         {
             this.player = player;
 

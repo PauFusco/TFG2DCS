@@ -3,61 +3,74 @@ using UnityEngine.InputSystem;
 
 namespace PFSM
 {
-    public class AirState : BaseState
+    public class JumpState : BaseState
     {
-        private readonly float fallGravMult, jumpMaxDuration;
-        private float jumpDuration;
+        private readonly float speed;
+        private readonly float maxHeight;
+        private readonly float cutoffFrames;
 
-        public AirState(
+        private float targetHeight;
+        private float originalHeight;
+
+        private float currentFrame;
+
+
+        public JumpState(
             PlayerFSM parentFSM,
             PlayerBehaviour player,
-            float fallGravityMultiplier,
-            float jumpMaximumDuration)
+            float speed,
+            float maxHeight,
+            float cutoffFrames)
             : base(parentFSM, player)
         {
-            fallGravMult = fallGravityMultiplier;
-            jumpMaxDuration = jumpMaximumDuration;
+            this.speed = speed;
+            this.maxHeight = maxHeight;
+            this.cutoffFrames = cutoffFrames;
 
-            jumpDuration = .0f;
+            currentFrame = .0f;
+
+            thisJumpState = JumpStateE.JUMP;
         }
 
         public override BaseState HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx)
         {
-            if (ctx.action.name == "Jump" && !ctx.action.inProgress)
+            if (ctx.action.name == "Jump" &&
+                !ctx.action.inProgress)
             {
-                player.SetSpeedY(0);
-                player.jumping = false;
+                return JumpFSM.freeFall;
             }
 
-            return JumpFSM.airState;
+            return JumpFSM.jump;
         }
 
         public override void OnEnter()
         {
-            jumpDuration = .0f;
+            originalHeight = player.transform.position.y;
+            targetHeight = originalHeight + maxHeight;
+
+            currentFrame = .0f;
         }
 
         public override void Update()
         {
-            jumpDuration += Time.deltaTime;
-            if (jumpDuration >= jumpMaxDuration)
+            if (player.grounded)
             {
-                player.SetSpeedY(0);
-                player.jumping = false;
+                parentFSM.ChangeState(JumpFSM.ground);
             }
         }
 
         public override void FixedUpdate()
         {
-            if (player.jumping) player.Jump();
+            currentFrame++;
 
-            if (player.rigidBody.linearVelocityY > 0) player.rigidBody.gravityScale = 1;
-            else player.rigidBody.gravityScale = fallGravMult;
+            if (player.transform.position.y < targetHeight ||
+                currentFrame < cutoffFrames)
+            {
+                player.SetSpeedY(speed);
+            }
         }
 
         public override void OnExit()
-        {
-            player.rigidBody.gravityScale = 1;
-        }
+        { }
     }
 }

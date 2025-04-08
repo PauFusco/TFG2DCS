@@ -4,9 +4,14 @@ using UnityEngine.InputSystem;
 
 namespace PFSM
 {
-    public enum State
+    public enum MoveStateE
     {
         IDLE, ACCELERATE, WALK, DECELERATE, TURN, Default
+    }
+
+    public enum JumpStateE
+    {
+        GROUND, JUMP, FREEFALL, Default
     }
 
     public abstract class PlayerFSM

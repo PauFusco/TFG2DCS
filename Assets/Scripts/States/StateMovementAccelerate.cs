@@ -22,7 +22,7 @@ namespace PFSM
         {
             this.maxSpeed = maxSpeed;
             this.accelerationFrames = accelerationFrames;
-            thisState = State.ACCELERATE;
+            thisMoveState = MoveStateE.ACCELERATE;
 
             currentFrame = .0f;
         }

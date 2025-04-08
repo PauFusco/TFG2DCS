@@ -8,7 +8,12 @@
         public static DecelerateState decelerate;
         public static TurnState turn;
 
-        public MovementFSM(PlayerBehaviour player, float maxSpeed, float turnFrames, float accFrames, float decFrames)
+        public MovementFSM(
+            PlayerBehaviour player,
+            float maxSpeed,
+            float turnFrames,
+            float accFrames,
+            float decFrames)
         {
             idle = new(this, player);
             walk = new(this, player, maxSpeed);

@@ -6,14 +6,16 @@ namespace PFSM
     {
         protected PlayerFSM parentFSM;
 
-        public State thisState;
+        public MoveStateE thisMoveState;
+        public JumpStateE thisJumpState;
         public PlayerBehaviour player;
 
         public BaseState(PlayerFSM parentFSM, PlayerBehaviour player)
         {
             this.parentFSM = parentFSM;
             this.player = player;
-            thisState = State.Default;
+            thisMoveState = MoveStateE.Default;
+            thisJumpState = JumpStateE.Default;
         }
 
         public abstract BaseState HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx);

@@ -17,7 +17,7 @@ namespace PFSM
             : base(parentFSM, player)
         {
             this.maxSpeed = maxSpeed;
-            thisState = State.WALK;
+            thisMoveState = MoveStateE.WALK;
         }
 
         public override BaseState HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx)

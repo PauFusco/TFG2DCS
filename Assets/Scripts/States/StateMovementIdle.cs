@@ -10,7 +10,7 @@ namespace PFSM
             PlayerBehaviour player)
             : base(parentFSM, player)
         {
-            thisState = State.IDLE;
+            thisMoveState = MoveStateE.IDLE;
         }
 
         public override BaseState HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx)

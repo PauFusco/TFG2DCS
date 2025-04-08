@@ -9,8 +9,8 @@ public class PlayerConfig : MonoBehaviour
     public float dashSpeed; public float dashFrames; public float dashCooldownFrames;
 
     [Header("Jump")]
-    public float jumpHeight; public float jumpMaxFrames; public float jumpCutoffFrames;
+    public float jumpSpeed; public float jumpHeight; public float jumpCutoffFrames;
 
     [Header("Fall")]
-    public float fallGravityMultiplier; public float fallDurationFrames;
+    public float baseGravity; public float fallGravityMultiplier; 
 }

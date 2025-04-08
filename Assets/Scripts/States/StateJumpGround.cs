@@ -5,19 +5,26 @@ namespace PFSM
 {
     public class GroundState : BaseState
     {
-        public GroundState(PlayerFSM parentFSM, PlayerBehaviour player) : base(parentFSM, player)
-        { }
+        public GroundState(
+            PlayerFSM parentFSM,
+            PlayerBehaviour player)
+            : base(parentFSM, player)
+        {
+            thisJumpState = JumpStateE.GROUND;
+        }
 
         public override BaseState HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx)
         {
-            if (ctx.action.name == "Jump" && ctx.action.inProgress)
+            if(ctx.action.name == "Jump" &&
+                ctx.started &&
+                player.grounded &&
+                player.GetFSM(player.dashFSMIdx).currentState == DashFSM.idle)
             {
-                player.Jump();
-                player.jumping = true;
-                return JumpFSM.airState;
+                player.grounded = false;
+                return JumpFSM.jump;
             }
 
-            return JumpFSM.groundState;
+            return JumpFSM.ground;
         }
 
         public override void OnEnter()

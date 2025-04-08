@@ -1,34 +1,28 @@
-﻿namespace PFSM
+﻿using UnityEngine.InputSystem;
+
+namespace PFSM
 {
     public class JumpFSM : PlayerFSM
     {
-        public static AirState airState;
-        public static GroundState groundState;
+        public static GroundState ground;
+        public static JumpState jump;
+        public static FreeFallState freeFall;
 
-        public JumpFSM(PlayerBehaviour player, float fallGravityMultiplier, float jumpMaxDuration)
+        public JumpFSM(
+            PlayerBehaviour player,
+            float speed,
+            float height,
+            float cutoffFrames,
+            float baseGravityMultiplier,
+            float fallGravityMultiplier)
         {
             this.player = player;
 
-            airState = new(this, player, fallGravityMultiplier, jumpMaxDuration);
-            groundState = new(this, player);
+            ground = new(this, player);
+            jump = new(this, player, speed, height, cutoffFrames);
+            freeFall = new(this, player, baseGravityMultiplier, fallGravityMultiplier);
 
-            currentState = groundState;
-        }
-
-        public override void Update()
-        {
-            currentState.Update();
-
-            if (currentState == airState)
-            {
-                if (player.rigidBody.linearVelocityY == 0)
-                    ChangeState(groundState);
-            }
-            else if (currentState == groundState)
-            {
-                if (player.rigidBody.linearVelocityY != 0)
-                    ChangeState(airState);
-            }
+            currentState = ground;
         }
     }
 }
