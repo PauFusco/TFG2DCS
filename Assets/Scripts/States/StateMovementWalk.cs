@@ -25,7 +25,7 @@ namespace PFSM
             if (ctx.action.name == "Move")
             {
                 if (!ctx.action.inProgress) return MovementFSM.decelerate;
-                
+
                 float speedMult = ctx.ReadValue<Vector2>().x;
                 speed = speedMult * maxSpeed * direction;
 
@@ -53,12 +53,13 @@ namespace PFSM
         { }
 
         public override void Update()
-        { }
+        {
+            if (player.GetFSM(player.dashFSMIdx).currentState == DashFSM.idle)
+                player.SetSpeedX(speed * direction);
+        }
 
         public override void FixedUpdate()
-        {
-            player.SetSpeedX(speed * direction);
-        }
+        { }
 
         public override void OnExit()
         { }

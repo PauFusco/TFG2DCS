@@ -1007,6 +1007,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidBody: {fileID: 964720860}
+  currentState: 0
   currentSpeed: 0
   jumping: 0
   invulnerable: 0
@@ -1027,9 +1028,9 @@ MonoBehaviour:
   turnFrames: 20
   accelerationFrames: 10
   decelerationFrames: 10
-  dashSpeed: 15
-  dashFrames: 4
-  dashCooldownFrames: 3
+  dashSpeed: 20
+  dashFrames: 10
+  dashCooldownFrames: 60
   jumpHeight: 4
   jumpMaxFrames: 3
   jumpCutoffFrames: 5

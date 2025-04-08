@@ -47,7 +47,7 @@ public class PlayerBehaviour : MonoBehaviour
             accelerationFrames,
             decelerationFrames);
 
-        PFSM.DashFSM dashFSM = new(this, dashCooldownFrames, dashFrames);
+        PFSM.DashFSM dashFSM = new(this, dashSpeed, dashCooldownFrames, dashFrames);
         PFSM.JumpFSM jumpFSM = new(this, fallGravityMultiplier, jumpMaxFrames);
 
         PFSMs[moveFSMIdx] = moveFSM;
@@ -72,7 +72,7 @@ public class PlayerBehaviour : MonoBehaviour
     }
 
     private void FixedUpdate()
-    {       
+    {
         foreach (PFSM.PlayerFSM FSM in PFSMs)
         { FSM.FixedUpdate(); }
     }
@@ -111,11 +111,8 @@ public class PlayerBehaviour : MonoBehaviour
     public void Jump()
     { }
 
-    public void Dash()
-    {
-        if (lookDirection) rigidBody.linearVelocityX = dashSpeed;
-        else rigidBody.linearVelocityX = -dashSpeed;
-    }
+    public void Dash(float speed)
+    { SetSpeedX(speed); }
 
     public PFSM.PlayerFSM GetFSM(uint index)
     { return PFSMs[index]; }

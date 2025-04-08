@@ -5,13 +5,25 @@ namespace PFSM
 {
     public class DashState : BaseState
     {
-        public readonly float fullDashDuration;
-        public float currentDashDuration;
+        private readonly float speed;
+        private readonly float activeFrames;
 
-        public DashState(PlayerFSM parentFSM, PlayerBehaviour player, float dashMaximumDuration) : base(parentFSM, player)
+        private float currentFrame;
+
+        private float prevSpeed;
+
+
+        public DashState(
+            PlayerFSM parentFSM,
+            PlayerBehaviour player,
+            float speed,
+            float activeFrames)
+            : base(parentFSM, player)
         {
-            fullDashDuration = dashMaximumDuration;
-            currentDashDuration = .0f;
+            this.speed = speed;
+            this.activeFrames = activeFrames;
+
+            currentFrame = .0f;
         }
 
         public override BaseState HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx)
@@ -21,24 +33,33 @@ namespace PFSM
 
         public override void OnEnter()
         {
+            currentFrame = .0f;
             player.invulnerable = true;
-            currentDashDuration = .0f;
+
+            prevSpeed = player.rigidBody.linearVelocityX;
         }
 
         public override void Update()
         {
-            currentDashDuration += Time.deltaTime;
+            if (currentFrame >= activeFrames)
+            {
+                parentFSM.ChangeState(DashFSM.idle);
+            }
         }
 
         public override void FixedUpdate()
         {
-            player.Dash();
+            float dashDirection = player.lookDirection ? 1.0f : -1.0f;
+            player.Dash(speed * dashDirection);
+
+            currentFrame++;
         }
 
         public override void OnExit()
         {
             player.invulnerable = false;
-            player.SetSpeedX(0);
+
+            player.rigidBody.linearVelocityX = prevSpeed;
         }
     }
 }

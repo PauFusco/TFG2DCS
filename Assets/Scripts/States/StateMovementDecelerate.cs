@@ -75,12 +75,13 @@ namespace PFSM
 
         public override void Update()
         {
-            player.SetSpeedX(speedReductionPerFrame * (decelerationFrames - currentFrame));
-
             if (currentFrame >= decelerationFrames)
             {
                 parentFSM.ChangeState(MovementFSM.idle);
             }
+
+            if (player.GetFSM(player.dashFSMIdx).currentState == DashFSM.idle)
+                player.SetSpeedX(speedReductionPerFrame * (decelerationFrames - currentFrame));
         }
 
         public override void FixedUpdate()

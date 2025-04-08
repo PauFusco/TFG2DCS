@@ -18,10 +18,5 @@
 
             currentState = idle;
         }
-
-        public override void Update()
-        {
-            currentState.Update();
-        }
     }
 }

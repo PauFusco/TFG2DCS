@@ -5,25 +5,14 @@
         public static DIdleState idle;
         public static DashState dash;
 
-        public DashFSM(PlayerBehaviour player, float dashCooldown, float dashDuration)
+        public DashFSM(PlayerBehaviour player, float dashSpeed, float dashCooldownFrames, float dashFrames)
         {
             this.player = player;
 
-            idle = new(this, player, dashCooldown);
-            dash = new(this, player, dashDuration);
+            idle = new(this, player, dashCooldownFrames);
+            dash = new(this, player, dashSpeed, dashFrames);
 
             currentState = idle;
-        }
-
-        public override void Update()
-        {
-            currentState.Update();
-
-            if (currentState == dash &&
-                dash.currentDashDuration >= dash.fullDashDuration)
-            {
-                ChangeState(idle);
-            }
         }
     }
 }

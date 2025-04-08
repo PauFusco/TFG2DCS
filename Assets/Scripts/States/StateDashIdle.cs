@@ -5,18 +5,19 @@ namespace PFSM
 {
     public class DIdleState : BaseState
     {
-        private float dashCD;
-        private readonly float baseDashCD;
+        private readonly float cooldownFrames;
 
-        public DIdleState(PlayerFSM parentFSM, PlayerBehaviour player, float baseDashCooldown) : base(parentFSM, player)
+        private float currentFrame;
+
+        public DIdleState(PlayerFSM parentFSM, PlayerBehaviour player, float cooldownFrames) : base(parentFSM, player)
         {
-            baseDashCD = baseDashCooldown;
-            dashCD = .0f;
+            this.cooldownFrames = cooldownFrames;
+            currentFrame = .0f;
         }
 
         public override BaseState HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx)
         {
-            if (dashCD >= baseDashCD &&
+            if (currentFrame >= cooldownFrames &&
                 ctx.action.name == "Dash" &&
                 ctx.action.inProgress)
             {
@@ -28,16 +29,16 @@ namespace PFSM
 
         public override void OnEnter()
         {
-            dashCD = .0f;
+            currentFrame = .0f;
         }
 
         public override void Update()
-        {
-            dashCD += Time.deltaTime;
-        }
+        { }
 
         public override void FixedUpdate()
-        { }
+        {
+            currentFrame++;
+        }
 
         public override void OnExit()
         { }

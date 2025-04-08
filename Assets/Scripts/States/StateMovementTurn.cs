@@ -50,8 +50,6 @@ namespace PFSM
 
         public override void Update()
         {
-            player.SetSpeedX(currentSpeed);
-
             if (currentFrame >= turnFrames)
             {
                 MovementFSM.walk.speed = targetSpeed;
@@ -59,6 +57,9 @@ namespace PFSM
 
                 parentFSM.ChangeState(MovementFSM.walk);
             }
+
+            if (player.GetFSM(player.dashFSMIdx).currentState == DashFSM.idle)
+                player.SetSpeedX(currentSpeed);
         }
 
         public override void FixedUpdate()
