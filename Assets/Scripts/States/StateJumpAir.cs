@@ -14,6 +14,7 @@ namespace PFSM
 
         private float currentFrame;
 
+        private bool heightReached;
 
         public JumpState(
             PlayerFSM parentFSM,
@@ -28,6 +29,7 @@ namespace PFSM
             this.cutoffFrames = cutoffFrames;
 
             currentFrame = .0f;
+            heightReached = false;
 
             thisJumpState = JumpStateE.JUMP;
         }
@@ -48,6 +50,8 @@ namespace PFSM
             originalHeight = player.transform.position.y;
             targetHeight = originalHeight + maxHeight;
 
+            heightReached = false;
+
             currentFrame = .0f;
         }
 
@@ -57,14 +61,20 @@ namespace PFSM
             {
                 parentFSM.ChangeState(JumpFSM.ground);
             }
+
+            if(player.transform.position.y >= targetHeight)
+            {
+                heightReached = true;
+            }
         }
 
         public override void FixedUpdate()
         {
             currentFrame++;
 
-            if (player.transform.position.y < targetHeight ||
-                currentFrame < cutoffFrames)
+            if ((player.transform.position.y < targetHeight ||
+                currentFrame < cutoffFrames) &&
+                !heightReached)
             {
                 player.SetSpeedY(speed);
             }
