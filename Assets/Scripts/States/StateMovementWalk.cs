@@ -6,6 +6,7 @@ namespace PFSM
     public class WalkState : BaseState
     {
         private readonly float maxSpeed;
+        private readonly float maxAirSpeed;
 
         public float speed;
         public float direction;
@@ -13,10 +14,12 @@ namespace PFSM
         public WalkState(
             PlayerFSM parentFSM,
             PlayerBehaviour player,
-            float maxSpeed)
+            float maxSpeed,
+            float maxAirSpeed)
             : base(parentFSM, player)
         {
             this.maxSpeed = maxSpeed;
+            this.maxAirSpeed = maxAirSpeed;
             thisMoveState = MoveStateE.WALK;
         }
 
@@ -27,7 +30,9 @@ namespace PFSM
                 if (!ctx.action.inProgress) return MovementFSM.decelerate;
 
                 float speedMult = ctx.ReadValue<Vector2>().x;
-                speed = speedMult * maxSpeed * direction;
+                
+                speed = speedMult * direction * 
+                    player.grounded ? maxSpeed : maxAirSpeed;
 
                 bool speedMultiplierDirection = speedMult >= 0;
 

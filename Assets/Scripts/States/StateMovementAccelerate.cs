@@ -6,6 +6,7 @@ namespace PFSM
     public class AccelerateState : BaseState
     {
         private readonly float maxSpeed;
+        private readonly float maxAirSpeed;
         private readonly float accelerationFrames;
 
         private float currentFrame;
@@ -17,14 +18,17 @@ namespace PFSM
             PlayerFSM parentFSM,
             PlayerBehaviour player,
             float maxSpeed,
+            float maxAirSpeed,
             float accelerationFrames)
             : base(parentFSM, player)
         {
             this.maxSpeed = maxSpeed;
+            this.maxAirSpeed = maxAirSpeed;
             this.accelerationFrames = accelerationFrames;
-            thisMoveState = MoveStateE.ACCELERATE;
-
+            
             currentFrame = .0f;
+
+            thisMoveState = MoveStateE.ACCELERATE;
         }
 
         public override BaseState HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx)
@@ -49,7 +53,8 @@ namespace PFSM
                 }
                 else
                 {
-                    targetSpeed = speedMult * maxSpeed * direction;
+                    targetSpeed = speedMult * direction * 
+                        player.grounded ? maxSpeed : maxAirSpeed;                    
                 }
             }
 

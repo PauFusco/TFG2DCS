@@ -7,6 +7,7 @@ namespace PFSM
     {
         private readonly float decelerationFrames;
         private readonly float maxSpeed;
+        private readonly float maxAirSpeed;
 
         private float currentFrame;
         private float speedReductionPerFrame;
@@ -18,12 +19,17 @@ namespace PFSM
             PlayerFSM parentFSM,
             PlayerBehaviour player,
             float maxSpeed,
+            float maxAirSpeed,
             float decFrames)
             : base(parentFSM, player)
         {
-            thisMoveState = MoveStateE.DECELERATE;
             decelerationFrames = decFrames;
             this.maxSpeed = maxSpeed;
+            this.maxAirSpeed = maxAirSpeed;
+            
+            currentFrame = .0f;
+
+            thisMoveState = MoveStateE.DECELERATE;
         }
 
         public override BaseState HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx)

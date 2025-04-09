@@ -6,6 +6,7 @@ namespace PFSM
     public class TurnState : BaseState
     {
         private readonly float maxSpeed;
+        private readonly float maxAirSpeed;
         private readonly float turnFrames;
 
         private float currentFrame;
@@ -19,12 +20,17 @@ namespace PFSM
             PlayerFSM parentFSM,
             PlayerBehaviour player,
             float maxSpeed,
+            float maxAirSpeed,
             float turnFrames)
             : base(parentFSM, player)
         {
-            thisMoveState = MoveStateE.TURN;
             this.maxSpeed = maxSpeed;
+            this.maxAirSpeed = maxAirSpeed;
             this.turnFrames = turnFrames;
+            
+            currentFrame = .0f;
+
+            thisMoveState = MoveStateE.TURN;
         }
 
         public override BaseState HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx)
@@ -34,7 +40,8 @@ namespace PFSM
                 if (!ctx.action.inProgress) return MovementFSM.decelerate;
 
                 float speedMultiplier = ctx.ReadValue<Vector2>().x;
-                targetSpeed = speedMultiplier * maxSpeed * targetDirection;
+                targetSpeed = speedMult * direction * 
+                    player.grounded ? maxSpeed : maxAirSpeed;
             }
 
             return MovementFSM.turn;
