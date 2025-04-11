@@ -1035,7 +1035,7 @@ MonoBehaviour:
   dashCooldownFrames: 60
   jumpSpeed: 10
   jumpHeight: 3
-  jumpCutoffFrames: 5
+  jumpCutoffFrames: 10
   baseGravity: 2
   fallGravityMultiplier: 8
 --- !u!1 &1566772647

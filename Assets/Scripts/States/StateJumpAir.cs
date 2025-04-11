@@ -15,6 +15,7 @@ namespace PFSM
         private float currentFrame;
 
         private bool heightReached;
+        private bool startFreeFall;
 
         public JumpState(
             PlayerFSM parentFSM,
@@ -37,9 +38,14 @@ namespace PFSM
         public override BaseState HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx)
         {
             if (ctx.action.name == "Jump" &&
-                !ctx.action.inProgress)
+                ctx.canceled)
             {
-                return JumpFSM.freeFall;
+                if (currentFrame < cutoffFrames)
+                {
+                    startFreeFall = true;
+                }
+                else
+                    return JumpFSM.freeFall;
             }
 
             return JumpFSM.jump;
@@ -51,6 +57,7 @@ namespace PFSM
             targetHeight = originalHeight + maxHeight;
 
             heightReached = false;
+            startFreeFall = false;
 
             currentFrame = .0f;
         }
@@ -62,7 +69,13 @@ namespace PFSM
                 parentFSM.ChangeState(JumpFSM.ground);
             }
 
-            if(player.transform.position.y >= targetHeight)
+            if (startFreeFall && 
+                currentFrame >= cutoffFrames)
+            {
+                parentFSM.ChangeState(JumpFSM.freeFall);
+            }
+
+            if (player.transform.position.y >= targetHeight)
             {
                 heightReached = true;
             }
