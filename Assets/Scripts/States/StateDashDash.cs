@@ -33,10 +33,13 @@ namespace PFSM
 
         public override void OnEnter()
         {
-            currentFrame = .0f;
+            player.SetSpeedY(.0f);
             player.invulnerable = true;
+            player.rigidBody.gravityScale = .0f;
 
             prevSpeed = player.rigidBody.linearVelocityX;
+         
+            currentFrame = .0f;
         }
 
         public override void Update()
@@ -44,6 +47,11 @@ namespace PFSM
             if (currentFrame >= activeFrames)
             {
                 parentFSM.ChangeState(DashFSM.idle);
+            }
+
+            if (player.rigidBody.gravityScale != .0f)
+            {
+                player.rigidBody.gravityScale = .0f;
             }
         }
 
@@ -59,6 +67,7 @@ namespace PFSM
         {
             player.invulnerable = false;
 
+            // Set X speed to 0?
             player.rigidBody.linearVelocityX = prevSpeed;
         }
     }

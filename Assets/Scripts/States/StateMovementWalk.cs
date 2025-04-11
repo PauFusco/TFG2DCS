@@ -31,8 +31,6 @@ namespace PFSM
 
                 bool speedMultiplierDirection = speedMult >= 0;
 
-                Debug.Log(speedMult);
-
                 if (speedMultiplierDirection != player.lookDirection)
                 {
                     player.lookDirection = speedMultiplierDirection;

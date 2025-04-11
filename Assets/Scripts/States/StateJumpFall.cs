@@ -36,6 +36,15 @@ namespace PFSM
             {
                 parentFSM.ChangeState(JumpFSM.ground);
             }
+
+            if(player.rigidBody.gravityScale != 0)
+            {
+                if (player.invulnerable) player.rigidBody.gravityScale = .0f;
+            }
+            else
+            {
+                if (!player.invulnerable) player.rigidBody.gravityScale = fallGravityMultiplier;
+            }
         }
 
         public override void FixedUpdate()

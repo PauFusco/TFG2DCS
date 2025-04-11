@@ -69,8 +69,9 @@ namespace PFSM
                 parentFSM.ChangeState(JumpFSM.ground);
             }
 
-            if (startFreeFall && 
-                currentFrame >= cutoffFrames)
+            if ((startFreeFall &&
+                currentFrame >= cutoffFrames) ||
+                player.invulnerable)
             {
                 parentFSM.ChangeState(JumpFSM.freeFall);
             }
@@ -79,6 +80,8 @@ namespace PFSM
             {
                 heightReached = true;
             }
+
+
         }
 
         public override void FixedUpdate()
