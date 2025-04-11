@@ -5,7 +5,6 @@ public class PlayerBehaviour : MonoBehaviour
 {
     private float
         maxSpeed,
-        maxAirSpeed,
         baseGravity,
         turnFrames,
         accelerationFrames,
@@ -47,7 +46,6 @@ public class PlayerBehaviour : MonoBehaviour
         PFSM.MovementFSM moveFSM = new(
             this,
             maxSpeed,
-            maxAirSpeed,
             turnFrames,
             accelerationFrames,
             decelerationFrames);
@@ -99,7 +97,6 @@ public class PlayerBehaviour : MonoBehaviour
     {
         PlayerConfig config = GetComponent<PlayerConfig>();
         maxSpeed = config.maxSpeed;
-        maxAirSpeed = config.maxAirSpeed;
         baseGravity = config.baseGravity;
 
         turnFrames = config.turnFrames;

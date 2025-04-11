@@ -11,16 +11,15 @@
         public MovementFSM(
             PlayerBehaviour player,
             float maxSpeed,
-            float maxAirSpeed,
             float turnFrames,
             float accFrames,
             float decFrames)
         {
             idle = new(this, player);
-            walk = new(this, player, maxSpeed, maxAirSpeed);
-            accelerate = new(this, player, maxSpeed, maxAirSpeed, accFrames);
-            decelerate = new(this, player, maxSpeed, maxAirSpeed, decFrames);
-            turn = new(this, player, maxSpeed, maxAirSpeed, turnFrames);
+            walk = new(this, player, maxSpeed);
+            accelerate = new(this, player, maxSpeed, accFrames);
+            decelerate = new(this, player, maxSpeed, decFrames);
+            turn = new(this, player, maxSpeed, turnFrames);
 
             currentState = idle;
         }

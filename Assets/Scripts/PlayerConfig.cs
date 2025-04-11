@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerConfig : MonoBehaviour
 {
     [Header("Movement")]
-    public float maxSpeed; public float maxAirSpeed; public float turnFrames; public float accelerationFrames; public float decelerationFrames;
+    public float maxSpeed; public float turnFrames; public float accelerationFrames; public float decelerationFrames;
 
     [Header("Dash")]
     public float dashSpeed; public float dashFrames; public float dashCooldownFrames;
