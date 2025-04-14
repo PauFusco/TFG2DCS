@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d97a60d445c76aa45bef7ae23f953e80, type: 3}
+  m_Name: 5SS
+  m_EditorClassIdentifier: 
+  anticipation: 5
+  strike: 17
+  recovery: 2
+  hitbox: {fileID: 0}
+  cancellable: 1
+  cancellableInto:
+  - {fileID: 11400000, guid: a3e4fc9307bab8644b1432e43ae39ee1, type: 2}

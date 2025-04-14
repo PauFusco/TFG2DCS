@@ -710,11 +710,11 @@ GameObject:
   m_Component:
   - component: {fileID: 964720862}
   - component: {fileID: 964720861}
+  - component: {fileID: 964720859}
+  - component: {fileID: 964720860}
+  - component: {fileID: 964720863}
   - component: {fileID: 964720865}
   - component: {fileID: 964720864}
-  - component: {fileID: 964720863}
-  - component: {fileID: 964720860}
-  - component: {fileID: 964720859}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -989,6 +989,30 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: bb39ae0a-9f89-4b41-9e48-0a639b8d9000
+    m_ActionName: 'Player/4S[/Keyboard/a,/Mouse/leftButton,/Keyboard/k]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 89a3fa3e-5287-44bd-a781-84f75f1fc000
+    m_ActionName: 'Player/6S[/Keyboard/d,/Mouse/leftButton,/Keyboard/k]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6a6a3838-1119-48d4-8e8b-111aa9321f09
+    m_ActionName: 'Player/2S[/Keyboard/s,/Mouse/leftButton,/Keyboard/k]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f5cc3696-1f56-4905-bead-9e620bd3e163
+    m_ActionName: 'Player/8S[/Keyboard/w,/Mouse/leftButton,/Keyboard/k]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 27ea4a9a-fc6e-4287-aa82-8742518cb279
+    m_ActionName: 'Player/4HS[/Keyboard/a,/Mouse/rightButton,/Keyboard/l]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ebdf7744-f234-4927-bf01-8648ef600c75
+    m_ActionName: 'Player/6HS[/Keyboard/d,/Mouse/rightButton,/Keyboard/l]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player

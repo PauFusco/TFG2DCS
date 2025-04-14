@@ -139,6 +139,9 @@ public class PlayerBehaviour : MonoBehaviour
     public void HandleDashInput(InputAction.CallbackContext ctx)
     { PFSMs[dashFSMIdx].HandleInput(this, ctx); }
 
+    public void HandleAttackInput(InputAction.CallbackContext ctx)
+    { Debug.Log(ctx.action.name); }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.Equals(floor))
