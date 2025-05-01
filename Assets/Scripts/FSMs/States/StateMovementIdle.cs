@@ -13,7 +13,7 @@ namespace PFSM
             thisMoveState = MoveStateE.IDLE;
         }
 
-        public override BaseState HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx)
+        public override BaseState HandleInput(InputAction.CallbackContext ctx)
         {
             if (ctx.action.name == "Move")
             {

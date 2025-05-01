@@ -3,31 +3,30 @@ using UnityEngine.InputSystem;
 
 namespace PFSM
 {
-    public class AccelerateState : BaseState
+    public class DecelerateState : BaseState
     {
+        private readonly float decelerationFrames;
         private readonly float maxSpeed;
-        private readonly float accelerationFrames;
 
         private float currentFrame;
+        private float speedReductionPerFrame;
 
         public float direction;
-        public float targetSpeed;
+        public float speedToReduce;
 
-        public AccelerateState(
+        public DecelerateState(
             PlayerFSM parentFSM,
             PlayerBehaviour player,
             float maxSpeed,
-            float accelerationFrames)
+            float decFrames)
             : base(parentFSM, player)
         {
+            thisMoveState = MoveStateE.DECELERATE;
+            decelerationFrames = decFrames;
             this.maxSpeed = maxSpeed;
-            this.accelerationFrames = accelerationFrames;
-            thisMoveState = MoveStateE.ACCELERATE;
-
-            currentFrame = .0f;
         }
 
-        public override BaseState HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx)
+        public override BaseState HandleInput(InputAction.CallbackContext ctx)
         {
             if (ctx.action.name == "Move")
             {
@@ -49,31 +48,40 @@ namespace PFSM
                 }
                 else
                 {
-                    targetSpeed = speedMult * maxSpeed * direction;
+                    player.lookDirection = speedMult >= 0;
+
+                    MovementFSM.accelerate.targetSpeed = speedMult * maxSpeed;
+
+                    MovementFSM.accelerate.direction =
+                        player.lookDirection ? 1.0f : -1.0f;
+
+                    return MovementFSM.accelerate;
                 }
+
             }
 
-            return MovementFSM.accelerate;
+            return MovementFSM.decelerate;
         }
 
         public override void OnEnter()
         {
             currentFrame = .0f;
-            player.lookDirection = targetSpeed >= 0;
+
+            speedToReduce = player.rigidBody.linearVelocityX;
+            direction = player.lookDirection ? 1.0f : -1.0f;
+
+            speedReductionPerFrame = speedToReduce / decelerationFrames;
         }
 
         public override void Update()
         {
-            if (currentFrame >= accelerationFrames)
+            if (currentFrame >= decelerationFrames)
             {
-                MovementFSM.walk.speed = targetSpeed;
-                MovementFSM.walk.direction = direction;
-
-                parentFSM.ChangeState(MovementFSM.walk);
+                parentFSM.ChangeState(MovementFSM.idle);
             }
 
             if (player.GetFSM(player.dashFSMIdx).currentState == DashFSM.idle)
-                player.SetSpeedX(targetSpeed / accelerationFrames * currentFrame * direction);
+                player.SetSpeedX(speedReductionPerFrame * (decelerationFrames - currentFrame));
         }
 
         public override void FixedUpdate()
@@ -83,5 +91,6 @@ namespace PFSM
 
         public override void OnExit()
         { }
+
     }
 }

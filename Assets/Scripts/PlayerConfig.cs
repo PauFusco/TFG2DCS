@@ -1,3 +1,4 @@
+using PAttack;
 using UnityEngine;
 
 public class PlayerConfig : MonoBehaviour
@@ -12,5 +13,8 @@ public class PlayerConfig : MonoBehaviour
     public float jumpSpeed; public float jumpHeight; public float jumpCutoffFrames;
 
     [Header("Fall")]
-    public float baseGravity; public float fallGravityMultiplier; 
+    public float baseGravity; public float fallGravityMultiplier;
+
+    [Header("Attacks")]
+    public Attack[] attacks;
 }

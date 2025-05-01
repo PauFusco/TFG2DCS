@@ -13,7 +13,7 @@ namespace PFSM
             thisJumpState = JumpStateE.GROUND;
         }
 
-        public override BaseState HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx)
+        public override BaseState HandleInput(InputAction.CallbackContext ctx)
         {
             if(ctx.action.name == "Jump" &&
                 ctx.started &&

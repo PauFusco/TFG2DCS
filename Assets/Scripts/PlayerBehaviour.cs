@@ -21,6 +21,8 @@ public class PlayerBehaviour : MonoBehaviour
 
     [SerializeField] private GameObject floor;
 
+    public PAttack.Attack[] attacks;
+
     public Rigidbody2D rigidBody;
 
     public PFSM.MoveStateE currentMoveState = new();
@@ -34,6 +36,7 @@ public class PlayerBehaviour : MonoBehaviour
     public readonly uint moveFSMIdx = 0;
     public readonly uint jumpFSMIdx = 1;
     public readonly uint dashFSMIdx = 2;
+    public readonly uint attaFSMIdx = 3;
 
     private void Awake()
     {
@@ -41,7 +44,7 @@ public class PlayerBehaviour : MonoBehaviour
 
         UpdatePlayerData();
 
-        PFSMs = new PFSM.PlayerFSM[3];
+        PFSMs = new PFSM.PlayerFSM[4];
 
         PFSM.MovementFSM moveFSM = new(
             this,
@@ -61,10 +64,13 @@ public class PlayerBehaviour : MonoBehaviour
             jumpCutoffFrames,
             baseGravity,
             fallGravity);
+        PFSM.AttackFSM attaFSM = new(
+            this);
 
         PFSMs[moveFSMIdx] = moveFSM;
         PFSMs[jumpFSMIdx] = jumpFSM;
         PFSMs[dashFSMIdx] = dashFSM;
+        PFSMs[attaFSMIdx] = attaFSM;
 
         currentSpeed = .0f;
 
@@ -112,6 +118,8 @@ public class PlayerBehaviour : MonoBehaviour
         jumpCutoffFrames = config.jumpCutoffFrames;
         fallGravity = config.fallGravityMultiplier;
 
+        attacks = config.attacks;
+
         currentSpeed = rigidBody.linearVelocityX;
     }
 
@@ -131,13 +139,16 @@ public class PlayerBehaviour : MonoBehaviour
     { return PFSMs[index]; }
 
     public void HandleMovementInput(InputAction.CallbackContext ctx)
-    { PFSMs[moveFSMIdx].HandleInput(this, ctx); }
+    {
+        PFSMs[moveFSMIdx].HandleInput(ctx);
+        Debug.Log(ctx.action.name);
+    }
 
     public void HandleJumpInput(InputAction.CallbackContext ctx)
-    { PFSMs[jumpFSMIdx].HandleInput(this, ctx); }
+    { PFSMs[jumpFSMIdx].HandleInput(ctx); }
 
     public void HandleDashInput(InputAction.CallbackContext ctx)
-    { PFSMs[dashFSMIdx].HandleInput(this, ctx); }
+    { PFSMs[dashFSMIdx].HandleInput(ctx); }
 
     public void HandleAttackInput(InputAction.CallbackContext ctx)
     { Debug.Log(ctx.action.name); }

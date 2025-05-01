@@ -20,9 +20,9 @@ namespace PFSM
 
         protected PlayerBehaviour player;
 
-        public virtual void HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx)
+        public virtual void HandleInput(InputAction.CallbackContext ctx)
         {
-            BaseState checkState = currentState.HandleInput(player, ctx);
+            BaseState checkState = currentState.HandleInput(ctx);
 
             if (currentState != checkState) ChangeState(checkState);
         }

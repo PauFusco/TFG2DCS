@@ -18,7 +18,7 @@ namespace PFSM
             thisJumpState = JumpStateE.Default;
         }
 
-        public abstract BaseState HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx);
+        public abstract BaseState HandleInput(InputAction.CallbackContext ctx);
 
         public abstract void OnEnter();
 

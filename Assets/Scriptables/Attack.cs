@@ -1,5 +1,5 @@
-using UnityEditor;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace PAttack {
     [CreateAssetMenu(fileName = "New Attack", menuName = "Scriptable Object/Attack")]
@@ -9,7 +9,10 @@ namespace PAttack {
         public float anticipation; public float strike; public float recovery;
 
         [Header("HitBox")]
-        public Collider2D hitbox;
+        public Object hitbox;
+
+        [Header("Attack Input")]
+        public InputActionReference input;
 
         [Header("Interactions")]
         public bool cancellable; public Attack[] cancellableInto;

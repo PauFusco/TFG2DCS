@@ -19,7 +19,7 @@ namespace PFSM
             currentFrame = this.cooldownFrames;
         }
 
-        public override BaseState HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx)
+        public override BaseState HandleInput(InputAction.CallbackContext ctx)
         {
             if (currentFrame >= cooldownFrames &&
                 ctx.action.name == "Dash" &&
