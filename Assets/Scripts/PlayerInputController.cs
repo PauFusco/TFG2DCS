@@ -10,6 +10,8 @@ public class PlayerInputController : MonoBehaviour
     private InputState prevFrameInput;
     private bool controllerConnected;
 
+    public double angle;
+
     private void Awake()
     {
         input = new();
@@ -37,53 +39,106 @@ public class PlayerInputController : MonoBehaviour
         { input.movement = Gamepad.current.leftStick.value; }
         #endregion
         #region Direction
-        if (Input.GetKey(KeyCode.A))
+        // Keyboard
         {
-            input.left =
-                (prevFrameInput?.left == InputState.KeyState.DOWN ||
-                prevFrameInput?.left == InputState.KeyState.REPEAT) ?
-                InputState.KeyState.REPEAT :
-                InputState.KeyState.DOWN;
+            if (Input.GetKey(KeyCode.A))
+            {
+                input.left =
+                    (prevFrameInput?.left == InputState.KeyState.DOWN ||
+                    prevFrameInput?.left == InputState.KeyState.REPEAT) ?
+                    InputState.KeyState.REPEAT :
+                    InputState.KeyState.DOWN;
+            }
+            else
+            {
+                input.left = InputState.KeyState.UP;
+            }
+            if (Input.GetKey(KeyCode.D))
+            {
+                input.right =
+                    (prevFrameInput?.right == InputState.KeyState.DOWN ||
+                    prevFrameInput?.right == InputState.KeyState.REPEAT) ?
+                    InputState.KeyState.REPEAT :
+                    InputState.KeyState.DOWN;
+            }
+            else
+            {
+                input.right = InputState.KeyState.UP;
+            }
+            if (Input.GetKey(KeyCode.W))
+            {
+                input.up =
+                    (prevFrameInput?.up == InputState.KeyState.DOWN ||
+                    prevFrameInput?.up == InputState.KeyState.REPEAT) ?
+                    InputState.KeyState.REPEAT :
+                    InputState.KeyState.DOWN;
+            }
+            else
+            {
+                input.up = InputState.KeyState.UP;
+            }
+            if (Input.GetKey(KeyCode.S))
+            {
+                input.down =
+                    (prevFrameInput?.down == InputState.KeyState.DOWN ||
+                    prevFrameInput?.down == InputState.KeyState.REPEAT) ?
+                    InputState.KeyState.REPEAT :
+                    InputState.KeyState.DOWN;
+            }
+            else
+            {
+                input.down = InputState.KeyState.UP;
+            }
         }
-        else
-        {
-            input.left = InputState.KeyState.UP;
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            input.right =
-                (prevFrameInput?.right == InputState.KeyState.DOWN ||
-                prevFrameInput?.right == InputState.KeyState.REPEAT) ?
-                InputState.KeyState.REPEAT :
-                InputState.KeyState.DOWN;
-        }
-        else
-        {
-            input.right = InputState.KeyState.UP;
-        }
-        if (Input.GetKey(KeyCode.W))
-        {
-            input.up =
-                (prevFrameInput?.up == InputState.KeyState.DOWN ||
-                prevFrameInput?.up == InputState.KeyState.REPEAT) ?
-                InputState.KeyState.REPEAT :
-                InputState.KeyState.DOWN;
-        }
-        else
-        {
-            input.up = InputState.KeyState.UP;
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            input.down =
-                (prevFrameInput?.down == InputState.KeyState.DOWN ||
-                prevFrameInput?.down == InputState.KeyState.REPEAT) ?
-                InputState.KeyState.REPEAT :
-                InputState.KeyState.DOWN;
-        }
-        else
-        {
-            input.down = InputState.KeyState.UP;
+        // Controller
+        { 
+        Vector2 zeroMovement = new(0.0f, 0.0f);
+            if (controllerConnected &&
+                input.movement != zeroMovement)
+            {
+                Vector2 stick = Gamepad.current.leftStick.value.normalized;
+
+                if (stick.x < 0.0f &&
+                     0.5f >= stick.y &&
+                    -0.5f < stick.y)
+                {
+                    input.left =
+                        (prevFrameInput?.left == InputState.KeyState.DOWN ||
+                        prevFrameInput?.left == InputState.KeyState.REPEAT) ?
+                        InputState.KeyState.REPEAT :
+                        InputState.KeyState.DOWN;
+                }
+                if (stick.x > 0.0f &&
+                     0.5f >= stick.y &&
+                    -0.5f < stick.y)
+                {
+                    input.right =
+                        (prevFrameInput?.right == InputState.KeyState.DOWN ||
+                        prevFrameInput?.right == InputState.KeyState.REPEAT) ?
+                        InputState.KeyState.REPEAT :
+                        InputState.KeyState.DOWN;
+                }
+                if (stick.y > 0.0f &&
+                     0.5f >= stick.x &&
+                    -0.5f < stick.x)
+                {
+                    input.up =
+                        (prevFrameInput?.up == InputState.KeyState.DOWN ||
+                        prevFrameInput?.up == InputState.KeyState.REPEAT) ?
+                        InputState.KeyState.REPEAT :
+                        InputState.KeyState.DOWN;
+                }
+                if (stick.y < 0.0f &&
+                     0.5f >= stick.x &&
+                    -0.5f < stick.x)
+                {
+                    input.down =
+                        (prevFrameInput?.down == InputState.KeyState.DOWN ||
+                        prevFrameInput?.down == InputState.KeyState.REPEAT) ?
+                        InputState.KeyState.REPEAT :
+                        InputState.KeyState.DOWN;
+                }
+            }    
         }
         #endregion
         #region Actions
@@ -99,6 +154,7 @@ public class PlayerInputController : MonoBehaviour
         {
             input.dash = InputState.KeyState.UP;
         }
+
         if (Input.GetKey(KeyCode.Space))
         {
             input.jump =
@@ -146,19 +202,17 @@ public class PlayerInputController : MonoBehaviour
 [Serializable]
 public class InputState
 {
-    public enum KeyState
-    {
-        DOWN,
-        REPEAT,
-        UP,
-    }
-
     public Vector2 movement;
     public KeyState up, left, down, right;
     public KeyState dash, jump;
     public KeyState S, HS;
 
     public InputState()
+    {
+        Reset();
+    }
+
+    public void Reset()
     {
         movement = new(.0f, .0f);
 
@@ -174,14 +228,10 @@ public class InputState
         HS = KeyState.UP;
     }
 
-    public void Reset()
+    public enum KeyState
     {
-        movement = new(.0f, .0f);
-
-        dash = KeyState.UP;
-        jump = KeyState.UP;
-
-        S = KeyState.UP;
-        HS = KeyState.UP;
+        DOWN,
+        REPEAT,
+        UP,
     }
 }
