@@ -3,6 +3,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerBehaviour : MonoBehaviour
 {
+    [SerializeField] private GameObject floor;
+
     private float
         maxSpeed,
         baseGravity,
@@ -17,11 +19,12 @@ public class PlayerBehaviour : MonoBehaviour
         jumpCutoffFrames,
         fallGravity;
 
+    private PlayerConfig config;
+
     private PFSM.PlayerFSM[] PFSMs;
 
-    [SerializeField] private GameObject floor;
-
     public PAttack.Attack[] attacks;
+
 
     public Rigidbody2D rigidBody;
 
@@ -42,7 +45,9 @@ public class PlayerBehaviour : MonoBehaviour
     {
         rigidBody = GetComponent<Rigidbody2D>();
 
-        UpdatePlayerData();
+        config = GetComponent<PlayerConfig>();
+
+        UpdatePlayerConfig();
 
         PFSMs = new PFSM.PlayerFSM[4];
 
@@ -64,14 +69,14 @@ public class PlayerBehaviour : MonoBehaviour
             jumpCutoffFrames,
             baseGravity,
             fallGravity);
-        PFSM.AttackFSM attaFSM = new(
-            this);
+        PFSM.AttackFSM attaFSM = new(this);
 
         PFSMs[moveFSMIdx] = moveFSM;
         PFSMs[jumpFSMIdx] = jumpFSM;
         PFSMs[dashFSMIdx] = dashFSM;
         PFSMs[attaFSMIdx] = attaFSM;
 
+        #region Debug Variables
         currentSpeed = .0f;
 
         grounded = false;
@@ -80,11 +85,12 @@ public class PlayerBehaviour : MonoBehaviour
 
         currentMoveState = PFSM.MoveStateE.Default;
         currentJumpState = PFSM.JumpStateE.Default;
+        #endregion
     }
 
     private void Update()
     {
-        UpdatePlayerData();
+        UpdatePlayerConfig();
 
         currentMoveState = PFSMs[moveFSMIdx].currentState.thisMoveState;
         currentJumpState = PFSMs[jumpFSMIdx].currentState.thisJumpState;
@@ -99,9 +105,8 @@ public class PlayerBehaviour : MonoBehaviour
         { FSM.FixedUpdate(); }
     }
 
-    private void UpdatePlayerData()
+    private void UpdatePlayerConfig()
     {
-        PlayerConfig config = GetComponent<PlayerConfig>();
         maxSpeed = config.maxSpeed;
         baseGravity = config.baseGravity;
 
