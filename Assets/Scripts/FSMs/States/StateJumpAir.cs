@@ -35,10 +35,9 @@ namespace PFSM
             thisJumpState = JumpStateE.JUMP;
         }
 
-        public override BaseState HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx)
+        public override BaseState HandleInput(CustomInputControl.InputState input)
         {
-            if (ctx.action.name == "Jump" &&
-                ctx.canceled)
+            if (input.jump == CustomInputControl.KeyState.UP)
             {
                 if (currentFrame < cutoffFrames)
                 {

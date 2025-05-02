@@ -1,12 +1,12 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerBehaviour : MonoBehaviour
 {
+    [SerializeField] private GameObject floor;
+
     private float
         maxSpeed,
         baseGravity,
-        turnFrames,
         accelerationFrames,
         decelerationFrames,
         dashSpeed,
@@ -17,9 +17,12 @@ public class PlayerBehaviour : MonoBehaviour
         jumpCutoffFrames,
         fallGravity;
 
+    private PlayerConfig config;
+    private CustomInputControl.PlayerInputController inputController;
+
     private PFSM.PlayerFSM[] PFSMs;
 
-    [SerializeField] private GameObject floor;
+    public PAttack.Attack[] attacks;
 
     public Rigidbody2D rigidBody;
 
@@ -34,19 +37,21 @@ public class PlayerBehaviour : MonoBehaviour
     public readonly uint moveFSMIdx = 0;
     public readonly uint jumpFSMIdx = 1;
     public readonly uint dashFSMIdx = 2;
+    public readonly uint attaFSMIdx = 3;
 
     private void Awake()
     {
         rigidBody = GetComponent<Rigidbody2D>();
+        config = GetComponent<PlayerConfig>();
+        inputController = GetComponent<CustomInputControl.PlayerInputController>();
 
-        UpdatePlayerData();
+        UpdatePlayerConfig();
 
-        PFSMs = new PFSM.PlayerFSM[3];
+        PFSMs = new PFSM.PlayerFSM[4];
 
         PFSM.MovementFSM moveFSM = new(
             this,
             maxSpeed,
-            turnFrames,
             accelerationFrames,
             decelerationFrames);
         PFSM.DashFSM dashFSM = new(
@@ -61,11 +66,14 @@ public class PlayerBehaviour : MonoBehaviour
             jumpCutoffFrames,
             baseGravity,
             fallGravity);
+        PFSM.AttackFSM attaFSM = new(this);
 
         PFSMs[moveFSMIdx] = moveFSM;
         PFSMs[jumpFSMIdx] = jumpFSM;
         PFSMs[dashFSMIdx] = dashFSM;
+        PFSMs[attaFSMIdx] = attaFSM;
 
+        #region Debug Variables
         currentSpeed = .0f;
 
         grounded = false;
@@ -74,11 +82,14 @@ public class PlayerBehaviour : MonoBehaviour
 
         currentMoveState = PFSM.MoveStateE.Default;
         currentJumpState = PFSM.JumpStateE.Default;
+        #endregion
     }
 
     private void Update()
     {
-        UpdatePlayerData();
+        UpdatePlayerConfig();
+
+        SendInput();
 
         currentMoveState = PFSMs[moveFSMIdx].currentState.thisMoveState;
         currentJumpState = PFSMs[jumpFSMIdx].currentState.thisJumpState;
@@ -93,13 +104,11 @@ public class PlayerBehaviour : MonoBehaviour
         { FSM.FixedUpdate(); }
     }
 
-    private void UpdatePlayerData()
+    private void UpdatePlayerConfig()
     {
-        PlayerConfig config = GetComponent<PlayerConfig>();
         maxSpeed = config.maxSpeed;
         baseGravity = config.baseGravity;
 
-        turnFrames = config.turnFrames;
         accelerationFrames = config.accelerationFrames;
         decelerationFrames = config.decelerationFrames;
 
@@ -111,6 +120,8 @@ public class PlayerBehaviour : MonoBehaviour
         jumpHeight = config.jumpHeight;
         jumpCutoffFrames = config.jumpCutoffFrames;
         fallGravity = config.fallGravityMultiplier;
+
+        attacks = config.attacks;
 
         currentSpeed = rigidBody.linearVelocityX;
     }
@@ -127,20 +138,16 @@ public class PlayerBehaviour : MonoBehaviour
     public void Dash(float speed)
     { SetSpeedX(speed); }
 
+    void SendInput()
+    {
+        foreach (var FSM in PFSMs)
+        {
+            FSM.HandleInput(inputController.input);
+        }
+    }
+
     public PFSM.PlayerFSM GetFSM(uint index)
     { return PFSMs[index]; }
-
-    public void HandleMovementInput(InputAction.CallbackContext ctx)
-    { PFSMs[moveFSMIdx].HandleInput(this, ctx); }
-
-    public void HandleJumpInput(InputAction.CallbackContext ctx)
-    { PFSMs[jumpFSMIdx].HandleInput(this, ctx); }
-
-    public void HandleDashInput(InputAction.CallbackContext ctx)
-    { PFSMs[dashFSMIdx].HandleInput(this, ctx); }
-
-    public void HandleAttackInput(InputAction.CallbackContext ctx)
-    { Debug.Log(ctx.action.name); }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

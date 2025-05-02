@@ -1,5 +1,3 @@
-using UnityEngine.InputSystem;
-
 namespace PFSM
 {
     public abstract class BaseState
@@ -18,7 +16,7 @@ namespace PFSM
             thisJumpState = JumpStateE.Default;
         }
 
-        public abstract BaseState HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx);
+        public abstract BaseState HandleInput(CustomInputControl.InputState input);
 
         public abstract void OnEnter();
 

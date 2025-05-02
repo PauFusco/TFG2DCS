@@ -13,10 +13,9 @@ namespace PFSM
             thisJumpState = JumpStateE.GROUND;
         }
 
-        public override BaseState HandleInput(PlayerBehaviour player, InputAction.CallbackContext ctx)
+        public override BaseState HandleInput(CustomInputControl.InputState input)
         {
-            if(ctx.action.name == "Jump" &&
-                ctx.started &&
+            if(input.jump == CustomInputControl.KeyState.DOWN &&
                 player.grounded &&
                 player.GetFSM(player.dashFSMIdx).currentState == DashFSM.idle)
             {

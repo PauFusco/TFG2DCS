@@ -16,7 +16,7 @@ MonoBehaviour:
   strike: 17
   recovery: 2
   hitbox: {fileID: 0}
+  input: {fileID: 1120369429361536294, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   cancellable: 1
   cancellableInto:
   - {fileID: 11400000, guid: c968d8693634d954e8a9e57820ed0a93, type: 2}
-  - {fileID: 11400000, guid: a3e4fc9307bab8644b1432e43ae39ee1, type: 2}
