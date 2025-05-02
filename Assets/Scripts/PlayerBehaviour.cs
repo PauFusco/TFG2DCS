@@ -140,7 +140,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     void SendInput()
     {
-        foreach(var FSM in PFSMs)
+        foreach (var FSM in PFSMs)
         {
             FSM.HandleInput(inputController.input);
         }
