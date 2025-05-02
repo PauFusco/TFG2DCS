@@ -1,3 +1,4 @@
+using CustomInputControl;
 using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
@@ -15,14 +16,14 @@ public class PlayerBehaviour : MonoBehaviour
         jumpSpeed,
         jumpHeight,
         jumpCutoffFrames,
-        fallGravity;
+        fallGravity,
+        chargeFrames;
 
     private PlayerConfig config;
-    private CustomInputControl.PlayerInputController inputController;
+    private PlayerInputController inputController;
+    private SpriteRenderer spriteRenderer;
 
     private PFSM.PlayerFSM[] PFSMs;
-
-    public PAttack.Attack[] attacks;
 
     public Rigidbody2D rigidBody;
 
@@ -43,7 +44,8 @@ public class PlayerBehaviour : MonoBehaviour
     {
         rigidBody = GetComponent<Rigidbody2D>();
         config = GetComponent<PlayerConfig>();
-        inputController = GetComponent<CustomInputControl.PlayerInputController>();
+        inputController = GetComponent<PlayerInputController>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
         UpdatePlayerConfig();
 
@@ -66,7 +68,10 @@ public class PlayerBehaviour : MonoBehaviour
             jumpCutoffFrames,
             baseGravity,
             fallGravity);
-        PFSM.AttackFSM attaFSM = new(this);
+        PFSM.AttackFSM attaFSM = new(
+            this,
+            config.attacks,
+            chargeFrames);
 
         PFSMs[moveFSMIdx] = moveFSM;
         PFSMs[jumpFSMIdx] = jumpFSM;
@@ -121,13 +126,23 @@ public class PlayerBehaviour : MonoBehaviour
         jumpCutoffFrames = config.jumpCutoffFrames;
         fallGravity = config.fallGravityMultiplier;
 
-        attacks = config.attacks;
+        chargeFrames = config.chargeFrames;
 
         currentSpeed = rigidBody.linearVelocityX;
     }
 
-    public void SetSpeed(Vector2 value)
-    { rigidBody.linearVelocity = value; }
+    void SendInput()
+    {
+        foreach (var FSM in PFSMs)
+        {
+            FSM.HandleInput(inputController.input);
+        }
+    }
+
+    public void SetPlayerColor(Color color)
+    {
+        spriteRenderer.color = color;
+    }
 
     public void SetSpeedX(float value)
     { rigidBody.linearVelocityX = value; }
@@ -138,13 +153,7 @@ public class PlayerBehaviour : MonoBehaviour
     public void Dash(float speed)
     { SetSpeedX(speed); }
 
-    void SendInput()
-    {
-        foreach (var FSM in PFSMs)
-        {
-            FSM.HandleInput(inputController.input);
-        }
-    }
+
 
     public PFSM.PlayerFSM GetFSM(uint index)
     { return PFSMs[index]; }

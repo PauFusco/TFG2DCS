@@ -13,10 +13,14 @@ MonoBehaviour:
   m_Name: 5S
   m_EditorClassIdentifier: 
   anticipation: 5
-  strike: 17
+  active: 0
   recovery: 2
   hitbox: {fileID: 0}
-  input: {fileID: 1120369429361536294, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  input:
+  - {fileID: 11400000, guid: d0d64ebad551a6f4187ff6ec032d9bcb, type: 2}
+  - {fileID: 11400000, guid: 95a6baeec508a484f9e44d60a274b856, type: 2}
+  - {fileID: 11400000, guid: d328937058b7996459b36fb45dbbc2bd, type: 2}
+  chargeable: 0
   cancellable: 1
   cancellableInto:
   - {fileID: 11400000, guid: c968d8693634d954e8a9e57820ed0a93, type: 2}

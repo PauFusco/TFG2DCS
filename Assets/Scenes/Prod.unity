@@ -869,7 +869,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floor: {fileID: 846769347}
-  attacks: []
   rigidBody: {fileID: 964720860}
   currentMoveState: 0
   currentJumpState: 0
@@ -890,7 +889,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxSpeed: 10
-  turnFrames: 20
   accelerationFrames: 10
   decelerationFrames: 10
   dashSpeed: 20
@@ -901,7 +899,9 @@ MonoBehaviour:
   jumpCutoffFrames: 10
   baseGravity: 2
   fallGravityMultiplier: 8
-  attacks: []
+  attacks:
+  - {fileID: 11400000, guid: 9fb541adae4727f4dbfc598ba123e4b0, type: 2}
+  chargeFrames: 0
 --- !u!114 &964720866
 MonoBehaviour:
   m_ObjectHideFlags: 0

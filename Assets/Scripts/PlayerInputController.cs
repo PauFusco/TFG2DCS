@@ -1,9 +1,11 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace CustomInputControl
 {
+    [Serializable]
     public class PlayerInputController : MonoBehaviour
     {
         public InputState input;
@@ -235,8 +237,8 @@ namespace CustomInputControl
                 if (Input.GetKey(KeyCode.K))
                 {
                     input.S =
-                        (prevFrameInput?.S == KeyState.DOWN ||
-                        prevFrameInput?.S == KeyState.REPEAT) ?
+                        (prevFrameInput.S == KeyState.DOWN ||
+                        prevFrameInput.S == KeyState.REPEAT) ?
                         KeyState.REPEAT :
                         KeyState.DOWN;
                 }
@@ -247,8 +249,8 @@ namespace CustomInputControl
                 if (Input.GetKey(KeyCode.L))
                 {
                     input.HS =
-                        (prevFrameInput?.HS == KeyState.DOWN ||
-                        prevFrameInput?.HS == KeyState.REPEAT) ?
+                        (prevFrameInput.HS == KeyState.DOWN ||
+                        prevFrameInput.HS == KeyState.REPEAT) ?
                         KeyState.REPEAT :
                         KeyState.DOWN;
                 }
@@ -262,8 +264,8 @@ namespace CustomInputControl
                 if (Gamepad.current.buttonWest.ReadValue() != .0f)
                 {
                     input.S =
-                        (prevFrameInput?.S == KeyState.DOWN ||
-                        prevFrameInput?.S == KeyState.REPEAT) ?
+                        (prevFrameInput.S == KeyState.DOWN ||
+                        prevFrameInput.S == KeyState.REPEAT) ?
                         KeyState.REPEAT :
                         KeyState.DOWN;
                 }
@@ -274,8 +276,8 @@ namespace CustomInputControl
                 if (Gamepad.current.buttonNorth.ReadValue() != .0f)
                 {
                     input.HS =
-                        (prevFrameInput?.HS == KeyState.DOWN ||
-                        prevFrameInput?.HS == KeyState.REPEAT) ?
+                        (prevFrameInput.HS == KeyState.DOWN ||
+                        prevFrameInput.HS == KeyState.REPEAT) ?
                         KeyState.REPEAT :
                         KeyState.DOWN;
                 }
@@ -317,6 +319,48 @@ namespace CustomInputControl
 
             S = KeyState.UP;
             HS = KeyState.UP;
+        }
+
+        public bool Compare(InputReference[] inputRef)
+        {
+            InputCompareObject inputCompare = new(this);
+
+            bool result;
+
+            foreach (var attackInput in inputRef)
+            {
+                result = inputCompare.up == attackInput.up &&
+                 inputCompare.left == attackInput.left &&
+                 inputCompare.down == attackInput.down &&
+                 inputCompare.right == attackInput.right &&
+                 inputCompare.dash == attackInput.dash &&
+                 inputCompare.jump == attackInput.jump &&
+                 inputCompare.slash == attackInput.slash &&
+                 inputCompare.heavySlash == attackInput.heavySlash;
+
+                if (result) return true;
+            }
+
+            return false;
+        }
+    }
+
+    public class InputCompareObject
+    {
+        public bool up, left, down, right;
+        public bool dash, jump;
+        public bool slash, heavySlash;
+
+        public InputCompareObject(InputState inputState)
+        {
+            up = (inputState.up == KeyState.DOWN);
+            left = (inputState.left == KeyState.DOWN);
+            down = (inputState.down == KeyState.DOWN);
+            right = (inputState.right == KeyState.DOWN);
+            dash = (inputState.dash == KeyState.DOWN);
+            jump = (inputState.jump == KeyState.DOWN);
+            slash = (inputState.S == KeyState.DOWN);
+            heavySlash = (inputState.HS == KeyState.DOWN);
         }
     }
 
