@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d97a60d445c76aa45bef7ae23f953e80, type: 3}
   m_Name: 5SSS
   m_EditorClassIdentifier: 
-  anticipation: 5
-  active: 0
-  recovery: 2
+  anticipation: 15
+  active: 10
+  recovery: 30
   hitbox: {fileID: 0}
   input:
   - {fileID: 11400000, guid: d0d64ebad551a6f4187ff6ec032d9bcb, type: 2}

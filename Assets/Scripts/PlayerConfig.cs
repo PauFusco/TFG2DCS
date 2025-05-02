@@ -15,6 +15,6 @@ public class PlayerConfig : MonoBehaviour
     [Header("Fall")]
     public float baseGravity; public float fallGravityMultiplier;
 
-    [Header("Attacks")]
-    public Attack[] attacks; public float chargeFrames;
+    [Header("Attack")]
+    public float chargeFrames; public Attack[] attacks;
 }

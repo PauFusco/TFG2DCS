@@ -321,9 +321,9 @@ namespace CustomInputControl
             HS = KeyState.UP;
         }
 
-        public bool Compare(InputReference[] inputRef)
+        public bool Compare(InputReference[] inputRef, KeyState keyState)
         {
-            InputCompareObject inputCompare = new(this);
+            InputCompareObject inputCompare = new(this, keyState);
 
             bool result;
 
@@ -351,16 +351,16 @@ namespace CustomInputControl
         public bool dash, jump;
         public bool slash, heavySlash;
 
-        public InputCompareObject(InputState inputState)
+        public InputCompareObject(InputState inputState, KeyState keyState)
         {
-            up = (inputState.up == KeyState.DOWN);
-            left = (inputState.left == KeyState.DOWN);
-            down = (inputState.down == KeyState.DOWN);
-            right = (inputState.right == KeyState.DOWN);
-            dash = (inputState.dash == KeyState.DOWN);
-            jump = (inputState.jump == KeyState.DOWN);
-            slash = (inputState.S == KeyState.DOWN);
-            heavySlash = (inputState.HS == KeyState.DOWN);
+            up = (inputState.up == keyState);
+            left = (inputState.left == keyState);
+            down = (inputState.down == keyState);
+            right = (inputState.right == keyState);
+            dash = (inputState.dash == keyState);
+            jump = (inputState.jump == keyState);
+            slash = (inputState.S == keyState);
+            heavySlash = (inputState.HS == keyState);
         }
     }
 

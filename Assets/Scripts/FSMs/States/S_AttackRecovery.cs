@@ -20,7 +20,7 @@ namespace PFSM
             {
                 foreach (var attack in currentAttack.cancellableInto)
                 {
-                    if (input.Compare(attack.input))
+                    if (input.Compare(attack.input, KeyState.DOWN))
                     {
                         if (attack.chargeable)
                         {

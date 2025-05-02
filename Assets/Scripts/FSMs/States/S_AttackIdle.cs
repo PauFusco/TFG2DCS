@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using CustomInputControl;
 
 namespace PFSM
 {
@@ -10,11 +11,11 @@ namespace PFSM
             : base(parentFSM, player)
         { }
 
-        public override BaseState HandleInput(CustomInputControl.InputState input)
+        public override BaseState HandleInput(InputState input)
         {
             foreach (var attack in AttackFSM.attacks)
             {
-                if (input.Compare(attack.input))
+                if (input.Compare(attack.input, KeyState.DOWN))
                 {
                     if (attack.chargeable)
                     {

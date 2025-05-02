@@ -10,17 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d97a60d445c76aa45bef7ae23f953e80, type: 3}
-  m_Name: 5SS
+  m_Name: 5HS
   m_EditorClassIdentifier: 
-  anticipation: 10
-  active: 5
-  recovery: 20
+  anticipation: 40
+  active: 20
+  recovery: 50
   hitbox: {fileID: 0}
   input:
-  - {fileID: 11400000, guid: d0d64ebad551a6f4187ff6ec032d9bcb, type: 2}
-  - {fileID: 11400000, guid: 95a6baeec508a484f9e44d60a274b856, type: 2}
-  - {fileID: 11400000, guid: d328937058b7996459b36fb45dbbc2bd, type: 2}
-  chargeable: 0
-  cancellable: 1
-  cancellableInto:
-  - {fileID: 11400000, guid: a3e4fc9307bab8644b1432e43ae39ee1, type: 2}
+  - {fileID: 11400000, guid: 58905e51870cd9047bf69d45d453bb5a, type: 2}
+  chargeable: 1
+  cancellable: 0
+  cancellableInto: []

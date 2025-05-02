@@ -23,7 +23,7 @@ namespace PFSM
 
         public override BaseState HandleInput(InputState input)
         {
-            if (!input.Compare(currentAttack.input))
+            if (!input.Compare(currentAttack.input, KeyState.REPEAT))
             {
                 AttackFSM.anticipation.SetData(currentAttack);
                 return AttackFSM.anticipation;
