@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace PFSM
 {
@@ -13,19 +12,16 @@ namespace PFSM
             thisMoveState = MoveStateE.IDLE;
         }
 
-        public override BaseState HandleInput(InputAction.CallbackContext ctx)
+        public override BaseState HandleInput(CustomInputControl.InputState input)
         {
-            if (ctx.action.name == "Move")
+            Vector2 noMove = new(.0f, .0f);
+            if (input.movement != noMove)
             {
-                float speedMult = ctx.ReadValue<Vector2>().x;
+                float speedMult = input.movement.x;
 
                 player.lookDirection = speedMult >= 0;
 
-                MovementFSM.accelerate.targetSpeed = speedMult;
-
-                MovementFSM.accelerate.direction =
-                    player.lookDirection ? 1.0f : -1.0f;
-                
+                MovementFSM.accelerate.SetData(speedMult);
                 return MovementFSM.accelerate;
             }
 

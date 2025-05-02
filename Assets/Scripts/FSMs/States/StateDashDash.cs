@@ -26,7 +26,7 @@ namespace PFSM
             currentFrame = .0f;
         }
 
-        public override BaseState HandleInput(InputAction.CallbackContext ctx)
+        public override BaseState HandleInput(CustomInputControl.InputState input)
         {
             return DashFSM.dash;
         }

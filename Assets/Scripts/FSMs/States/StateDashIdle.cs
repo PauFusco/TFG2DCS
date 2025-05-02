@@ -1,7 +1,4 @@
-﻿using UnityEngine;
-using UnityEngine.InputSystem;
-
-namespace PFSM
+﻿namespace PFSM
 {
     public class DIdleState : BaseState
     {
@@ -19,11 +16,10 @@ namespace PFSM
             currentFrame = this.cooldownFrames;
         }
 
-        public override BaseState HandleInput(InputAction.CallbackContext ctx)
+        public override BaseState HandleInput(CustomInputControl.InputState input)
         {
             if (currentFrame >= cooldownFrames &&
-                ctx.action.name == "Dash" &&
-                ctx.action.inProgress)
+                input.dash == CustomInputControl.KeyState.DOWN)
             {
                 return DashFSM.dash;
             }

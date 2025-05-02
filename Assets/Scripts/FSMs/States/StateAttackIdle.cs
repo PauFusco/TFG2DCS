@@ -1,6 +1,4 @@
-﻿using UnityEngine.InputSystem;
-
-namespace PFSM
+﻿namespace PFSM
 {
     public class AIdleState : BaseState
     {
@@ -10,7 +8,7 @@ namespace PFSM
             : base(parentFSM, player)
         { }
 
-        public override BaseState HandleInput(InputAction.CallbackContext ctx)
+        public override BaseState HandleInput(CustomInputControl.InputState input)
         {
             foreach(PAttack.Attack attack in player.attacks)
             {

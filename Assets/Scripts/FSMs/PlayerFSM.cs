@@ -1,7 +1,3 @@
-using PFSM;
-using Unity.VisualScripting;
-using UnityEngine.InputSystem;
-
 namespace PFSM
 {
     public enum MoveStateE
@@ -20,9 +16,9 @@ namespace PFSM
 
         protected PlayerBehaviour player;
 
-        public virtual void HandleInput(InputAction.CallbackContext ctx)
+        public virtual void HandleInput(CustomInputControl.InputState input)
         {
-            BaseState checkState = currentState.HandleInput(ctx);
+            BaseState checkState = currentState.HandleInput(input);
 
             if (currentState != checkState) ChangeState(checkState);
         }

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace PFSM
 {
@@ -10,7 +9,6 @@ namespace PFSM
 
         private float currentFrame;
 
-        public float direction;
         public float targetSpeed;
 
         public AccelerateState(
@@ -27,53 +25,44 @@ namespace PFSM
             currentFrame = .0f;
         }
 
-        public override BaseState HandleInput(InputAction.CallbackContext ctx)
+        public override BaseState HandleInput(CustomInputControl.InputState input)
         {
-            if (ctx.action.name == "Move")
+            Vector2 noMove = new(.0f, .0f);
+            if (input.movement != noMove)
             {
-                if (!ctx.action.inProgress) return MovementFSM.decelerate;
+                player.lookDirection = input.movement.x >= 0;
 
-                float speedMult = ctx.ReadValue<Vector2>().x;
-                bool speedMultiplierDirection = speedMult >= 0;
-
-                if (speedMultiplierDirection != player.lookDirection)
-                {
-                    player.lookDirection = speedMultiplierDirection;
-
-                    MovementFSM.turn.targetSpeed = speedMult * maxSpeed;
-
-                    MovementFSM.turn.targetDirection =
-                        player.lookDirection ? 1.0f : -1.0f;
-
-                    return MovementFSM.turn;
-                }
-                else
-                {
-                    targetSpeed = speedMult * maxSpeed * direction;
-                }
+                SetData(input.movement.x);
+            }
+            else
+            {
+                return MovementFSM.decelerate;
             }
 
             return MovementFSM.accelerate;
         }
 
+        public void SetData(float targetSpeedMult)
+        {
+            targetSpeed = targetSpeedMult * maxSpeed;
+        }
+
         public override void OnEnter()
         {
             currentFrame = .0f;
-            player.lookDirection = targetSpeed >= 0;
         }
 
         public override void Update()
         {
             if (currentFrame >= accelerationFrames)
             {
-                MovementFSM.walk.speed = targetSpeed;
-                MovementFSM.walk.direction = direction;
+                MovementFSM.walk.SetData(targetSpeed);
 
                 parentFSM.ChangeState(MovementFSM.walk);
             }
 
             if (player.GetFSM(player.dashFSMIdx).currentState == DashFSM.idle)
-                player.SetSpeedX(targetSpeed / accelerationFrames * currentFrame * direction);
+                player.SetSpeedX(targetSpeed / accelerationFrames * currentFrame);
         }
 
         public override void FixedUpdate()

@@ -2,230 +2,322 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerInputController : MonoBehaviour
+namespace CustomInputControl
 {
-    [SerializeField] private InputState input;
-    [SerializeField] private bool useController;
-
-    private InputState prevFrameInput;
-    private bool controllerConnected;
-
-    public double angle;
-
-    private void Awake()
+    public class PlayerInputController : MonoBehaviour
     {
-        input = new();
-        useController = false;
-        controllerConnected = Gamepad.current != null;
-    }
+        public InputState input;
 
-    // Update is called once per frame
-    void Update()
-    {
-        // Set Controller Mode
-        if (Input.GetKeyDown(KeyCode.F5))
-        { useController = !useController; }
+        [SerializeField] private bool useController;
 
-        input.Reset();
+        private InputState prevFrameInput;
+        private bool controllerConnected;
 
-        controllerConnected = Gamepad.current != null;
 
-        #region Movement
-        if (Input.GetKey(KeyCode.A))
-        { input.movement.x -= 1.0f; }
-        if (Input.GetKey(KeyCode.D))
-        { input.movement.x += 1.0f; }
-        if (controllerConnected)
-        { input.movement = Gamepad.current.leftStick.value; }
-        #endregion
-        #region Direction
-        // Keyboard
+        private void Awake()
         {
-            if (Input.GetKey(KeyCode.A))
-            {
-                input.left =
-                    (prevFrameInput?.left == InputState.KeyState.DOWN ||
-                    prevFrameInput?.left == InputState.KeyState.REPEAT) ?
-                    InputState.KeyState.REPEAT :
-                    InputState.KeyState.DOWN;
-            }
-            else
-            {
-                input.left = InputState.KeyState.UP;
-            }
-            if (Input.GetKey(KeyCode.D))
-            {
-                input.right =
-                    (prevFrameInput?.right == InputState.KeyState.DOWN ||
-                    prevFrameInput?.right == InputState.KeyState.REPEAT) ?
-                    InputState.KeyState.REPEAT :
-                    InputState.KeyState.DOWN;
-            }
-            else
-            {
-                input.right = InputState.KeyState.UP;
-            }
-            if (Input.GetKey(KeyCode.W))
-            {
-                input.up =
-                    (prevFrameInput?.up == InputState.KeyState.DOWN ||
-                    prevFrameInput?.up == InputState.KeyState.REPEAT) ?
-                    InputState.KeyState.REPEAT :
-                    InputState.KeyState.DOWN;
-            }
-            else
-            {
-                input.up = InputState.KeyState.UP;
-            }
-            if (Input.GetKey(KeyCode.S))
-            {
-                input.down =
-                    (prevFrameInput?.down == InputState.KeyState.DOWN ||
-                    prevFrameInput?.down == InputState.KeyState.REPEAT) ?
-                    InputState.KeyState.REPEAT :
-                    InputState.KeyState.DOWN;
-            }
-            else
-            {
-                input.down = InputState.KeyState.UP;
-            }
-        }
-        // Controller
-        { 
-        Vector2 zeroMovement = new(0.0f, 0.0f);
-            if (controllerConnected &&
-                input.movement != zeroMovement)
-            {
-                Vector2 stick = Gamepad.current.leftStick.value.normalized;
+            input = new();
+            prevFrameInput = new();
 
-                if (stick.x < 0.0f &&
-                     0.5f >= stick.y &&
-                    -0.5f < stick.y)
+            useController = Gamepad.current != null;
+            controllerConnected = Gamepad.current != null;
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            // Set Controller Mode
+            controllerConnected = Gamepad.current != null;
+
+            if (useController && !controllerConnected) useController = false;
+
+            if (Input.GetKeyDown(KeyCode.F5))
+            {
+                if (useController) useController = false;
+                else useController = controllerConnected;
+            }
+
+            #region Movement
+            input.movement = new(0.0f, 0.0f);
+            // Keyboard
+            if (!useController)
+            {
+                if (Input.GetKey(KeyCode.A))
+                { input.movement.x = -1.0f; }
+                if (Input.GetKey(KeyCode.D))
+                { input.movement.x = 1.0f; }
+            }
+            // Controller
+            else
+            { input.movement = Gamepad.current.leftStick.value; }
+            #endregion
+            #region Direction
+            // Keyboard
+            if (!useController)
+            {
+                if (Input.GetKey(KeyCode.A))
                 {
                     input.left =
-                        (prevFrameInput?.left == InputState.KeyState.DOWN ||
-                        prevFrameInput?.left == InputState.KeyState.REPEAT) ?
-                        InputState.KeyState.REPEAT :
-                        InputState.KeyState.DOWN;
+                        (prevFrameInput?.left == KeyState.DOWN ||
+                        prevFrameInput?.left == KeyState.REPEAT) ?
+                        KeyState.REPEAT :
+                        KeyState.DOWN;
                 }
-                if (stick.x > 0.0f &&
-                     0.5f >= stick.y &&
-                    -0.5f < stick.y)
+                else
+                {
+                    input.left = KeyState.UP;
+                }
+                if (Input.GetKey(KeyCode.D))
                 {
                     input.right =
-                        (prevFrameInput?.right == InputState.KeyState.DOWN ||
-                        prevFrameInput?.right == InputState.KeyState.REPEAT) ?
-                        InputState.KeyState.REPEAT :
-                        InputState.KeyState.DOWN;
+                        (prevFrameInput?.right == KeyState.DOWN ||
+                        prevFrameInput?.right == KeyState.REPEAT) ?
+                        KeyState.REPEAT :
+                        KeyState.DOWN;
                 }
-                if (stick.y > 0.0f &&
-                     0.5f >= stick.x &&
-                    -0.5f < stick.x)
+                else
+                {
+                    input.right = KeyState.UP;
+                }
+                if (Input.GetKey(KeyCode.W))
                 {
                     input.up =
-                        (prevFrameInput?.up == InputState.KeyState.DOWN ||
-                        prevFrameInput?.up == InputState.KeyState.REPEAT) ?
-                        InputState.KeyState.REPEAT :
-                        InputState.KeyState.DOWN;
+                        (prevFrameInput?.up == KeyState.DOWN ||
+                        prevFrameInput?.up == KeyState.REPEAT) ?
+                        KeyState.REPEAT :
+                        KeyState.DOWN;
                 }
-                if (stick.y < 0.0f &&
-                     0.5f >= stick.x &&
-                    -0.5f < stick.x)
+                else
+                {
+                    input.up = KeyState.UP;
+                }
+                if (Input.GetKey(KeyCode.S))
                 {
                     input.down =
-                        (prevFrameInput?.down == InputState.KeyState.DOWN ||
-                        prevFrameInput?.down == InputState.KeyState.REPEAT) ?
-                        InputState.KeyState.REPEAT :
-                        InputState.KeyState.DOWN;
+                        (prevFrameInput?.down == KeyState.DOWN ||
+                        prevFrameInput?.down == KeyState.REPEAT) ?
+                        KeyState.REPEAT :
+                        KeyState.DOWN;
                 }
-            }    
-        }
-        #endregion
-        #region Actions
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            input.dash =
-                (prevFrameInput?.dash == InputState.KeyState.DOWN ||
-                prevFrameInput?.dash == InputState.KeyState.REPEAT) ?
-                InputState.KeyState.REPEAT :
-                InputState.KeyState.DOWN;
-        }
-        else
-        {
-            input.dash = InputState.KeyState.UP;
-        }
+                else
+                {
+                    input.down = KeyState.UP;
+                }
+            }
+            // Controller
+            else
+            {
+                if (controllerConnected)
+                {
+                    Vector2 stick = Gamepad.current.leftStick.value.normalized;
 
-        if (Input.GetKey(KeyCode.Space))
-        {
-            input.jump =
-                (prevFrameInput?.jump == InputState.KeyState.DOWN ||
-                prevFrameInput?.jump == InputState.KeyState.REPEAT) ?
-                InputState.KeyState.REPEAT :
-                InputState.KeyState.DOWN;
-        }
-        else
-        {
-            input.jump = InputState.KeyState.UP;
-        }
-        #endregion
-        #region Attacks
-        if (Input.GetKey(KeyCode.K))
-        {
-            input.S =
-                (prevFrameInput?.S == InputState.KeyState.DOWN ||
-                prevFrameInput?.S == InputState.KeyState.REPEAT) ?
-                InputState.KeyState.REPEAT :
-                InputState.KeyState.DOWN;
-        }
-        else
-        {
-            input.S = InputState.KeyState.UP;
-        }
-        if (Input.GetKey(KeyCode.L))
-        {
-            input.HS =
-                (prevFrameInput?.HS == InputState.KeyState.DOWN ||
-                prevFrameInput?.HS == InputState.KeyState.REPEAT) ?
-                InputState.KeyState.REPEAT :
-                InputState.KeyState.DOWN;
-        }
-        else
-        {
-            input.HS = InputState.KeyState.UP;
-        }
-        #endregion
+                    if (stick.x < 0.0f &&
+                         0.71f >= stick.y &&
+                        -0.71f < stick.y)
+                    {
+                        input.left =
+                            (prevFrameInput?.left == KeyState.DOWN ||
+                            prevFrameInput?.left == KeyState.REPEAT) ?
+                            KeyState.REPEAT :
+                            KeyState.DOWN;
+                    }
+                    else
+                    {
+                        input.left = KeyState.UP;
+                    }
+                    if (stick.x > 0.0f &&
+                         0.71f >= stick.y &&
+                        -0.71f < stick.y)
+                    {
+                        input.right =
+                            (prevFrameInput?.right == KeyState.DOWN ||
+                            prevFrameInput?.right == KeyState.REPEAT) ?
+                            KeyState.REPEAT :
+                            KeyState.DOWN;
+                    }
+                    else
+                    {
+                        input.right = KeyState.UP;
+                    }
+                    if (stick.y > 0.0f &&
+                         0.71f >= stick.x &&
+                        -0.71f < stick.x)
+                    {
+                        input.up =
+                            (prevFrameInput?.up == KeyState.DOWN ||
+                            prevFrameInput?.up == KeyState.REPEAT) ?
+                            KeyState.REPEAT :
+                            KeyState.DOWN;
+                    }
+                    else
+                    {
+                        input.up = KeyState.UP;
+                    }
+                    if (stick.y < 0.0f &&
+                         0.71f >= stick.x &&
+                        -0.71f < stick.x)
+                    {
+                        input.down =
+                            (prevFrameInput?.down == KeyState.DOWN ||
+                            prevFrameInput?.down == KeyState.REPEAT) ?
+                            KeyState.REPEAT :
+                            KeyState.DOWN;
+                    }
+                    else
+                    {
+                        input.down = KeyState.UP;
+                    }
+                }
+            }
+            #endregion
+            #region Actions
+            // Keyboard
+            if (!useController)
+            {
+                if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    input.dash =
+                        (prevFrameInput?.dash == KeyState.DOWN ||
+                        prevFrameInput?.dash == KeyState.REPEAT) ?
+                        KeyState.REPEAT :
+                        KeyState.DOWN;
+                }
+                else
+                {
+                    input.dash = KeyState.UP;
+                }
+                if (Input.GetKey(KeyCode.Space))
+                {
+                    input.jump =
+                        (prevFrameInput?.jump == KeyState.DOWN ||
+                        prevFrameInput?.jump == KeyState.REPEAT) ?
+                        KeyState.REPEAT :
+                        KeyState.DOWN;
+                }
+                else
+                {
+                    input.jump = KeyState.UP;
+                }
+            }
+            // Controller
+            else
+            {
+                if (Gamepad.current.leftShoulder.ReadValue() != .0f)
+                {
+                    input.dash =
+                        (prevFrameInput?.dash == KeyState.DOWN ||
+                        prevFrameInput?.dash == KeyState.REPEAT) ?
+                        KeyState.REPEAT :
+                        KeyState.DOWN;
+                }
+                else
+                {
+                    input.dash = KeyState.UP;
+                }
+                if (Gamepad.current.buttonSouth.ReadValue() != .0f)
+                {
+                    input.jump =
+                        (prevFrameInput?.jump == KeyState.DOWN ||
+                        prevFrameInput?.jump == KeyState.REPEAT) ?
+                        KeyState.REPEAT :
+                        KeyState.DOWN;
+                }
+                else
+                {
+                    input.jump = KeyState.UP;
+                }
+            }
+            #endregion
+            #region Attacks
+            // Keyboard
+            if (!useController)
+            {
+                if (Input.GetKey(KeyCode.K))
+                {
+                    input.S =
+                        (prevFrameInput?.S == KeyState.DOWN ||
+                        prevFrameInput?.S == KeyState.REPEAT) ?
+                        KeyState.REPEAT :
+                        KeyState.DOWN;
+                }
+                else
+                {
+                    input.S = KeyState.UP;
+                }
+                if (Input.GetKey(KeyCode.L))
+                {
+                    input.HS =
+                        (prevFrameInput?.HS == KeyState.DOWN ||
+                        prevFrameInput?.HS == KeyState.REPEAT) ?
+                        KeyState.REPEAT :
+                        KeyState.DOWN;
+                }
+                else
+                {
+                    input.HS = KeyState.UP;
+                }
+            }
+            else
+            {
+                if (Gamepad.current.buttonWest.ReadValue() != .0f)
+                {
+                    input.S =
+                        (prevFrameInput?.S == KeyState.DOWN ||
+                        prevFrameInput?.S == KeyState.REPEAT) ?
+                        KeyState.REPEAT :
+                        KeyState.DOWN;
+                }
+                else
+                {
+                    input.S = KeyState.UP;
+                }
+                if (Gamepad.current.buttonNorth.ReadValue() != .0f)
+                {
+                    input.HS =
+                        (prevFrameInput?.HS == KeyState.DOWN ||
+                        prevFrameInput?.HS == KeyState.REPEAT) ?
+                        KeyState.REPEAT :
+                        KeyState.DOWN;
+                }
+                else
+                {
+                    input.HS = KeyState.UP;
+                }
+            }
+            #endregion
 
-        prevFrameInput = input;
+            prevFrameInput = input;
+        }
     }
-}
 
-[Serializable]
-public class InputState
-{
-    public Vector2 movement;
-    public KeyState up, left, down, right;
-    public KeyState dash, jump;
-    public KeyState S, HS;
-
-    public InputState()
+    [Serializable]
+    public class InputState
     {
-        Reset();
-    }
+        public Vector2 movement;
+        public KeyState up, left, down, right;
+        public KeyState dash, jump;
+        public KeyState S, HS;
 
-    public void Reset()
-    {
-        movement = new(.0f, .0f);
+        public InputState()
+        {
+            Reset();
+        }
 
-        up = KeyState.UP;
-        left = KeyState.UP;
-        down = KeyState.UP;
-        right = KeyState.UP;
+        public void Reset()
+        {
+            movement = new(.0f, .0f);
 
-        dash = KeyState.UP;
-        jump = KeyState.UP;
+            up = KeyState.UP;
+            left = KeyState.UP;
+            down = KeyState.UP;
+            right = KeyState.UP;
 
-        S = KeyState.UP;
-        HS = KeyState.UP;
+            dash = KeyState.UP;
+            jump = KeyState.UP;
+
+            S = KeyState.UP;
+            HS = KeyState.UP;
+        }
     }
 
     public enum KeyState

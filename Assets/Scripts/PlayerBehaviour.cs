@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerBehaviour : MonoBehaviour
 {
@@ -8,7 +7,6 @@ public class PlayerBehaviour : MonoBehaviour
     private float
         maxSpeed,
         baseGravity,
-        turnFrames,
         accelerationFrames,
         decelerationFrames,
         dashSpeed,
@@ -20,11 +18,11 @@ public class PlayerBehaviour : MonoBehaviour
         fallGravity;
 
     private PlayerConfig config;
+    private CustomInputControl.PlayerInputController inputController;
 
     private PFSM.PlayerFSM[] PFSMs;
 
     public PAttack.Attack[] attacks;
-
 
     public Rigidbody2D rigidBody;
 
@@ -44,8 +42,8 @@ public class PlayerBehaviour : MonoBehaviour
     private void Awake()
     {
         rigidBody = GetComponent<Rigidbody2D>();
-
         config = GetComponent<PlayerConfig>();
+        inputController = GetComponent<CustomInputControl.PlayerInputController>();
 
         UpdatePlayerConfig();
 
@@ -54,7 +52,6 @@ public class PlayerBehaviour : MonoBehaviour
         PFSM.MovementFSM moveFSM = new(
             this,
             maxSpeed,
-            turnFrames,
             accelerationFrames,
             decelerationFrames);
         PFSM.DashFSM dashFSM = new(
@@ -92,6 +89,8 @@ public class PlayerBehaviour : MonoBehaviour
     {
         UpdatePlayerConfig();
 
+        SendInput();
+
         currentMoveState = PFSMs[moveFSMIdx].currentState.thisMoveState;
         currentJumpState = PFSMs[jumpFSMIdx].currentState.thisJumpState;
 
@@ -110,7 +109,6 @@ public class PlayerBehaviour : MonoBehaviour
         maxSpeed = config.maxSpeed;
         baseGravity = config.baseGravity;
 
-        turnFrames = config.turnFrames;
         accelerationFrames = config.accelerationFrames;
         decelerationFrames = config.decelerationFrames;
 
@@ -140,23 +138,16 @@ public class PlayerBehaviour : MonoBehaviour
     public void Dash(float speed)
     { SetSpeedX(speed); }
 
-    public PFSM.PlayerFSM GetFSM(uint index)
-    { return PFSMs[index]; }
-
-    public void HandleMovementInput(InputAction.CallbackContext ctx)
+    void SendInput()
     {
-        PFSMs[moveFSMIdx].HandleInput(ctx);
-        Debug.Log(ctx.action.name);
+        foreach(var FSM in PFSMs)
+        {
+            FSM.HandleInput(inputController.input);
+        }
     }
 
-    public void HandleJumpInput(InputAction.CallbackContext ctx)
-    { PFSMs[jumpFSMIdx].HandleInput(ctx); }
-
-    public void HandleDashInput(InputAction.CallbackContext ctx)
-    { PFSMs[dashFSMIdx].HandleInput(ctx); }
-
-    public void HandleAttackInput(InputAction.CallbackContext ctx)
-    { Debug.Log(ctx.action.name); }
+    public PFSM.PlayerFSM GetFSM(uint index)
+    { return PFSMs[index]; }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

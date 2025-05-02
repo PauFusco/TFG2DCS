@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace PFSM
 {
@@ -8,7 +7,6 @@ namespace PFSM
         private readonly float maxSpeed;
 
         public float speed;
-        public float direction;
 
         public WalkState(
             PlayerFSM parentFSM,
@@ -20,31 +18,31 @@ namespace PFSM
             thisMoveState = MoveStateE.WALK;
         }
 
-        public override BaseState HandleInput(InputAction.CallbackContext ctx)
+        public override BaseState HandleInput(CustomInputControl.InputState input)
         {
-            if (ctx.action.name == "Move")
+            Vector2 noMove = new(.0f, .0f);
+            if (input.movement != noMove)
             {
-                if (!ctx.action.inProgress) return MovementFSM.decelerate;
-
-                float speedMult = ctx.ReadValue<Vector2>().x;
-                speed = speedMult * maxSpeed * direction;
-
-                bool speedMultiplierDirection = speedMult >= 0;
-
-                if (speedMultiplierDirection != player.lookDirection)
+                if (player.lookDirection != input.movement.x >= 0)
                 {
-                    player.lookDirection = speedMultiplierDirection;
-
-                    MovementFSM.turn.targetSpeed = speed;
-
-                    MovementFSM.turn.targetDirection =
-                        player.lookDirection ? 1.0f : -1.0f;
-
-                    return MovementFSM.turn;
+                    player.lookDirection = input.movement.x >= 0;
+                    MovementFSM.accelerate.SetData(input.movement.x);
+                    return MovementFSM.accelerate;
                 }
+
+                speed = input.movement.x * maxSpeed;
+            }
+            else
+            {
+                return MovementFSM.decelerate;
             }
 
             return MovementFSM.walk;
+        }
+
+        public void SetData(float speed)
+        {
+            this.speed = speed;
         }
 
         public override void OnEnter()
@@ -53,7 +51,7 @@ namespace PFSM
         public override void Update()
         {
             if (player.GetFSM(player.dashFSMIdx).currentState == DashFSM.idle)
-                player.SetSpeedX(speed * direction);
+                player.SetSpeedX(speed);
         }
 
         public override void FixedUpdate()

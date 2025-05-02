@@ -916,16 +916,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   input:
     movement: {x: 0, y: 0}
-    up: 0
-    left: 0
-    down: 0
-    right: 0
+    up: 2
+    left: 2
+    down: 2
+    right: 2
     dash: 2
     jump: 2
     S: 2
     HS: 2
   useController: 0
-  angle: 0
 --- !u!1 &1566772647
 GameObject:
   m_ObjectHideFlags: 0

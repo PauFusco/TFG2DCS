@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace PFSM
 {
@@ -11,7 +10,6 @@ namespace PFSM
         private float currentFrame;
         private float speedReductionPerFrame;
 
-        public float direction;
         public float speedToReduce;
 
         public DecelerateState(
@@ -26,38 +24,18 @@ namespace PFSM
             this.maxSpeed = maxSpeed;
         }
 
-        public override BaseState HandleInput(InputAction.CallbackContext ctx)
+        public override BaseState HandleInput(CustomInputControl.InputState input)
         {
-            if (ctx.action.name == "Move")
+            Vector2 noMove = new(.0f, .0f);
+            if (input.movement != noMove)
             {
-                if (!ctx.action.inProgress) return MovementFSM.decelerate;
+                float speedMult = input.movement.x;
 
-                float speedMult = ctx.ReadValue<Vector2>().x;
-                bool speedMultiplierDirection = speedMult >= 0;
+                player.lookDirection = speedMult >= 0;
 
-                if (speedMultiplierDirection != player.lookDirection)
-                {
-                    player.lookDirection = speedMultiplierDirection;
+                MovementFSM.accelerate.SetData(speedMult);
 
-                    MovementFSM.turn.targetSpeed = speedMult * maxSpeed;
-
-                    MovementFSM.turn.targetDirection =
-                        player.lookDirection ? 1.0f : -1.0f;
-
-                    return MovementFSM.turn;
-                }
-                else
-                {
-                    player.lookDirection = speedMult >= 0;
-
-                    MovementFSM.accelerate.targetSpeed = speedMult * maxSpeed;
-
-                    MovementFSM.accelerate.direction =
-                        player.lookDirection ? 1.0f : -1.0f;
-
-                    return MovementFSM.accelerate;
-                }
-
+                return MovementFSM.accelerate;
             }
 
             return MovementFSM.decelerate;
@@ -68,7 +46,6 @@ namespace PFSM
             currentFrame = .0f;
 
             speedToReduce = player.rigidBody.linearVelocityX;
-            direction = player.lookDirection ? 1.0f : -1.0f;
 
             speedReductionPerFrame = speedToReduce / decelerationFrames;
         }

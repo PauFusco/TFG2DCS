@@ -20,7 +20,7 @@ namespace PFSM
             thisJumpState = JumpStateE.FREEFALL;
         }
 
-        public override BaseState HandleInput(InputAction.CallbackContext ctx)
+        public override BaseState HandleInput(CustomInputControl.InputState input)
         {
             return JumpFSM.freeFall;
         }
