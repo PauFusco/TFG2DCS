@@ -6,6 +6,8 @@ namespace PFSM
     public class RecoveryState : BaseState
     {
         private PAttack.Attack currentAttack;
+
+        private float chargeMultiplier;
         private float currentFrame;
 
         public RecoveryState(PlayerFSM parentFSM, PlayerBehaviour player) : base(parentFSM, player)
@@ -15,7 +17,9 @@ namespace PFSM
 
         public override BaseState HandleInput(InputState input)
         {
-            if (!currentAttack.cancellable) return AttackFSM.recovery;
+            if (player.GetFSM(player.dashFSMIdx).currentState != DashFSM.idle ||
+                player.GetFSM(player.jumpFSMIdx).currentState != JumpFSM.ground) return AttackFSM.idle;
+            else if (!currentAttack.cancellable) return AttackFSM.recovery;
             else
             {
                 foreach (var attack in currentAttack.cancellableInto)
@@ -29,7 +33,7 @@ namespace PFSM
                         }
                         else
                         {
-                            AttackFSM.anticipation.SetData(attack);
+                            AttackFSM.anticipation.SetData(attack, 1.0f);
                             return AttackFSM.anticipation;
                         }
                     }
@@ -39,8 +43,10 @@ namespace PFSM
             }
         }
 
-        public void SetData(PAttack.Attack attack)
+        public void SetData(PAttack.Attack attack, float chargeMultiplier)
         {
+            this.chargeMultiplier = chargeMultiplier;
+
             currentAttack = attack;
         }
 
@@ -53,7 +59,7 @@ namespace PFSM
 
         public override void Update()
         {
-            if(currentFrame>= currentAttack.recovery)
+            if(currentFrame>= currentAttack.recovery * chargeMultiplier)
             {
                 parentFSM.ChangeState(AttackFSM.idle);
             }

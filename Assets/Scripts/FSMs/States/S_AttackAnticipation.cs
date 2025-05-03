@@ -7,6 +7,7 @@ namespace PFSM
     {
         private PAttack.Attack currentAttack;
 
+        private float chargeMultiplier;
         private float currentFrame;
 
         public AnticipationState(PlayerFSM parentFSM, PlayerBehaviour player) : base(parentFSM, player)
@@ -14,12 +15,15 @@ namespace PFSM
 
         public override BaseState HandleInput(InputState input)
         {
-            return AttackFSM.anticipation;
+            if (player.GetFSM(player.dashFSMIdx).currentState != DashFSM.idle ||
+                player.GetFSM(player.jumpFSMIdx).currentState != JumpFSM.ground) return AttackFSM.idle;
+            else return AttackFSM.anticipation;
         }
 
-        public void SetData(PAttack.Attack attack)
+        public void SetData(PAttack.Attack attack, float chargeMultiplier)
         {
             currentAttack = attack;
+            this.chargeMultiplier = chargeMultiplier;
         }
 
         public override void OnEnter()
@@ -31,9 +35,9 @@ namespace PFSM
 
         public override void Update()
         {
-            if (currentFrame >= currentAttack.anticipation)
+            if (currentFrame >= currentAttack.anticipation * chargeMultiplier)
             {
-                AttackFSM.active.SetData(currentAttack);
+                AttackFSM.active.SetData(currentAttack, chargeMultiplier);
                 parentFSM.ChangeState(AttackFSM.active);
             }
         }

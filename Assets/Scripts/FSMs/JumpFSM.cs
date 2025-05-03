@@ -1,6 +1,4 @@
-﻿using UnityEngine.InputSystem;
-
-namespace PFSM
+﻿namespace PFSM
 {
     public class JumpFSM : PlayerFSM
     {

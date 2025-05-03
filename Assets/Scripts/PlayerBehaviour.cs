@@ -17,7 +17,9 @@ public class PlayerBehaviour : MonoBehaviour
         jumpHeight,
         jumpCutoffFrames,
         fallGravity,
-        chargeFrames;
+        minChargeFrames,
+        effectiveChargeFrames,
+        maxChargeFrames;
 
     private PlayerConfig config;
     private PlayerInputController inputController;
@@ -71,7 +73,9 @@ public class PlayerBehaviour : MonoBehaviour
         PFSM.AttackFSM attaFSM = new(
             this,
             config.attacks,
-            chargeFrames);
+            minChargeFrames,
+            effectiveChargeFrames,
+            maxChargeFrames);
 
         PFSMs[moveFSMIdx] = moveFSM;
         PFSMs[jumpFSMIdx] = jumpFSM;
@@ -126,7 +130,9 @@ public class PlayerBehaviour : MonoBehaviour
         jumpCutoffFrames = config.jumpCutoffFrames;
         fallGravity = config.fallGravityMultiplier;
 
-        chargeFrames = config.chargeFrames;
+        minChargeFrames = config.minChargeFrames;
+        effectiveChargeFrames = config.effectiveChargeFrames;
+        maxChargeFrames = config.maxChargeFrames;
 
         currentSpeed = rigidBody.linearVelocityX;
     }

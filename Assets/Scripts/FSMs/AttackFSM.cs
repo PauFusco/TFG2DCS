@@ -1,8 +1,4 @@
-﻿using CustomInputControl;
-using System.Diagnostics;
-using System.Transactions;
-
-namespace PFSM
+﻿namespace PFSM
 {
     public class AttackFSM : PlayerFSM
     {
@@ -17,13 +13,15 @@ namespace PFSM
         public AttackFSM(
             PlayerBehaviour player,
             PAttack.Attack[] attacks,
-            float chargeFrames)
+            float minChargeFrames,
+            float effectiveChargeFrames,
+            float maxChargeFrames)
         {
             this.player = player;
             AttackFSM.attacks = attacks;
 
             idle = new(this, player);
-            charge = new(this, player, chargeFrames);
+            charge = new(this, player, minChargeFrames, effectiveChargeFrames, maxChargeFrames);
             anticipation = new(this, player);
             active = new(this, player);
             recovery = new(this, player);

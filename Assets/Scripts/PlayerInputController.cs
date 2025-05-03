@@ -321,6 +321,21 @@ namespace CustomInputControl
             HS = KeyState.UP;
         }
 
+        public bool Compare(InputReference inputRef, KeyState keyState)
+        {
+            InputCompareObject inputCompare = new(this, keyState);
+            
+            return
+                inputCompare.up == inputRef.up &&
+                inputCompare.left == inputRef.left &&
+                inputCompare.down == inputRef.down &&
+                inputCompare.right == inputRef.right &&
+                inputCompare.dash == inputRef.dash &&
+                inputCompare.jump == inputRef.jump &&
+                inputCompare.slash == inputRef.slash &&
+                inputCompare.heavySlash == inputRef.heavySlash;
+        }
+
         public bool Compare(InputReference[] inputRef, KeyState keyState)
         {
             InputCompareObject inputCompare = new(this, keyState);
@@ -329,14 +344,15 @@ namespace CustomInputControl
 
             foreach (var attackInput in inputRef)
             {
-                result = inputCompare.up == attackInput.up &&
-                 inputCompare.left == attackInput.left &&
-                 inputCompare.down == attackInput.down &&
-                 inputCompare.right == attackInput.right &&
-                 inputCompare.dash == attackInput.dash &&
-                 inputCompare.jump == attackInput.jump &&
-                 inputCompare.slash == attackInput.slash &&
-                 inputCompare.heavySlash == attackInput.heavySlash;
+                result =
+                    inputCompare.up == attackInput.up &&
+                    inputCompare.left == attackInput.left &&
+                    inputCompare.down == attackInput.down &&
+                    inputCompare.right == attackInput.right &&
+                    inputCompare.dash == attackInput.dash &&
+                    inputCompare.jump == attackInput.jump &&
+                    inputCompare.slash == attackInput.slash &&
+                    inputCompare.heavySlash == attackInput.heavySlash;
 
                 if (result) return true;
             }
@@ -347,9 +363,9 @@ namespace CustomInputControl
 
     public class InputCompareObject
     {
-        public bool up, left, down, right;
-        public bool dash, jump;
-        public bool slash, heavySlash;
+        public bool up, left, down, right = false;
+        public bool dash, jump = false;
+        public bool slash, heavySlash = false;
 
         public InputCompareObject(InputState inputState, KeyState keyState)
         {

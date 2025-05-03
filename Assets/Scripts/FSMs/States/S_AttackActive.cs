@@ -6,6 +6,8 @@ namespace PFSM
     public class ActiveState : BaseState
     {
         private PAttack.Attack currentAttack;
+
+        private float chargeMultiplier;
         private float currentFrame;
 
         public ActiveState(PlayerFSM parentFSM, PlayerBehaviour player) : base(parentFSM, player)
@@ -15,11 +17,14 @@ namespace PFSM
 
         public override BaseState HandleInput(InputState input)
         {
-            return AttackFSM.active;
+            if (player.GetFSM(player.dashFSMIdx).currentState != DashFSM.idle ||
+                player.GetFSM(player.jumpFSMIdx).currentState != JumpFSM.ground) return AttackFSM.idle;
+            else return AttackFSM.active;
         }
 
-        public void SetData(PAttack.Attack attack)
+        public void SetData(PAttack.Attack attack, float chargeMultiplier)
         {
+            this.chargeMultiplier = chargeMultiplier;
             currentAttack = attack;
         }
 
@@ -34,7 +39,7 @@ namespace PFSM
         {
             if (currentFrame >= currentAttack.active)
             {
-                AttackFSM.recovery.SetData(currentAttack);
+                AttackFSM.recovery.SetData(currentAttack, chargeMultiplier);
                 parentFSM.ChangeState(AttackFSM.recovery);
             }
         }

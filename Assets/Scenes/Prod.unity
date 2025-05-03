@@ -899,7 +899,9 @@ MonoBehaviour:
   jumpCutoffFrames: 10
   baseGravity: 2
   fallGravityMultiplier: 8
-  chargeFrames: 50
+  minChargeFrames: 20
+  effectiveChargeFrames: 30
+  maxChargeFrames: 100
   attacks:
   - {fileID: 11400000, guid: 9fb541adae4727f4dbfc598ba123e4b0, type: 2}
   - {fileID: 11400000, guid: 1b2803f09acec764db741e8de9dffb82, type: 2}

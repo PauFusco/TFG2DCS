@@ -13,24 +13,29 @@ namespace PFSM
 
         public override BaseState HandleInput(InputState input)
         {
-            foreach (var attack in AttackFSM.attacks)
+            if (player.GetFSM(player.dashFSMIdx).currentState != DashFSM.idle ||
+                player.GetFSM(player.jumpFSMIdx).currentState != JumpFSM.ground) return AttackFSM.idle;
+            else
             {
-                if (input.Compare(attack.input, KeyState.DOWN))
+                foreach (var attack in AttackFSM.attacks)
                 {
-                    if (attack.chargeable)
+                    if (input.Compare(attack.input, KeyState.DOWN))
                     {
-                        AttackFSM.charge.SetData(attack);
-                        return AttackFSM.charge;
-                    }
-                    else
-                    {
-                        AttackFSM.anticipation.SetData(attack);
-                        return AttackFSM.anticipation;
+                        if (attack.chargeable)
+                        {
+                            AttackFSM.charge.SetData(attack);
+                            return AttackFSM.charge;
+                        }
+                        else
+                        {
+                            AttackFSM.anticipation.SetData(attack, 1.0f);
+                            return AttackFSM.anticipation;
+                        }
                     }
                 }
-            }
 
-            return AttackFSM.idle;
+                return AttackFSM.idle;
+            }
         }
 
         public override void OnEnter()

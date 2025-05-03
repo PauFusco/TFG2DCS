@@ -20,7 +20,6 @@ namespace PFSM
 
         public abstract void OnEnter();
 
-
         public abstract void Update();
 
         public abstract void FixedUpdate();
