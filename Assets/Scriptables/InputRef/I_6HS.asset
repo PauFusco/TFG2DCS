@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 74d152c81f516544aac95893d843b348, type: 3}
-  m_Name: 5S
+  m_Name: I_6HS
   m_EditorClassIdentifier: 
   up: 0
   left: 0
   down: 0
-  right: 0
+  right: 1
   dash: 0
   jump: 0
-  slash: 1
-  heavySlash: 0
+  slash: 0
+  heavySlash: 1

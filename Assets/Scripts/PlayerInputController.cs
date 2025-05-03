@@ -15,7 +15,6 @@ namespace CustomInputControl
         private InputState prevFrameInput;
         private bool controllerConnected;
 
-
         private void Awake()
         {
             input = new();
@@ -321,40 +320,49 @@ namespace CustomInputControl
             HS = KeyState.UP;
         }
 
-        public bool Compare(InputReference inputRef, KeyState keyState)
+        public bool Compare(InputReference[] inputRefs, bool currentPlayerAirborneState)
         {
-            InputCompareObject inputCompare = new(this, keyState);
-            
-            return
-                inputCompare.up == inputRef.up &&
-                inputCompare.left == inputRef.left &&
-                inputCompare.down == inputRef.down &&
-                inputCompare.right == inputRef.right &&
-                inputCompare.dash == inputRef.dash &&
-                inputCompare.jump == inputRef.jump &&
-                inputCompare.slash == inputRef.slash &&
-                inputCompare.heavySlash == inputRef.heavySlash;
+            InputCompareObject currentInput = new(this);
+
+            foreach (var inputRef in inputRefs)
+            {
+                bool result =
+                    currentInput.up == inputRef.up &&
+                    currentInput.left == inputRef.left &&
+                    currentInput.down == inputRef.down &&
+                    currentInput.right == inputRef.right &&
+                    currentInput.dash == inputRef.dash &&
+                    currentInput.jump == inputRef.jump &&
+                    currentInput.slash == inputRef.slash &&
+                    currentInput.heavySlash == inputRef.heavySlash &&
+                    currentPlayerAirborneState == inputRef.airBorne;
+
+                if (result) 
+                    return true;
+            }
+
+            return false;
         }
 
-        public bool Compare(InputReference[] inputRef, KeyState keyState)
+        public bool Compare(InputReference[] inputRefs, KeyState keyState, bool currentPlayerAirborneState)
         {
-            InputCompareObject inputCompare = new(this, keyState);
-
-            bool result;
-
-            foreach (var attackInput in inputRef)
+            foreach (var inputRef in inputRefs)
             {
-                result =
-                    inputCompare.up == attackInput.up &&
-                    inputCompare.left == attackInput.left &&
-                    inputCompare.down == attackInput.down &&
-                    inputCompare.right == attackInput.right &&
-                    inputCompare.dash == attackInput.dash &&
-                    inputCompare.jump == attackInput.jump &&
-                    inputCompare.slash == attackInput.slash &&
-                    inputCompare.heavySlash == attackInput.heavySlash;
+                InputCompareObject currentInput = new(this, inputRef, keyState);
 
-                if (result) return true;
+                bool result =
+                    currentInput.up == inputRef.up &&
+                    currentInput.left == inputRef.left &&
+                    currentInput.down == inputRef.down &&
+                    currentInput.right == inputRef.right &&
+                    currentInput.dash == inputRef.dash &&
+                    currentInput.jump == inputRef.jump &&
+                    currentInput.slash == inputRef.slash &&
+                    currentInput.heavySlash == inputRef.heavySlash &&
+                    currentPlayerAirborneState == inputRef.airBorne;
+
+                if (result)
+                    return true;
             }
 
             return false;
@@ -367,14 +375,26 @@ namespace CustomInputControl
         public bool dash, jump = false;
         public bool slash, heavySlash = false;
 
-        public InputCompareObject(InputState inputState, KeyState keyState)
+        public InputCompareObject(InputState inputState)
         {
-            up = (inputState.up == keyState);
-            left = (inputState.left == keyState);
-            down = (inputState.down == keyState);
-            right = (inputState.right == keyState);
-            dash = (inputState.dash == keyState);
-            jump = (inputState.jump == keyState);
+            up = (inputState.up == KeyState.DOWN || inputState.up == KeyState.REPEAT);
+            left = (inputState.left == KeyState.DOWN || inputState.left == KeyState.REPEAT);
+            down = (inputState.down == KeyState.DOWN || inputState.down == KeyState.REPEAT);
+            right = (inputState.right == KeyState.DOWN || inputState.right == KeyState.REPEAT);
+            dash = (inputState.dash == KeyState.DOWN || inputState.dash == KeyState.REPEAT);
+            jump = (inputState.jump == KeyState.DOWN || inputState.jump == KeyState.REPEAT);
+            slash = (inputState.S == KeyState.DOWN);
+            heavySlash = (inputState.HS == KeyState.DOWN);
+        }
+
+        public InputCompareObject(InputState inputState, InputReference inputRef, KeyState keyState)
+        {
+            up = inputRef.up;
+            left = inputRef.left;
+            down = inputRef.down;
+            right = inputRef.right;
+            dash = inputRef.dash;
+            jump = inputRef.jump;
             slash = (inputState.S == keyState);
             heavySlash = (inputState.HS == keyState);
         }

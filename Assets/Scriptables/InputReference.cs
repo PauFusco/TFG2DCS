@@ -10,5 +10,6 @@ namespace CustomInputControl
         public bool up, left, down, right;
         public bool dash, jump;
         public bool slash, heavySlash;
+        public bool airBorne;
     }
 }

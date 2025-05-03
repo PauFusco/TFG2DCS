@@ -33,7 +33,7 @@ namespace PFSM
         {
             if (player.GetFSM(player.dashFSMIdx).currentState != DashFSM.idle ||
                 player.GetFSM(player.jumpFSMIdx).currentState != JumpFSM.ground) return AttackFSM.idle;
-            else if (!input.Compare(currentAttack.input, KeyState.REPEAT))
+            else if (!input.Compare(currentAttack.input, KeyState.REPEAT, player.airborne))
             {
                 if (currentFrame < minChargeFrames)
                 {

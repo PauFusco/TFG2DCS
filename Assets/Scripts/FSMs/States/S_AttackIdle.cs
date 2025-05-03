@@ -19,7 +19,7 @@ namespace PFSM
             {
                 foreach (var attack in AttackFSM.attacks)
                 {
-                    if (input.Compare(attack.input, KeyState.DOWN))
+                    if (input.Compare(attack.input, player.airborne))
                     {
                         if (attack.chargeable)
                         {

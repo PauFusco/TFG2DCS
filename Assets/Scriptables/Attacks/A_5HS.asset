@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d97a60d445c76aa45bef7ae23f953e80, type: 3}
+  m_Name: A_5HS
+  m_EditorClassIdentifier: 
+  attackName: 5HS
+  anticipation: 40
+  active: 20
+  recovery: 50
+  hitbox: {fileID: 0}
+  input:
+  - {fileID: 11400000, guid: 58905e51870cd9047bf69d45d453bb5a, type: 2}
+  chargeable: 1
+  cancellable: 0
+  cancellableInto: []

@@ -16,10 +16,10 @@ namespace PFSM
         public override BaseState HandleInput(CustomInputControl.InputState input)
         {
             if(input.jump == CustomInputControl.KeyState.DOWN &&
-                player.grounded &&
+                player.airborne &&
                 player.GetFSM(player.dashFSMIdx).currentState == DashFSM.idle)
             {
-                player.grounded = false;
+                player.airborne = false;
                 return JumpFSM.jump;
             }
 

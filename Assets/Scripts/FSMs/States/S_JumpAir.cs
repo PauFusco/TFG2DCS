@@ -63,7 +63,7 @@ namespace PFSM
 
         public override void Update()
         {
-            if (player.grounded)
+            if (player.airborne)
             {
                 parentFSM.ChangeState(JumpFSM.ground);
             }

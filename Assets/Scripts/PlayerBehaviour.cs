@@ -33,7 +33,7 @@ public class PlayerBehaviour : MonoBehaviour
     public PFSM.JumpStateE currentJumpState = new();
 
     public float currentSpeed;
-    public bool grounded;
+    public bool airborne;
     public bool invulnerable;
     public bool lookDirection;
 
@@ -85,7 +85,7 @@ public class PlayerBehaviour : MonoBehaviour
         #region Debug Variables
         currentSpeed = .0f;
 
-        grounded = false;
+        airborne = false;
         invulnerable = false;
         lookDirection = true;
 
@@ -159,20 +159,17 @@ public class PlayerBehaviour : MonoBehaviour
     public void Dash(float speed)
     { SetSpeedX(speed); }
 
-
-
     public PFSM.PlayerFSM GetFSM(uint index)
     { return PFSMs[index]; }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.Equals(floor))
-            grounded = true;
+            airborne = false;
     }
-
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.Equals(floor))
-            grounded = false;
+            airborne = true;
     }
 }

@@ -10,14 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d97a60d445c76aa45bef7ae23f953e80, type: 3}
-  m_Name: 5HS
+  m_Name: A_6HS
   m_EditorClassIdentifier: 
+  attackName: 4HS/6HS
   anticipation: 40
   active: 20
   recovery: 50
   hitbox: {fileID: 0}
   input:
-  - {fileID: 11400000, guid: 58905e51870cd9047bf69d45d453bb5a, type: 2}
+  - {fileID: 11400000, guid: 576735e39c977694fbf104b5737d6a16, type: 2}
+  - {fileID: 11400000, guid: 2cb07ae6166ad0747877a8f2cbcc6421, type: 2}
   chargeable: 1
   cancellable: 0
   cancellableInto: []
