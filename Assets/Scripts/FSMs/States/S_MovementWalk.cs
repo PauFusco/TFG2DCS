@@ -53,6 +53,7 @@ namespace PFSM
             if (player.GetFSM(player.dashFSMIdx).currentState == DashFSM.idle &&
                 player.GetFSM(player.attaFSMIdx).currentState == AttackFSM.idle)
                 player.SetSpeedX(speed);
+
             else player.SetSpeedX(0.0f);
         }
 

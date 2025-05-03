@@ -52,13 +52,14 @@ namespace PFSM
 
         public override void Update()
         {
-            if (currentFrame >= decelerationFrames)
-            {
-                parentFSM.ChangeState(MovementFSM.idle);
-            }
+            if (currentFrame >= decelerationFrames) parentFSM.ChangeState(MovementFSM.idle);
 
-            if (player.GetFSM(player.dashFSMIdx).currentState == DashFSM.idle)
+            if (player.GetFSM(player.dashFSMIdx).currentState == DashFSM.idle &&
+                player.GetFSM(player.attaFSMIdx).currentState == AttackFSM.idle)
                 player.SetSpeedX(speedReductionPerFrame * (decelerationFrames - currentFrame));
+
+            else player.SetSpeedX(0.0f);
+
         }
 
         public override void FixedUpdate()
