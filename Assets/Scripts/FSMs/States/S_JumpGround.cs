@@ -1,7 +1,4 @@
-﻿using UnityEngine.InputSystem;
-using UnityEngine;
-
-namespace PFSM
+﻿namespace PFSM
 {
     public class GroundState : BaseState
     {
@@ -15,11 +12,10 @@ namespace PFSM
 
         public override BaseState HandleInput(CustomInputControl.InputState input)
         {
-            if(input.jump == CustomInputControl.KeyState.DOWN &&
-                player.airborne &&
+            if (input.jump == CustomInputControl.KeyState.REPEAT &&
+                !player.airborne &&
                 player.GetFSM(player.dashFSMIdx).currentState == DashFSM.idle)
             {
-                player.airborne = false;
                 return JumpFSM.jump;
             }
 

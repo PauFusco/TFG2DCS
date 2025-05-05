@@ -44,10 +44,10 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void Awake()
     {
-        rigidBody = GetComponent<Rigidbody2D>();
-        config = GetComponent<PlayerConfig>();
         inputController = GetComponent<PlayerInputController>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        rigidBody = GetComponent<Rigidbody2D>();
+        config = GetComponent<PlayerConfig>();
 
         UpdatePlayerConfig();
 

@@ -40,9 +40,8 @@ namespace PFSM
             if (input.jump == CustomInputControl.KeyState.UP)
             {
                 if (currentFrame < cutoffFrames)
-                {
                     startFreeFall = true;
-                }
+
                 else
                     return JumpFSM.freeFall;
             }
@@ -63,11 +62,6 @@ namespace PFSM
 
         public override void Update()
         {
-            if (player.airborne)
-            {
-                parentFSM.ChangeState(JumpFSM.ground);
-            }
-
             if ((startFreeFall &&
                 currentFrame >= cutoffFrames) ||
                 player.invulnerable)
@@ -79,8 +73,6 @@ namespace PFSM
             {
                 heightReached = true;
             }
-
-
         }
 
         public override void FixedUpdate()
