@@ -13,14 +13,15 @@ MonoBehaviour:
   m_Name: A_5S
   m_EditorClassIdentifier: 
   attackName: 5S
-  anticipation: 10
-  active: 5
-  recovery: 20
+  anticipation: 3
+  active: 2
+  recovery: 12
   hitbox: {fileID: 0}
   input:
   - {fileID: 11400000, guid: d0d64ebad551a6f4187ff6ec032d9bcb, type: 2}
   - {fileID: 11400000, guid: 95a6baeec508a484f9e44d60a274b856, type: 2}
   - {fileID: 11400000, guid: d328937058b7996459b36fb45dbbc2bd, type: 2}
+  airborne: 0
   chargeable: 0
   cancellable: 1
   cancellableInto:
