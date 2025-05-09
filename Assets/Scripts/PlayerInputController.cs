@@ -106,6 +106,7 @@ namespace CustomInputControl
                 }
             }
             // Controller
+            // Uses approximated values of the square of the vector of the joystick (0,71)
             else
             {
                 if (controllerConnected)
@@ -233,7 +234,7 @@ namespace CustomInputControl
             // Keyboard
             if (!useController)
             {
-                if (Input.GetKey(KeyCode.K))
+                if (Input.GetKey(KeyCode.J))
                 {
                     input.S =
                         (prevFrameInput.S == KeyState.DOWN ||
@@ -245,7 +246,7 @@ namespace CustomInputControl
                 {
                     input.S = KeyState.UP;
                 }
-                if (Input.GetKey(KeyCode.L))
+                if (Input.GetKey(KeyCode.K))
                 {
                     input.HS =
                         (prevFrameInput.HS == KeyState.DOWN ||
