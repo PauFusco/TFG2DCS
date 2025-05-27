@@ -4,7 +4,7 @@ namespace EFSM
 {
     public class ActiveState : BaseState
     {
-        private readonly GameObject attackHitbox;
+        private readonly Collider2D attackCollider;
         private readonly float activeFrames;
 
         private float currentFrame;
@@ -15,8 +15,10 @@ namespace EFSM
             GameObject attackHitbox,
             float activeFrames) : base(parentFSM, enemy)
         {
-            this.attackHitbox = attackHitbox;
+            attackCollider = attackHitbox.GetComponent<Collider2D>();
             this.activeFrames = activeFrames;
+
+            attackCollider.enabled = true;
 
             currentFrame = .0f;
         }
@@ -25,7 +27,7 @@ namespace EFSM
         {
             enemy.SetEnemyColor(Color.red);
             currentFrame = .0f;
-            attackHitbox.SetActive(true);
+            attackCollider.enabled = true;
         }
 
         public override void Update()
@@ -43,7 +45,7 @@ namespace EFSM
 
         public override void OnExit()
         {
-            attackHitbox.SetActive(false);
+            attackCollider.enabled = false;
         }
     }
 }
