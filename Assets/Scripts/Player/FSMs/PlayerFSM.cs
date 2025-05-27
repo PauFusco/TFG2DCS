@@ -35,13 +35,11 @@ namespace PFSM
 
         public virtual void ChangeState(BaseState state)
         {
-            var prevState = currentState;
-            var postState = state;
-
-            prevState.OnExit();
-            postState.OnEnter();
-
+            currentState.OnExit();
+            
             currentState = state;
+            
+            currentState.OnEnter();
         }
     }
 }

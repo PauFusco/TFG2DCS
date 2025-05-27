@@ -15,7 +15,7 @@ MonoBehaviour:
   attackName: 5S
   anticipation: 3
   active: 2
-  recovery: 12
+  recovery: 7
   hitbox: {fileID: 0}
   input:
   - {fileID: 11400000, guid: d0d64ebad551a6f4187ff6ec032d9bcb, type: 2}

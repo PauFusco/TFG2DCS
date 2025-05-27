@@ -10,19 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d97a60d445c76aa45bef7ae23f953e80, type: 3}
-  m_Name: A_5SS
+  m_Name: A_j.2S
   m_EditorClassIdentifier: 
-  attackName: 5SS
-  anticipation: 4
-  active: 3
+  attackName: j.2S
+  anticipation: 3
+  active: 5
   recovery: 9
   hitbox: {fileID: 0}
-  input:
-  - {fileID: 11400000, guid: d0d64ebad551a6f4187ff6ec032d9bcb, type: 2}
-  - {fileID: 11400000, guid: 95a6baeec508a484f9e44d60a274b856, type: 2}
-  - {fileID: 11400000, guid: d328937058b7996459b36fb45dbbc2bd, type: 2}
-  airborne: 0
+  input: []
+  airborne: 1
   chargeable: 0
   cancellable: 1
-  cancellableInto:
-  - {fileID: 11400000, guid: a3e4fc9307bab8644b1432e43ae39ee1, type: 2}
+  cancellableInto: []
