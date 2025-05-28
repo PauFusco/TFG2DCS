@@ -187,6 +187,7 @@ namespace CustomInputControl
                 {
                     input.dash = KeyState.UP;
                 }
+
                 if (Input.GetKey(KeyCode.Space))
                 {
                     input.jump =
@@ -198,6 +199,19 @@ namespace CustomInputControl
                 else
                 {
                     input.jump = KeyState.UP;
+                }
+
+                if(Input.GetKey(KeyCode.L))
+                {
+                    input.parry =
+                        (prevFrameInput?.parry == KeyState.DOWN ||
+                        prevFrameInput?.parry == KeyState.REPEAT) ?
+                        KeyState.REPEAT :
+                        KeyState.DOWN;
+                }
+                else
+                {
+                    input.parry = KeyState.UP;
                 }
             }
             // Controller
@@ -215,6 +229,7 @@ namespace CustomInputControl
                 {
                     input.dash = KeyState.UP;
                 }
+
                 if (Gamepad.current.buttonSouth.ReadValue() != .0f)
                 {
                     input.jump =
@@ -226,6 +241,19 @@ namespace CustomInputControl
                 else
                 {
                     input.jump = KeyState.UP;
+                }
+
+                if (Gamepad.current.rightShoulder.ReadValue() != .0f)
+                {
+                    input.parry =
+                        (prevFrameInput?.parry == KeyState.DOWN ||
+                        prevFrameInput?.parry == KeyState.REPEAT) ?
+                        KeyState.REPEAT :
+                        KeyState.DOWN;
+                }
+                else
+                {
+                    input.parry = KeyState.UP;
                 }
             }
             #endregion
@@ -296,7 +324,7 @@ namespace CustomInputControl
     {
         public Vector2 movement;
         public KeyState up, left, down, right;
-        public KeyState dash, jump;
+        public KeyState dash, jump, parry;
         public KeyState S, HS;
 
         public InputState()
@@ -315,6 +343,7 @@ namespace CustomInputControl
 
             dash = KeyState.UP;
             jump = KeyState.UP;
+            parry = KeyState.UP;
 
             S = KeyState.UP;
             HS = KeyState.UP;
@@ -333,6 +362,7 @@ namespace CustomInputControl
                     currentInput.right == inputRef.right &&
                     currentInput.dash == inputRef.dash &&
                     currentInput.jump == inputRef.jump &&
+                    currentInput.parry == inputRef.parry &&
                     currentInput.slash == inputRef.slash &&
                     currentInput.heavySlash == inputRef.heavySlash &&
                     currentPlayerAirborneState == inputRef.airBorne;
@@ -372,7 +402,7 @@ namespace CustomInputControl
     public class InputCompareObject
     {
         public bool up, left, down, right = false;
-        public bool dash, jump = false;
+        public bool dash, jump, parry = false;
         public bool slash, heavySlash = false;
 
         public InputCompareObject(InputState inputState)
@@ -383,6 +413,7 @@ namespace CustomInputControl
             right = (inputState.right == KeyState.DOWN || inputState.right == KeyState.REPEAT);
             dash = (inputState.dash == KeyState.DOWN || inputState.dash == KeyState.REPEAT);
             jump = (inputState.jump == KeyState.DOWN || inputState.jump == KeyState.REPEAT);
+            parry = (inputState.parry == KeyState.DOWN || inputState.parry == KeyState.REPEAT);
             slash = (inputState.S == KeyState.DOWN);
             heavySlash = (inputState.HS == KeyState.DOWN);
         }
@@ -395,6 +426,7 @@ namespace CustomInputControl
             right = inputRef.right;
             dash = inputRef.dash;
             jump = inputRef.jump;
+            parry = inputRef.parry;
             slash = (inputState.S == keyState);
             heavySlash = (inputState.HS == keyState);
         }

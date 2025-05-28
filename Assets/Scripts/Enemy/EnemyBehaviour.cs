@@ -8,7 +8,9 @@ public class EnemyBehaviour : MonoBehaviour
         attackCooldown,
         anticipationFrames,
         activeFrames,
-        recoveryFrames;
+        recoveryFrames,
+        staggerFrames,
+        stunFrames;
 
     private EnemyConfig config;
 
@@ -31,7 +33,8 @@ public class EnemyBehaviour : MonoBehaviour
             attackCooldown,
             anticipationFrames,
             activeFrames,
-            recoveryFrames);
+            recoveryFrames,
+            staggerFrames);
     }
 
     private void Update()
@@ -44,12 +47,19 @@ public class EnemyBehaviour : MonoBehaviour
         attackFSM.FixedUpdate();
     }
 
+    public void BeParriedCasual()
+    {
+        attackFSM.ChangeState(EFSM.AttackFSM.stagger);
+    }
+
     void UpdateConfig()
     {
         attackCooldown = config.attackCooldown;
         anticipationFrames = config.anticipationFrames;
         activeFrames = config.activeFrames;
         recoveryFrames = config.recoveryFrames;
+        staggerFrames = config.staggerFrames;
+        stunFrames = config.stunFrames;
     }
 
     public void SetEnemyColor(Color color)

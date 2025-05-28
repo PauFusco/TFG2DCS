@@ -40,7 +40,5 @@ namespace EFSM
 
         public override void OnExit()
         { }
-
-
     }
 }
