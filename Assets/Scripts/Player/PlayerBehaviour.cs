@@ -1,4 +1,5 @@
 using CustomInputControl;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
@@ -42,6 +43,8 @@ public class PlayerBehaviour : MonoBehaviour
     public readonly uint dashFSMIdx = 2;
     public readonly uint attaFSMIdx = 3;
 
+    public GameObject[] attackHitboxObjs;
+
     private void Awake()
     {
         inputController = GetComponent<PlayerInputController>();
@@ -50,6 +53,7 @@ public class PlayerBehaviour : MonoBehaviour
         config = GetComponent<PlayerConfig>();
 
         UpdatePlayerConfig();
+        SpawnAttackHitboxObjs();
 
         PFSMs = new PFSM.PlayerFSM[4];
 
@@ -143,6 +147,29 @@ public class PlayerBehaviour : MonoBehaviour
         {
             FSM.HandleInput(inputController.input);
         }
+    }
+
+    private void SpawnAttackHitboxObjs()
+    {
+        attackHitboxObjs = new GameObject[config.attacks.Length];
+
+        for (int i = 0; i < config.attacks.Length; i++)
+        {
+            attackHitboxObjs[i] = (GameObject)Instantiate(config.attacks[i].hitbox, transform);
+
+            attackHitboxObjs[i].SetActive(false);
+        }
+    }
+    public void EnableCurrentAttackCollider(int currentAttackIdx)
+    {
+        attackHitboxObjs[currentAttackIdx].SetActive(true);
+        attackHitboxObjs[currentAttackIdx].GetComponent<Collider2D>().enabled = true;
+    }
+
+    public void DisableCurrentAttackCollider(int currentAttackIdx)
+    {
+        attackHitboxObjs[currentAttackIdx].SetActive(false);
+        attackHitboxObjs[currentAttackIdx].GetComponent<Collider2D>().enabled = false;
     }
 
     public void SetPlayerColor(Color color)

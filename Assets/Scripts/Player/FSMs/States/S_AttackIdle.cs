@@ -17,18 +17,20 @@ namespace PFSM
                 player.GetFSM(player.jumpFSMIdx).currentState != JumpFSM.ground) return AttackFSM.idle;
             else
             {
-                foreach (var attack in AttackFSM.attacks)
+                for (int i = 0; i < AttackFSM.attacks.Length; i++)
                 {
-                    if (input.Compare(attack.input, player.airborne))
+                    if (input.Compare(AttackFSM.attacks[i].input, player.airborne))
                     {
-                        if (attack.chargeable)
+                        if (AttackFSM.attacks[i].chargeable)
                         {
-                            AttackFSM.charge.SetData(attack);
+                            AttackFSM.charge.SetData(AttackFSM.attacks[i]);
+                            ((AttackFSM)parentFSM).currentAttack = i;
                             return AttackFSM.charge;
                         }
                         else
                         {
-                            AttackFSM.anticipation.SetData(attack, 1.0f);
+                            AttackFSM.anticipation.SetData(AttackFSM.attacks[i], 1.0f);
+                            ((AttackFSM)parentFSM).currentAttack = i;
                             return AttackFSM.anticipation;
                         }
                     }
@@ -41,6 +43,7 @@ namespace PFSM
         public override void OnEnter()
         {
             player.SetPlayerColor(Color.white);
+            ((AttackFSM)parentFSM).currentAttack = -1;
         }
 
         public override void Update()
@@ -50,6 +53,8 @@ namespace PFSM
         { }
 
         public override void OnExit()
-        { }
+        {
+            Debug.Log(((AttackFSM)parentFSM).currentAttack);
+        }
     }
 }

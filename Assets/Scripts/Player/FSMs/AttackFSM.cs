@@ -3,6 +3,7 @@
     public class AttackFSM : PlayerFSM
     {
         public static PAttack.Attack[] attacks;
+        public int currentAttack;
 
         public static AIdleState idle;
         public static ChargeState charge;
@@ -27,6 +28,7 @@
             recovery = new(this, player);
 
             currentState = idle;
+            currentAttack = -1;
         }
     }
 }

@@ -24,7 +24,7 @@ namespace EFSM
 
     public class StaggerState : BaseState
     {
-        private float staggerFrames;
+        private readonly float staggerFrames;
 
         private float currentFrame;
 

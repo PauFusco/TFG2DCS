@@ -16,7 +16,7 @@ MonoBehaviour:
   anticipation: 3
   active: 2
   recovery: 7
-  hitbox: {fileID: 0}
+  hitbox: {fileID: 2699706844854387602, guid: 5903864f9063e9d42a64754eb524169b, type: 3}
   input:
   - {fileID: 11400000, guid: d0d64ebad551a6f4187ff6ec032d9bcb, type: 2}
   - {fileID: 11400000, guid: 95a6baeec508a484f9e44d60a274b856, type: 2}

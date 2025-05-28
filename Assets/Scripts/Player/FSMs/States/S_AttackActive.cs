@@ -32,6 +32,8 @@ namespace PFSM
         {
             player.SetPlayerColor(Color.red);
 
+            player.EnableCurrentAttackCollider(((AttackFSM)parentFSM).currentAttack);
+
             currentFrame = .0f;
         }
 
@@ -50,6 +52,8 @@ namespace PFSM
         }
 
         public override void OnExit()
-        { }
+        {
+            player.DisableCurrentAttackCollider(((AttackFSM)parentFSM).currentAttack);
+        }
     }
 }
