@@ -68,7 +68,7 @@ namespace PFSM
             player.invulnerable = false;
 
             // Set X speed to 0?
-            player.rigidBody.linearVelocityX = prevSpeed;
+            player.SetSpeedX(prevSpeed);
         }
     }
 }

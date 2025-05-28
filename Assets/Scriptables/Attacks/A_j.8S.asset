@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d97a60d445c76aa45bef7ae23f953e80, type: 3}
   m_Name: A_j.8S
   m_EditorClassIdentifier: 
-  attackName: j.5S
+  attackName: j.8S
   anticipation: 7
   active: 4
   recovery: 15
   hitbox: {fileID: 2699706844854387602, guid: 5903864f9063e9d42a64754eb524169b, type: 3}
-  input: []
+  input:
+  - {fileID: 11400000, guid: e8306fbdb0db3d041b39abb6a6550dad, type: 2}
   airborne: 1
   chargeable: 0
   cancellable: 1

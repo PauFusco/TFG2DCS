@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackName: Parry
   anticipation: 3
-  active: 15
-  recovery: 2
+  active: 2
+  recovery: 8
   hitbox: {fileID: 7708672096997985639, guid: a6e466e98ddcdfb489a4a21243386f49, type: 3}
   input:
   - {fileID: 11400000, guid: 4e96456c1ab6eb4418c9041ac61f6787, type: 2}

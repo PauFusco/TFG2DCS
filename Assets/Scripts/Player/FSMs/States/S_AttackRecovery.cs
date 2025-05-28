@@ -17,8 +17,7 @@ namespace PFSM
 
         public override BaseState HandleInput(InputState input)
         {
-            if (player.GetFSM(player.dashFSMIdx).currentState != DashFSM.idle ||
-                player.GetFSM(player.jumpFSMIdx).currentState != JumpFSM.ground) return AttackFSM.idle;
+            if (player.GetFSM(player.dashFSMIdx).currentState != DashFSM.idle) return AttackFSM.idle;
             else if (!currentAttack.cancellable) return AttackFSM.recovery;
             else
             {
@@ -59,7 +58,7 @@ namespace PFSM
 
         public override void Update()
         {
-            if(currentFrame>= currentAttack.recovery * chargeMultiplier)
+            if (currentFrame >= currentAttack.recovery * chargeMultiplier)
             {
                 parentFSM.ChangeState(AttackFSM.idle);
             }

@@ -360,12 +360,10 @@ namespace CustomInputControl
                     currentInput.left == inputRef.left &&
                     currentInput.down == inputRef.down &&
                     currentInput.right == inputRef.right &&
-                    currentInput.dash == inputRef.dash &&
-                    currentInput.jump == inputRef.jump &&
                     currentInput.parry == inputRef.parry &&
                     currentInput.slash == inputRef.slash &&
                     currentInput.heavySlash == inputRef.heavySlash &&
-                    currentPlayerAirborneState == inputRef.airBorne;
+                    currentPlayerAirborneState == inputRef.airborne;
 
                 if (result) 
                     return true;
@@ -385,11 +383,10 @@ namespace CustomInputControl
                     currentInput.left == inputRef.left &&
                     currentInput.down == inputRef.down &&
                     currentInput.right == inputRef.right &&
-                    currentInput.dash == inputRef.dash &&
-                    currentInput.jump == inputRef.jump &&
+                    currentInput.parry == inputRef.parry &&
                     currentInput.slash == inputRef.slash &&
                     currentInput.heavySlash == inputRef.heavySlash &&
-                    currentPlayerAirborneState == inputRef.airBorne;
+                    currentPlayerAirborneState == inputRef.airborne;
 
                 if (result)
                     return true;

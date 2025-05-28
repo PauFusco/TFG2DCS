@@ -17,7 +17,10 @@ MonoBehaviour:
   active: 5
   recovery: 11
   hitbox: {fileID: 2699706844854387602, guid: 5903864f9063e9d42a64754eb524169b, type: 3}
-  input: []
+  input:
+  - {fileID: 11400000, guid: 15302cff0ae6c3549a58db4f0723d8dd, type: 2}
+  - {fileID: 11400000, guid: fa7d52b5da6ea7b459b7bb3f4c99625e, type: 2}
+  - {fileID: 11400000, guid: a8f79773068f6f4408ddc571f86999c4, type: 2}
   airborne: 1
   chargeable: 0
   cancellable: 1

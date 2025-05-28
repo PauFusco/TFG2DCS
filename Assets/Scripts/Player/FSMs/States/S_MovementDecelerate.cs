@@ -57,8 +57,8 @@ namespace PFSM
             if (player.GetFSM(player.dashFSMIdx).currentState == DashFSM.idle &&
                 player.GetFSM(player.attaFSMIdx).currentState == AttackFSM.idle)
                 player.SetSpeedX(speedReductionPerFrame * (decelerationFrames - currentFrame));
-
-            else player.SetSpeedX(0.0f);
+            else
+                parentFSM.ChangeState(MovementFSM.decelerate);
 
         }
 

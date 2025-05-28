@@ -1,6 +1,3 @@
-using UnityEngine;
-using UnityEngine.InputSystem;
-
 namespace PFSM
 {
     public class JumpState : BaseState
