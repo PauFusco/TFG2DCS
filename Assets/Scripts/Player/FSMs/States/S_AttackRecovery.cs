@@ -21,19 +21,27 @@ namespace PFSM
             else if (!currentAttack.cancellable) return AttackFSM.recovery;
             else
             {
-                foreach (var attack in currentAttack.cancellableInto)
+                foreach (var cancellableIntoAttack in currentAttack.cancellableInto)
                 {
-                    if (input.Compare(attack.input, player.airborne))
+                    if (input.Compare(cancellableIntoAttack.input, player.airborne))
                     {
-                        if (attack.chargeable)
+                        for (int i = 0; i < AttackFSM.attacks.Length; i++)
                         {
-                            AttackFSM.charge.SetData(attack);
-                            return AttackFSM.charge;
-                        }
-                        else
-                        {
-                            AttackFSM.anticipation.SetData(attack, 1.0f);
-                            return AttackFSM.anticipation;
+                            if (AttackFSM.attacks[i] == cancellableIntoAttack)
+                            {
+                                ((AttackFSM)parentFSM).currentAttack = i;
+
+                                if (cancellableIntoAttack.chargeable)
+                                {
+                                    AttackFSM.charge.SetData(cancellableIntoAttack);
+                                    return AttackFSM.charge;
+                                }
+                                else
+                                {
+                                    AttackFSM.anticipation.SetData(cancellableIntoAttack, 1.0f);
+                                    return AttackFSM.anticipation;
+                                }
+                            }
                         }
                     }
                 }

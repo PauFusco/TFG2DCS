@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5053636865161579911}
   - component: {fileID: 2639341744025357907}
   - component: {fileID: 4861264952737229099}
+  - component: {fileID: 3124957897994526601}
   m_Layer: 9
   m_Name: PF_Parry
   m_TagString: Untagged
@@ -134,3 +135,15 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &3124957897994526601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7708672096997985639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c19eb2a9d03ad0043a58e955519e0517, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

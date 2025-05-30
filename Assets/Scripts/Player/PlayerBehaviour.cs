@@ -33,10 +33,10 @@ public class PlayerBehaviour : MonoBehaviour
     public PFSM.MoveStateE currentMoveState = new();
     public PFSM.JumpStateE currentJumpState = new();
 
-    public float currentSpeed;
     public bool airborne;
     public bool invulnerable;
     public bool lookDirection;
+    public float currentSpeed;
 
     public readonly uint moveFSMIdx = 0;
     public readonly uint jumpFSMIdx = 1;
@@ -162,6 +162,8 @@ public class PlayerBehaviour : MonoBehaviour
     }
     public void EnableCurrentAttackCollider(int currentAttackIdx)
     {
+        attackHitboxObjs[currentAttackIdx].GetComponent<AttackBehaviour>().UpdateDirection(lookDirection);
+
         attackHitboxObjs[currentAttackIdx].SetActive(true);
         attackHitboxObjs[currentAttackIdx].GetComponent<Collider2D>().enabled = true;
     }

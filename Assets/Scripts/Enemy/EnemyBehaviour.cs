@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class EnemyBehaviour : MonoBehaviour
@@ -19,6 +20,8 @@ public class EnemyBehaviour : MonoBehaviour
     private Rigidbody2D rigidBody;
     private SpriteRenderer spriteRenderer;
 
+    [SerializeField] private uint charge, maxCharge;
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -34,7 +37,8 @@ public class EnemyBehaviour : MonoBehaviour
             anticipationFrames,
             activeFrames,
             recoveryFrames,
-            staggerFrames);
+            staggerFrames,
+            stunFrames);
     }
 
     private void Update()
@@ -49,7 +53,27 @@ public class EnemyBehaviour : MonoBehaviour
 
     public void BeParriedCasual()
     {
-        attackFSM.ChangeState(EFSM.AttackFSM.stagger);
+        IncreaseCharge(25);
+        
+    }
+
+    public void IncreaseCharge(uint amount)
+    {
+        charge += amount;
+        if (charge < maxCharge)
+        {
+            attackFSM.ChangeState(EFSM.AttackFSM.stagger);
+        }
+        else
+        {
+            charge = maxCharge;
+            attackFSM.ChangeState(EFSM.AttackFSM.stun);
+        }
+    }
+
+    public void ResetCharge()
+    {
+        charge = 0;
     }
 
     void UpdateConfig()

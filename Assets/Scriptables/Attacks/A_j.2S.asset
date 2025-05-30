@@ -16,7 +16,7 @@ MonoBehaviour:
   anticipation: 3
   active: 5
   recovery: 9
-  hitbox: {fileID: 2699706844854387602, guid: 5903864f9063e9d42a64754eb524169b, type: 3}
+  hitbox: {fileID: 2699706844854387602, guid: e3f104e7b7c29614097e31843369317f, type: 3}
   input:
   - {fileID: 11400000, guid: c7a99d29b3a3bc547a34653ce00b9724, type: 2}
   airborne: 1

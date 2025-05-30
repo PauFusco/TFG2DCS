@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5495981096902915530}
   - component: {fileID: 6980246083845146937}
   - component: {fileID: 8173917466865675234}
+  - component: {fileID: 1555743011778413356}
   m_Layer: 8
   m_Name: PF_6HS
   m_TagString: Untagged
@@ -134,3 +135,15 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1555743011778413356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424771906816775483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c19eb2a9d03ad0043a58e955519e0517, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

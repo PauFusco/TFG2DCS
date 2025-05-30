@@ -663,6 +663,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackHitbox: {fileID: 809175942}
+  charge: 0
+  maxCharge: 100
 --- !u!114 &816378695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -679,8 +681,8 @@ MonoBehaviour:
   anticipationFrames: 15
   activeFrames: 8
   recoveryFrames: 30
-  staggerFrames: 60
-  stunFrames: 0
+  staggerFrames: 45
+  stunFrames: 180
 --- !u!1 &846769347
 GameObject:
   m_ObjectHideFlags: 0
@@ -1236,10 +1238,10 @@ MonoBehaviour:
   rigidBody: {fileID: 964720860}
   currentMoveState: 0
   currentJumpState: 0
-  currentSpeed: 0
   airborne: 0
   invulnerable: 0
   lookDirection: 0
+  currentSpeed: 0
   attackHitboxObjs: []
 --- !u!114 &964720865
 MonoBehaviour:

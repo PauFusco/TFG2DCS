@@ -11,6 +11,7 @@ namespace EFSM
         public static ActiveState active;
         public static RecoveryState recovery;
         public static StaggerState stagger;
+        public static StunState stun;
 
         protected EnemyBehaviour enemy;
         protected GameObject attackHitbox;
@@ -22,7 +23,8 @@ namespace EFSM
             float anticipationFrames,
             float activeFrames,
             float recoveryFrames,
-            float staggerFrames)
+            float staggerFrames,
+            float stunFrames)
         {
             this.enemy = enemy;
             this.attackHitbox = attackHitbox;
@@ -32,6 +34,7 @@ namespace EFSM
             active = new(this, enemy, attackHitbox, activeFrames);
             recovery = new(this, enemy, recoveryFrames);
             stagger = new(this, enemy, staggerFrames);
+            stun = new(this, enemy, stunFrames);
 
             currentState = idle;
         }
