@@ -21,8 +21,8 @@ namespace EFSM
 
             attackCollider = attackHitbox.GetComponent<Collider2D>();
 
-            attackHitbox.SetActive(true);
-            attackCollider.enabled = true;
+            attackHitbox.SetActive(false);
+            attackCollider.enabled = false;
 
             currentFrame = .0f;
         }

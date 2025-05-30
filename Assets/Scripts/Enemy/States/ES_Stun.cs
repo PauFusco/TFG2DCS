@@ -1,33 +1,30 @@
-﻿using UnityEngine;
-
-namespace EFSM
+﻿namespace EFSM
 {
-    public class StaggerState : BaseState
+    public class StunState : BaseState
     {
-        private readonly float staggerFrames;
+        private readonly float stunFrames;
 
         private float currentFrame;
 
-        public StaggerState(
+        public StunState(
             AttackFSM parentFSM,
             EnemyBehaviour enemy,
-            float staggerFrames)
+            float stunFrames)
             : base(parentFSM, enemy)
         {
-            this.staggerFrames = staggerFrames;
+            this.stunFrames = stunFrames;
 
             currentFrame = .0f;
         }
 
         public override void OnEnter()
         {
-            enemy.SetEnemyColor(Color.yellow);
             currentFrame = .0f;
         }
 
         public override void Update()
         {
-            if (currentFrame >= staggerFrames)
+            if(currentFrame > stunFrames)
             {
                 parentFSM.ChangeState(AttackFSM.idle);
             }
@@ -39,6 +36,8 @@ namespace EFSM
         }
 
         public override void OnExit()
-        { }
+        {
+            enemy.ResetCharge();
+        }
     }
 }
