@@ -27,7 +27,7 @@ namespace PFSM
 
         public override void OnEnter()
         {
-            player.rigidBody.gravityScale = fallGravityMultiplier;
+            player.GetRigidbody().gravityScale = fallGravityMultiplier;
         }
 
         public override void Update()
@@ -37,13 +37,13 @@ namespace PFSM
                 parentFSM.ChangeState(JumpFSM.ground);
             }
 
-            if(player.rigidBody.gravityScale != 0)
+            if(player.GetRigidbody().gravityScale != 0)
             {
-                if (player.invulnerable) player.rigidBody.gravityScale = .0f;
+                if (player.invulnerable) player.GetRigidbody().gravityScale = .0f;
             }
             else
             {
-                if (!player.invulnerable) player.rigidBody.gravityScale = fallGravityMultiplier;
+                if (!player.invulnerable) player.GetRigidbody().gravityScale = fallGravityMultiplier;
             }
         }
 
@@ -52,7 +52,7 @@ namespace PFSM
 
         public override void OnExit()
         {
-            player.rigidBody.gravityScale = baseGravityMultiplier;
+            player.GetRigidbody().gravityScale = baseGravityMultiplier;
         }
 
     }

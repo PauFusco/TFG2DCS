@@ -61,8 +61,8 @@ namespace PFSM
                 parentFSM.ChangeState(MovementFSM.walk);
             }
 
-            if (player.GetFSM(player.dashFSMIdx).currentState == DashFSM.idle &&
-                player.GetFSM(player.attaFSMIdx).currentState == AttackFSM.idle)
+            if (player.GetFSM(PlayerFSMControl.dashFSMIdx).currentState == DashFSM.idle &&
+                player.GetFSM(PlayerFSMControl.attaFSMIdx).currentState == AttackFSM.idle)
                 player.SetSpeedX(targetSpeed / accelerationFrames * currentFrame);
             else
                 parentFSM.ChangeState(MovementFSM.decelerate);

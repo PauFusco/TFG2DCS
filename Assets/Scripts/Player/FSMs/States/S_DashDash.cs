@@ -35,9 +35,9 @@ namespace PFSM
         {
             player.SetSpeedY(.0f);
             player.invulnerable = true;
-            player.rigidBody.gravityScale = .0f;
+            player.GetRigidbody().gravityScale = .0f;
 
-            prevSpeed = player.rigidBody.linearVelocityX;
+            prevSpeed = player.GetRigidbody().linearVelocityX;
          
             currentFrame = .0f;
         }
@@ -49,9 +49,9 @@ namespace PFSM
                 parentFSM.ChangeState(DashFSM.idle);
             }
 
-            if (player.rigidBody.gravityScale != .0f)
+            if (player.GetRigidbody().gravityScale != .0f)
             {
-                player.rigidBody.gravityScale = .0f;
+                player.GetRigidbody().gravityScale = .0f;
             }
         }
 

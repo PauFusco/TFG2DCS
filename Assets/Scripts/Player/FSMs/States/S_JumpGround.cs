@@ -14,7 +14,7 @@
         {
             if (input.jump == CustomInputControl.KeyState.REPEAT &&
                 !player.airborne &&
-                player.GetFSM(player.dashFSMIdx).currentState == DashFSM.idle)
+                player.GetFSM(PlayerFSMControl.dashFSMIdx).currentState == DashFSM.idle)
             {
                 return JumpFSM.jump;
             }

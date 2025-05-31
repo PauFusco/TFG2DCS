@@ -50,8 +50,8 @@ namespace PFSM
 
         public override void Update()
         {
-            if (player.GetFSM(player.dashFSMIdx).currentState == DashFSM.idle &&
-                player.GetFSM(player.attaFSMIdx).currentState == AttackFSM.idle)
+            if (player.GetFSM(PlayerFSMControl.dashFSMIdx).currentState == DashFSM.idle &&
+                player.GetFSM(PlayerFSMControl.attaFSMIdx).currentState == AttackFSM.idle)
                 player.SetSpeedX(speed);
             else
                 parentFSM.ChangeState(MovementFSM.decelerate);

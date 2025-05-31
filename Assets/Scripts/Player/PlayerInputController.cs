@@ -7,9 +7,9 @@ namespace CustomInputControl
     [Serializable]
     public class PlayerInputController : MonoBehaviour
     {
-        public InputState input;
-
         [SerializeField] private bool useController;
+
+        public InputState input;
 
         private InputState prevFrameInput;
         private bool controllerConnected;
@@ -201,7 +201,7 @@ namespace CustomInputControl
                     input.jump = KeyState.UP;
                 }
 
-                if(Input.GetKey(KeyCode.L))
+                if (Input.GetKey(KeyCode.L))
                 {
                     input.parry =
                         (prevFrameInput?.parry == KeyState.DOWN ||
@@ -365,7 +365,7 @@ namespace CustomInputControl
                     currentInput.heavySlash == inputRef.heavySlash &&
                     currentPlayerAirborneState == inputRef.airborne;
 
-                if (result) 
+                if (result)
                     return true;
             }
 

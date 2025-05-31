@@ -1078,9 +1078,10 @@ GameObject:
   - component: {fileID: 964720861}
   - component: {fileID: 964720865}
   - component: {fileID: 964720864}
+  - component: {fileID: 964720866}
   - component: {fileID: 964720860}
   - component: {fileID: 964720859}
-  - component: {fileID: 964720866}
+  - component: {fileID: 964720867}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1235,9 +1236,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floor: {fileID: 846769347}
-  rigidBody: {fileID: 964720860}
-  currentMoveState: 0
-  currentJumpState: 0
   airborne: 0
   invulnerable: 0
   lookDirection: 0
@@ -1293,6 +1291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164803be2daa4ac4b99ea5578e16dd41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useController: 0
   input:
     movement: {x: 0, y: 0}
     up: 2
@@ -1304,7 +1303,20 @@ MonoBehaviour:
     parry: 2
     S: 2
     HS: 2
-  useController: 0
+--- !u!114 &964720867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 964720858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3311e683326f82447b530501e59b6f3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentMoveState: 0
+  currentJumpState: 0
 --- !u!1 &1566772647
 GameObject:
   m_ObjectHideFlags: 0

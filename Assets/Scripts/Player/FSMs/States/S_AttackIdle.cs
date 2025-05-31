@@ -13,7 +13,7 @@ namespace PFSM
 
         public override BaseState HandleInput(InputState input)
         {
-            if (player.GetFSM(player.dashFSMIdx).currentState != DashFSM.idle) return AttackFSM.idle;
+            if (player.GetFSM(PlayerFSMControl.dashFSMIdx).currentState != DashFSM.idle) return AttackFSM.idle;
             else
             {
                 for (int i = 0; i < AttackFSM.attacks.Length; i++)

@@ -45,7 +45,7 @@ namespace PFSM
         {
             currentFrame = .0f;
 
-            speedToReduce = player.rigidBody.linearVelocityX;
+            speedToReduce = player.GetRigidbody().linearVelocityX;
 
             speedReductionPerFrame = speedToReduce / decelerationFrames;
         }
@@ -54,8 +54,8 @@ namespace PFSM
         {
             if (currentFrame >= decelerationFrames) parentFSM.ChangeState(MovementFSM.idle);
 
-            if (player.GetFSM(player.dashFSMIdx).currentState == DashFSM.idle &&
-                player.GetFSM(player.attaFSMIdx).currentState == AttackFSM.idle)
+            if (player.GetFSM(PlayerFSMControl.dashFSMIdx).currentState == DashFSM.idle &&
+                player.GetFSM(PlayerFSMControl.attaFSMIdx).currentState == AttackFSM.idle)
                 player.SetSpeedX(speedReductionPerFrame * (decelerationFrames - currentFrame));
             else
                 parentFSM.ChangeState(MovementFSM.decelerate);
