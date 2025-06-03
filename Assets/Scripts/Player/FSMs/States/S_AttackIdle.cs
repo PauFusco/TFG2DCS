@@ -20,17 +20,20 @@ namespace PFSM
                 {
                     if (input.Compare(AttackFSM.attacks[i].input, player.airborne))
                     {
-                        if (AttackFSM.attacks[i].chargeable)
+                        if (player.EnoughPotentialForAttack(AttackFSM.attacks[i].potentialUse))
                         {
-                            AttackFSM.charge.SetData(AttackFSM.attacks[i]);
-                            ((AttackFSM)parentFSM).currentAttack = i;
-                            return AttackFSM.charge;
-                        }
-                        else
-                        {
-                            AttackFSM.anticipation.SetData(AttackFSM.attacks[i], 1.0f);
-                            ((AttackFSM)parentFSM).currentAttack = i;
-                            return AttackFSM.anticipation;
+                            if (AttackFSM.attacks[i].chargeable)
+                            {
+                                AttackFSM.charge.SetData(AttackFSM.attacks[i]);
+                                ((AttackFSM)parentFSM).currentAttack = i;
+                                return AttackFSM.charge;
+                            }
+                            else
+                            {
+                                AttackFSM.anticipation.SetData(AttackFSM.attacks[i], 1.0f);
+                                ((AttackFSM)parentFSM).currentAttack = i;
+                                return AttackFSM.anticipation;
+                            }
                         }
                     }
                 }

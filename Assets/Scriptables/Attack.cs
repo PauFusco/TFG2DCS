@@ -18,6 +18,13 @@ namespace PAttack
         [Tooltip("Number of frames in the attack's recovery phase.")]
         public float recovery;
 
+        [Tooltip("Amount of Charge damage the attack will deal when charged to the maximum.")]
+        public float maxChargeInflicted;
+        [Tooltip("Amount of Potential used when casted.")]
+        public float potentialUse;
+        [Tooltip("Amount of Potential generated when hitting an enemy.")]
+        public float potentialGenerated;
+
         [Header("HitBox")]
         [Tooltip("A prefab with the hitbox that spawns in the attack's active phase.")]
         public UnityEngine.Object hitbox;

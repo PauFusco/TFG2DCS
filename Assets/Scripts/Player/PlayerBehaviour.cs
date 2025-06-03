@@ -4,6 +4,9 @@ public class PlayerBehaviour : MonoBehaviour
 {
     [SerializeField] private GameObject floor;
 
+    [SerializeField] private float currentPotential;
+    [SerializeField] private float maxPotential;
+
     private PlayerConfig config;
     private PlayerFSMControl FSMControl;
 
@@ -19,6 +22,9 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void Awake()
     {
+        AttackBehaviour.HitEnemy += HitEnemy;
+        AttackBehaviour.ParryEnemy += ParryEnemy;
+
         FSMControl = GetComponent<PlayerFSMControl>();
         config = GetComponent<PlayerConfig>();
 
@@ -41,6 +47,38 @@ public class PlayerBehaviour : MonoBehaviour
         currentSpeed = rigidBody.linearVelocityX;
     }
 
+    public void HitEnemy(float charge, PAttack.Attack attack)
+    {
+        float potentialToIncrease = attack.potentialGenerated * charge;
+
+        IncreasePotential(potentialToIncrease);
+    }
+
+    public void ParryEnemy(PAttack.Attack attack)
+    {
+        IncreasePotential(attack.potentialGenerated);
+    }
+
+    public void IncreasePotential(float amount)
+    {
+        currentPotential += amount;
+
+        currentPotential = currentPotential > maxPotential ?
+            maxPotential : currentPotential;
+    }
+
+    public void ExpendPotential(float amount)
+    {
+        currentPotential -= amount;
+        currentPotential = currentPotential < 0 ?
+            0 : currentPotential;
+    }
+
+    public bool EnoughPotentialForAttack(float potentialNeeded)
+    {
+        return potentialNeeded <= currentPotential;
+    }
+
     private void SpawnAttackHitboxObjs()
     {
         attackHitboxObjs = new GameObject[config.attacks.Length];
@@ -52,6 +90,7 @@ public class PlayerBehaviour : MonoBehaviour
             attackHitboxObjs[i].SetActive(false);
         }
     }
+
     public void EnableCurrentAttackCollider(int currentAttackIdx)
     {
         attackHitboxObjs[currentAttackIdx].GetComponent<AttackBehaviour>().UpdateDirection(lookDirection);

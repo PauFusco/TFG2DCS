@@ -1,12 +1,31 @@
+using System;
 using UnityEngine;
 
 public class AttackBehaviour : MonoBehaviour
 {
+    [SerializeField] private PAttack.Attack attack;
+
     private float oPositionX;
+
+    public static event Action<float, PAttack.Attack> HitEnemy;
+    public static event Action<PAttack.Attack> ParryEnemy;
 
     private void Awake()
     {
         oPositionX = transform.localPosition.x;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.layer == 7 && attack.attackName != "Parry")
+        {
+            HitEnemy?.Invoke(PFSM.AttackFSM.active.GetAttackCharge(), attack);
+        }
+
+        if(collision.gameObject.layer == 8 && attack.attackName == "Parry")
+        {
+            ParryEnemy?.Invoke(attack);
+        }
     }
 
     public void UpdateDirection(bool currentPlayerDirection)

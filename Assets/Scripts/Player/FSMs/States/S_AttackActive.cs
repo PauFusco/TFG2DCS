@@ -27,10 +27,13 @@ namespace PFSM
             currentAttack = attack;
         }
 
+        public float GetAttackCharge()
+        { return chargeMultiplier; }
+
         public override void OnEnter()
         {
             player.SetPlayerColor(Color.red);
-
+            player.ExpendPotential(currentAttack.potentialUse);
             player.EnableCurrentAttackCollider(((AttackFSM)parentFSM).currentAttack);
 
             currentFrame = .0f;

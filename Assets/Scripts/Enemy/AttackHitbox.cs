@@ -4,7 +4,6 @@ using UnityEngine.Events;
 public class AttackHitbox : MonoBehaviour
 {
     public UnityEvent hitPlayer;
-    public UnityEvent parry;
 
     // Layers:
     // 6 Player
@@ -17,15 +16,6 @@ public class AttackHitbox : MonoBehaviour
         if(collision.gameObject.layer == 6)
         {
             hitPlayer.Invoke();
-
-            Debug.Log("Player");
-        }
-
-        if (collision.gameObject.layer == 9)
-        {
-            parry.Invoke();
-
-            Debug.Log("Parry");
         }
     }
 }

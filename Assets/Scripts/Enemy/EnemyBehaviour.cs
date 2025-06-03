@@ -19,10 +19,13 @@ public class EnemyBehaviour : MonoBehaviour
     private Rigidbody2D rigidBody;
     private SpriteRenderer spriteRenderer;
 
-    [SerializeField] private uint charge, maxCharge;
+    [SerializeField] private float charge, maxCharge;
 
     private void Awake()
     {
+        AttackBehaviour.HitEnemy += BeAttackedCasual; 
+        AttackBehaviour.ParryEnemy += BeParriedCasual;
+
         spriteRenderer = GetComponent<SpriteRenderer>();
         rigidBody = GetComponent<Rigidbody2D>();
         config = GetComponent<EnemyConfig>();
@@ -50,20 +53,26 @@ public class EnemyBehaviour : MonoBehaviour
         attackFSM.FixedUpdate();
     }
 
-    public void BeParriedCasual()
+    public void BeAttackedCasual(float charge, PAttack.Attack attack)
     {
-        IncreaseCharge(25);
-        
+        AddCharge(charge * attack.maxChargeInflicted);
     }
 
-    public void IncreaseCharge(uint amount)
+    public void BeParriedCasual(PAttack.Attack attack)
     {
-        charge += amount;
-        if (charge < maxCharge)
+        AddCharge(attack.maxChargeInflicted);
+
+        if (attackFSM.currentState != EFSM.AttackFSM.stun)
         {
             attackFSM.ChangeState(EFSM.AttackFSM.stagger);
         }
-        else
+    }
+
+    private void AddCharge(float amount)
+    {
+        charge += amount;
+
+        if (charge >= maxCharge)
         {
             charge = maxCharge;
             attackFSM.ChangeState(EFSM.AttackFSM.stun);
