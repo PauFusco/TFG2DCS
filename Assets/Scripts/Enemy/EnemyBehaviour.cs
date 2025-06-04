@@ -23,7 +23,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     private void Awake()
     {
-        AttackBehaviour.HitEnemy += BeAttackedCasual; 
+        AttackBehaviour.HitEnemy += BeAttackedCasual;
         AttackBehaviour.ParryEnemy += BeParriedCasual;
 
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -70,6 +70,8 @@ public class EnemyBehaviour : MonoBehaviour
 
     private void AddCharge(float amount)
     {
+        if (attackFSM.currentState == EFSM.AttackFSM.stun) return;
+
         charge += amount;
 
         if (charge >= maxCharge)
@@ -97,10 +99,5 @@ public class EnemyBehaviour : MonoBehaviour
     public void SetEnemyColor(Color color)
     {
         spriteRenderer.color = color;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        Debug.Log("Enemy: " + collision.gameObject.layer.ToString());
     }
 }

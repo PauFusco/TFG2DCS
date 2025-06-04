@@ -24,12 +24,12 @@ public class AttackBehaviour : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == 7 && attack.attackName != "Parry")
+        if (collision.gameObject.layer == 7 && attack.attackType != PAttack.AttackName.Parry)
         {
             HitEnemy?.Invoke(PFSM.AttackFSM.active.GetAttackCharge(), attack);
         }
 
-        if (collision.gameObject.layer == 8 && attack.attackName == "Parry")
+        if (collision.gameObject.layer == 8 && attack.attackType == PAttack.AttackName.Parry)
         {
             ParryEnemy?.Invoke(attack);
         }

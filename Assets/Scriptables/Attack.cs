@@ -8,7 +8,7 @@ namespace PAttack
     public class Attack : ScriptableObject
     {
         [Tooltip("The name of the attack")]
-        public string attackName;
+        public AttackName attackType;
 
         [Header("Frame Durations")]
         [Tooltip("Number of frames in the attack's anticipation phase.")]
@@ -42,5 +42,24 @@ namespace PAttack
         public bool cancellable;
         [Tooltip("List of attacks it can be cancelled into.")]
         public Attack[] cancellableInto;
+    }
+
+    public enum AttackName
+    {
+        S,      // 5S
+        SS,     // 5SS
+        SSS,    // 5SSS
+        HS,     // 5HS
+        FHS,    // 6HS
+        THS,    // 8HS
+        BHS,    // 2HS
+        jS,     // j5S
+        jTS,    // j8S
+        jBS,    // j2S
+        jHS,    // j5HS
+        jFHS,   // j6HS
+        jTHS,   // j8HS
+        jBHS,   // j2HS
+        Parry,
     }
 }

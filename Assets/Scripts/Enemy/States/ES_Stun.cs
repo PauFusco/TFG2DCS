@@ -1,4 +1,7 @@
-﻿namespace EFSM
+﻿using UnityEngine;
+using UnityEngine.UI;
+
+namespace EFSM
 {
     public class StunState : BaseState
     {
@@ -19,6 +22,7 @@
 
         public override void OnEnter()
         {
+            enemy.SetEnemyColor(Color.magenta);
             currentFrame = .0f;
         }
 
