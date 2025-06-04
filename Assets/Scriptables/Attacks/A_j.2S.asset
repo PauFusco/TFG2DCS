@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d97a60d445c76aa45bef7ae23f953e80, type: 3}
   m_Name: A_j.2S
   m_EditorClassIdentifier: 
-  attackName: j.2S
+  attackType: 9
   anticipation: 3
   active: 5
   recovery: 9

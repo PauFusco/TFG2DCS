@@ -19,6 +19,6 @@ MonoBehaviour:
   dash: 0
   jump: 0
   parry: 0
-  slash: 1
-  heavySlash: 0
+  slash: 0
+  heavySlash: 1
   airborne: 1

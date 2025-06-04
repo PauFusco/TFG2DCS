@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d97a60d445c76aa45bef7ae23f953e80, type: 3}
   m_Name: A_j.2HS
   m_EditorClassIdentifier: 
-  attackName: j.2HS
+  attackType: 13
   anticipation: 3
   active: 5
   recovery: 9
@@ -20,7 +20,8 @@ MonoBehaviour:
   potentialUse: 20
   potentialGenerated: 0
   hitbox: {fileID: 2699706844854387602, guid: 98539ddb8b2607f45b8300a006723bc5, type: 3}
-  input: []
+  input:
+  - {fileID: 11400000, guid: 0ca257d2d5af7d74b8db9545554e29a7, type: 2}
   airborne: 1
   chargeable: 0
   cancellable: 0
