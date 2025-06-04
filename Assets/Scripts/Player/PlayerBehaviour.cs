@@ -22,6 +22,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void Awake()
     {
+        AttackHitbox.HitPlayer += GetHit;
         AttackBehaviour.HitEnemy += HitEnemy;
         AttackBehaviour.ParryEnemy += ParryEnemy;
 
@@ -45,6 +46,11 @@ public class PlayerBehaviour : MonoBehaviour
     private void Update()
     {
         currentSpeed = rigidBody.linearVelocityX;
+    }
+
+    public void GetHit()
+    {
+        Debug.Log("Enemy Hit Player");
     }
 
     public void HitEnemy(float charge, PAttack.Attack attack)

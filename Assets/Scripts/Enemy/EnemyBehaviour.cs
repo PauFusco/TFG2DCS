@@ -98,4 +98,9 @@ public class EnemyBehaviour : MonoBehaviour
     {
         spriteRenderer.color = color;
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("Enemy: " + collision.gameObject.layer.ToString());
+    }
 }

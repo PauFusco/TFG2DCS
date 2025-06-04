@@ -1,9 +1,10 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class AttackHitbox : MonoBehaviour
 {
-    public UnityEvent hitPlayer;
+    public static event Action HitPlayer;
 
     // Layers:
     // 6 Player
@@ -15,7 +16,7 @@ public class AttackHitbox : MonoBehaviour
     {
         if(collision.gameObject.layer == 6)
         {
-            hitPlayer.Invoke();
+            HitPlayer.Invoke();
         }
     }
 }
