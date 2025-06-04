@@ -1212,7 +1212,6 @@ MonoBehaviour:
   invulnerable: 0
   lookDirection: 0
   currentSpeed: 0
-  attackHitboxObjs: []
 --- !u!114 &964720865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1249,6 +1248,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e53f698a238117d45a20b29cd94a9321, type: 2}
   - {fileID: 11400000, guid: 60d9c77e587975e40852f8dcf2fd079d, type: 2}
   - {fileID: 11400000, guid: 8843fa08b35e95a42b625782935178a5, type: 2}
+  - {fileID: 11400000, guid: 4323d2e023c98ec4b8fcd4adbbb78bea, type: 2}
+  - {fileID: 11400000, guid: 5133f12128c9e7c4fa3692d1e7d085a0, type: 2}
+  - {fileID: 11400000, guid: fe7a2581c646a3f49a32b0a8ded7e01c, type: 2}
+  - {fileID: 11400000, guid: 941ae549a7c7caa42bb99fa2577e5bdc, type: 2}
   - {fileID: 11400000, guid: 4323d2e023c98ec4b8fcd4adbbb78bea, type: 2}
   - {fileID: 11400000, guid: 9f4ce2d04600b6d43ab3485068ccdea4, type: 2}
 --- !u!114 &964720866

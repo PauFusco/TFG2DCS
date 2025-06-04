@@ -1,5 +1,6 @@
 using UnityEngine;
-
+using System.Collections;
+using System.Collections.Generic;
 public class PlayerBehaviour : MonoBehaviour
 {
     [SerializeField] private GameObject floor;
@@ -18,7 +19,7 @@ public class PlayerBehaviour : MonoBehaviour
     public bool lookDirection;
     public float currentSpeed;
 
-    public GameObject[] attackHitboxObjs;
+    public Dictionary<PAttack.Attack,  GameObject> attacks = new();
 
     private void Awake()
     {
@@ -87,28 +88,27 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void SpawnAttackHitboxObjs()
     {
-        attackHitboxObjs = new GameObject[config.attacks.Length];
-
-        for (int i = 0; i < config.attacks.Length; i++)
+        foreach (var attack in config.attacks)
         {
-            attackHitboxObjs[i] = (GameObject)Instantiate(config.attacks[i].hitbox, transform);
+            GameObject hitbox = (GameObject)Instantiate(attack.hitbox, transform);
+            hitbox.SetActive(false);
 
-            attackHitboxObjs[i].SetActive(false);
+            attacks.Add(attack, hitbox);
         }
     }
 
-    public void EnableCurrentAttackCollider(int currentAttackIdx)
+    public void EnableCurrentAttackCollider(PAttack.Attack currentAttack)
     {
-        attackHitboxObjs[currentAttackIdx].GetComponent<AttackBehaviour>().UpdateDirection(lookDirection);
+        attacks[currentAttack].GetComponent<AttackBehaviour>().UpdateDirection(lookDirection);
 
-        attackHitboxObjs[currentAttackIdx].SetActive(true);
-        attackHitboxObjs[currentAttackIdx].GetComponent<Collider2D>().enabled = true;
+        attacks[currentAttack].SetActive(true);
+        attacks[currentAttack].GetComponent<Collider2D>().enabled = true;
     }
 
-    public void DisableCurrentAttackCollider(int currentAttackIdx)
+    public void DisableCurrentAttackCollider(PAttack.Attack currentAttack)
     {
-        attackHitboxObjs[currentAttackIdx].SetActive(false);
-        attackHitboxObjs[currentAttackIdx].GetComponent<Collider2D>().enabled = false;
+        attacks[currentAttack].SetActive(false);
+        attacks[currentAttack].GetComponent<Collider2D>().enabled = false;
     }
 
     public void SetPlayerColor(Color color)
