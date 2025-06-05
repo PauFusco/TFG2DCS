@@ -42,6 +42,20 @@ namespace PAttack
         public bool cancellable;
         [Tooltip("List of attacks it can be cancelled into.")]
         public Attack[] cancellableInto;
+
+        public delegate void AttackEnemyDelegate(Attack attack, GameObject target);
+        public AttackEnemyDelegate onHitAttackMethod;
+
+        public delegate void AttackDelegate();
+        public AttackDelegate onExecuteAttackMethod;
+
+        public void Execute()
+        { onExecuteAttackMethod(); }
+
+        public void Hit(Attack attack, GameObject target)
+        {
+            onHitAttackMethod(attack, target); 
+        }
     }
 
     public enum AttackName

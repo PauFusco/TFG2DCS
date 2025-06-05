@@ -10,7 +10,8 @@ public class EnemyBehaviour : MonoBehaviour
         activeFrames,
         recoveryFrames,
         staggerFrames,
-        stunFrames;
+        stunFrames,
+        linkSpeed;
 
     private EnemyConfig config;
 
@@ -18,6 +19,9 @@ public class EnemyBehaviour : MonoBehaviour
 
     private Rigidbody2D rigidBody;
     private SpriteRenderer spriteRenderer;
+
+    public bool IsLinked { get; private set; }
+    private GameObject linkedGO;
 
     [SerializeField] private float charge, maxCharge;
 
@@ -46,11 +50,35 @@ public class EnemyBehaviour : MonoBehaviour
     private void Update()
     {
         attackFSM.Update();
+
+        if (IsLinked)
+        {
+            transform.position = Vector3.MoveTowards(
+                transform.position,
+                linkedGO.transform.position,
+                linkSpeed);
+
+            Debug.Log("LINKED");
+        }
     }
 
     private void FixedUpdate()
     {
         attackFSM.FixedUpdate();
+    }
+
+    public void SetLink(GameObject linkedGO)
+    {
+        if (attackFSM.currentState != EFSM.AttackFSM.stun) return;
+
+        this.linkedGO = linkedGO;
+        IsLinked = true;
+    }
+
+    public void SeverLink()
+    {
+        linkedGO = null;
+        IsLinked = false;
     }
 
     public void BeAttackedCasual(float charge, PAttack.Attack attack)
@@ -83,6 +111,8 @@ public class EnemyBehaviour : MonoBehaviour
 
     public void ResetCharge()
     {
+        if (IsLinked) SeverLink();
+
         charge = 0;
     }
 
@@ -94,6 +124,7 @@ public class EnemyBehaviour : MonoBehaviour
         recoveryFrames = config.recoveryFrames;
         staggerFrames = config.staggerFrames;
         stunFrames = config.stunFrames;
+        linkSpeed = config.linkSpeed;
     }
 
     public void SetEnemyColor(Color color)

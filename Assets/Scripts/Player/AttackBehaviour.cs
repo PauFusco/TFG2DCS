@@ -7,6 +7,7 @@ public class AttackBehaviour : MonoBehaviour
 
     private float oPositionX;
 
+    public static event Action<float, PAttack.Attack, GameObject> AttackHitEnemy;
     public static event Action<float, PAttack.Attack> HitEnemy;
     public static event Action<PAttack.Attack> ParryEnemy;
 
@@ -26,6 +27,7 @@ public class AttackBehaviour : MonoBehaviour
     {
         if (collision.gameObject.layer == 7 && attack.attackType != PAttack.AttackName.Parry)
         {
+            AttackHitEnemy?.Invoke(PFSM.AttackFSM.active.GetAttackCharge(), attack, collision.gameObject);
             HitEnemy?.Invoke(PFSM.AttackFSM.active.GetAttackCharge(), attack);
         }
 

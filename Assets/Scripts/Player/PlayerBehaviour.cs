@@ -1,6 +1,5 @@
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+
 public class PlayerBehaviour : MonoBehaviour
 {
     [SerializeField] private GameObject floor;
@@ -8,8 +7,8 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private float currentPotential;
     [SerializeField] private float maxPotential;
 
-    private PlayerConfig config;
     private PlayerFSMControl FSMControl;
+    private PlayerAttackControl attackControl;
 
     private Rigidbody2D rigidBody;
     private SpriteRenderer spriteRenderer;
@@ -19,21 +18,15 @@ public class PlayerBehaviour : MonoBehaviour
     public bool lookDirection;
     public float currentSpeed;
 
-    public Dictionary<PAttack.Attack,  GameObject> attacks = new();
-
     private void Awake()
     {
         AttackHitbox.HitPlayer += GetHit;
-        AttackBehaviour.HitEnemy += HitEnemy;
-        AttackBehaviour.ParryEnemy += ParryEnemy;
 
         FSMControl = GetComponent<PlayerFSMControl>();
-        config = GetComponent<PlayerConfig>();
+        attackControl = GetComponent<PlayerAttackControl>();
 
         spriteRenderer = GetComponent<SpriteRenderer>();
         rigidBody = GetComponent<Rigidbody2D>();
-
-        SpawnAttackHitboxObjs();
 
         #region Debug Variables
         currentSpeed = .0f;
@@ -52,18 +45,6 @@ public class PlayerBehaviour : MonoBehaviour
     public void GetHit()
     {
         Debug.Log("Enemy Hit Player");
-    }
-
-    public void HitEnemy(float charge, PAttack.Attack attack)
-    {
-        float potentialToIncrease = attack.potentialGenerated * charge;
-
-        IncreasePotential(potentialToIncrease);
-    }
-
-    public void ParryEnemy(PAttack.Attack attack)
-    {
-        IncreasePotential(attack.potentialGenerated);
     }
 
     public void IncreasePotential(float amount)
@@ -86,31 +67,6 @@ public class PlayerBehaviour : MonoBehaviour
         return potentialNeeded <= currentPotential;
     }
 
-    private void SpawnAttackHitboxObjs()
-    {
-        foreach (var attack in config.attacks)
-        {
-            GameObject hitbox = (GameObject)Instantiate(attack.hitbox, transform);
-            hitbox.SetActive(false);
-
-            attacks.Add(attack, hitbox);
-        }
-    }
-
-    public void EnableCurrentAttackCollider(PAttack.Attack currentAttack)
-    {
-        attacks[currentAttack].GetComponent<AttackBehaviour>().UpdateDirection(lookDirection);
-
-        attacks[currentAttack].SetActive(true);
-        attacks[currentAttack].GetComponent<Collider2D>().enabled = true;
-    }
-
-    public void DisableCurrentAttackCollider(PAttack.Attack currentAttack)
-    {
-        attacks[currentAttack].SetActive(false);
-        attacks[currentAttack].GetComponent<Collider2D>().enabled = false;
-    }
-
     public void SetPlayerColor(Color color)
     {
         spriteRenderer.color = color;
@@ -130,6 +86,11 @@ public class PlayerBehaviour : MonoBehaviour
 
     public PFSM.PlayerFSM GetFSM(uint index)
     { return FSMControl.GetFSM(index); }
+
+    public void EnableCurrentAttackCollider(PAttack.Attack currentAttack)
+    { attackControl.EnableAttackCollider(currentAttack); }
+    public void DisableCurrentAttackCollider(PAttack.Attack currentAttack)
+    { attackControl.DisableAttackCollider(currentAttack); }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

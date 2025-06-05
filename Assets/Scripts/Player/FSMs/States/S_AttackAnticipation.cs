@@ -29,8 +29,6 @@ namespace PFSM
         {
             player.SetPlayerColor(Color.green);
 
-            Debug.Log(currentAttack.attackType);
-
             currentFrame = .0f;
         }
 
