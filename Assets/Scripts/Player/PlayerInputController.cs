@@ -112,7 +112,7 @@ namespace CustomInputControl
                 {
                     Vector2 stick = Gamepad.current.leftStick.value.normalized;
 
-                    if (stick.x < 0.0f &&
+                    if (stick.x < 0.1f &&
                          0.71f >= stick.y &&
                         -0.71f < stick.y)
                     {
@@ -126,7 +126,7 @@ namespace CustomInputControl
                     {
                         input.left = KeyState.UP;
                     }
-                    if (stick.x > 0.0f &&
+                    if (stick.x > 0.1f &&
                          0.71f >= stick.y &&
                         -0.71f < stick.y)
                     {

@@ -8,7 +8,7 @@ namespace PAttack
     public class Attack : ScriptableObject
     {
         [Tooltip("The name of the attack")]
-        public AttackName attackType;
+        public AttackTypes attackType;
 
         [Header("Frame Durations")]
         [Tooltip("Number of frames in the attack's anticipation phase.")]
@@ -43,7 +43,7 @@ namespace PAttack
         [Tooltip("List of attacks it can be cancelled into.")]
         public Attack[] cancellableInto;
 
-        public delegate void AttackEnemyDelegate(Attack attack, GameObject target);
+        public delegate void AttackEnemyDelegate(Attack attack, EnemyBehaviour target);
         public AttackEnemyDelegate onHitAttackMethod;
 
         public delegate void AttackDelegate();
@@ -52,13 +52,11 @@ namespace PAttack
         public void Execute()
         { onExecuteAttackMethod(); }
 
-        public void Hit(Attack attack, GameObject target)
-        {
-            onHitAttackMethod(attack, target); 
-        }
+        public void Hit(Attack attack, EnemyBehaviour target)
+        { onHitAttackMethod(attack, target); }
     }
 
-    public enum AttackName
+    public enum AttackTypes
     {
         S,      // 5S
         SS,     // 5SS

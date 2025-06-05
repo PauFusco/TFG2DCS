@@ -41,6 +41,8 @@ namespace PFSM
 
         public override void Update()
         {
+            if(currentAttack.attackType != PAttack.AttackTypes.Parry) currentAttack.Execute();
+
             if (currentFrame >= currentAttack.active)
             {
                 AttackFSM.recovery.SetData(currentAttack, chargeMultiplier);
@@ -56,6 +58,8 @@ namespace PFSM
         public override void OnExit()
         {
             player.DisableCurrentAttackCollider(currentAttack);
+
+            player.SetSpeedY(0);
         }
     }
 }

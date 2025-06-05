@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class AttackBehaviour : MonoBehaviour
 {
@@ -7,9 +8,11 @@ public class AttackBehaviour : MonoBehaviour
 
     private float oPositionX;
 
-    public static event Action<float, PAttack.Attack, GameObject> AttackHitEnemy;
+    public static event Action<float, PAttack.Attack, EnemyBehaviour> AttackHitEnemy;
     public static event Action<float, PAttack.Attack> HitEnemy;
     public static event Action<PAttack.Attack> ParryEnemy;
+
+    public static event Action<PAttack.Attack> ExitAttackCollision;
 
     private void Awake()
     {
@@ -25,15 +28,27 @@ public class AttackBehaviour : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == 7 && attack.attackType != PAttack.AttackName.Parry)
+        if (collision.gameObject.layer == 7 && attack.attackType != PAttack.AttackTypes.Parry)
         {
-            AttackHitEnemy?.Invoke(PFSM.AttackFSM.active.GetAttackCharge(), attack, collision.gameObject);
-            HitEnemy?.Invoke(PFSM.AttackFSM.active.GetAttackCharge(), attack);
+            var hitEnemyBehaviour = collision.gameObject.GetComponent<EnemyBehaviour>();
+            if (hitEnemyBehaviour != null)
+            {
+                AttackHitEnemy?.Invoke(PFSM.AttackFSM.active.GetAttackCharge(), attack, hitEnemyBehaviour);
+                HitEnemy?.Invoke(PFSM.AttackFSM.active.GetAttackCharge(), attack);
+            }
         }
 
-        if (collision.gameObject.layer == 8 && attack.attackType == PAttack.AttackName.Parry)
+        if (collision.gameObject.layer == 8 && attack.attackType == PAttack.AttackTypes.Parry)
         {
             ParryEnemy?.Invoke(attack);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.layer == 7)
+        {
+            ExitAttackCollision?.Invoke(attack);
         }
     }
 }

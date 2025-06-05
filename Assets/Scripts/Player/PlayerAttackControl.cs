@@ -26,19 +26,20 @@ public class PlayerAttackControl : MonoBehaviour
             SetUpSpecificAttackBehaviour(attack);
 
             GameObject hitbox = (GameObject)Instantiate(attack.hitbox, transform);
-            hitbox.SetActive(false);
-
             attacks.Add(attack, hitbox);
+
+            hitbox.SetActive(false);
+            hitbox.GetComponent<Collider2D>().enabled = false;
         }
     }
 
-    public void HitEnemy(float charge, PAttack.Attack attack, GameObject target)
+    public void HitEnemy(float charge, PAttack.Attack attack, EnemyBehaviour enemy)
     {
         float potentialToIncrease = attack.potentialGenerated * charge;
 
         player.IncreasePotential(potentialToIncrease);
 
-        attack.Hit(attack, target);
+        attack.Hit(attack, enemy);
     }
 
     public void ParryEnemy(PAttack.Attack attack)
@@ -61,109 +62,160 @@ public class PlayerAttackControl : MonoBehaviour
     }
 
     #region Attack Methods
-    public void SAttackMethod(PAttack.Attack attack, GameObject target)
+    public void SExecuteAttackMethod()
     { }
-    public void SSAttackMethod(PAttack.Attack attack, GameObject target)
+    public void SHitAttackMethod(PAttack.Attack attack, EnemyBehaviour target)
     { }
-    public void SSSAttackMethod(PAttack.Attack attack, GameObject target)
-    { }
-    public void HSAttackMethod(PAttack.Attack attack, GameObject target)
-    { }
-    public void FHSAttackMethod(PAttack.Attack attack, GameObject target)
-    { }
-    public void THSAttackMethod(PAttack.Attack attack, GameObject target)
-    {
-        var hitEnemyBehaviour = target.GetComponent<EnemyBehaviour>();
 
-        if (hitEnemyBehaviour != null)
-        { hitEnemyBehaviour.SetLink(attacks[attack]); }
-        else
-        { Debug.Log("Attack target invelid, couldn't link."); }
-    }
-    public void BHSAttackMethod(PAttack.Attack attack, GameObject target)
+    public void SSExecuteAttackMethod()
+    { }
+    public void SSHitAttackMethod(PAttack.Attack attack, EnemyBehaviour target)
+    { }
+
+    public void SSSExecuteAttackMethod()
+    { }
+    public void SSSHitAttackMethod(PAttack.Attack attack, EnemyBehaviour target)
+    { }
+
+    public void HSExecuteAttackMethod()
+    { }
+    public void HSHitAttackMethod(PAttack.Attack attack, EnemyBehaviour target)
+    { }
+
+    public void FHSExecuteAttackMethod()
+    { }
+    public void FHSHitAttackMethod(PAttack.Attack attack, EnemyBehaviour target)
+    { }
+
+    public void THSExecuteAttackMethod()
     {
-        var hitEnemyBehaviour = target.GetComponent<EnemyBehaviour>();
-        if (hitEnemyBehaviour != null)
-        { hitEnemyBehaviour.Knockup(config.BHSKnockupStrength); }
-        else
-        { Debug.Log("Attack target invalid, couldn't apply knockup."); }
+        player.SetSpeedY(config.THSAirSpeed);
     }
-    public void jSAttackMethod(PAttack.Attack attack, GameObject target)
+    public void THSHitAttackMethod(PAttack.Attack attack, EnemyBehaviour target)
+    {
+        target.SetLink(attacks[attack]);
+    }
+
+    public void BHSExecuteAttackMethod()
+    { }
+    public void BHSHitAttackMethod(PAttack.Attack attack, EnemyBehaviour target)
+    {
+        target.Knockup(config.BHSKnockupStrength);
+    }
+
+    public void jSExecuteAttackMethod()
+    { }
+    public void jSHitAttackMethod(PAttack.Attack attack, EnemyBehaviour target)
     {
         player.SetSpeedY(5);
+
+        if (target.IsAirborne()) target.SetSpeedY(2);
     }
-    public void jTSAttackMethod(PAttack.Attack attack, GameObject target)
+
+    public void jTSExecuteAttackMethod()
     { }
-    public void jBSAttackMethod(PAttack.Attack attack, GameObject target)
+    public void jTSHitAttackMethod(PAttack.Attack attack, EnemyBehaviour target)
+    { }
+
+    public void jBSExecuteAttackMethod()
+    { }
+    public void jBSHitAttackMethod(PAttack.Attack attack, EnemyBehaviour target)
     {
         player.SetSpeedY(config.pogoSpeed);
     }
-    public void jHSAttackMethod(PAttack.Attack attack, GameObject target)
+
+    public void jHSExecuteAttackMethod()
     { }
-    public void jFHSAttackMethod(PAttack.Attack attack, GameObject target)
+    public void jHSHitAttackMethod(PAttack.Attack attack, EnemyBehaviour target)
     { }
-    public void jTHSAttackMethod(PAttack.Attack attack, GameObject target)
+
+    public void jFHSExecuteAttackMethod()
     { }
-    public void jBHSAttackMethod(PAttack.Attack attack, GameObject target)
+    public void jFHSHitAttackMethod(PAttack.Attack attack, EnemyBehaviour target)
     { }
+
+    public void jTHSExecuteAttackMethod()
+    { }
+    public void jTHSHitAttackMethod(PAttack.Attack attack, EnemyBehaviour target)
+    { }
+
+    public void jBHSExecuteAttackMethod()
+    { }
+    public void jBHSHitAttackMethod(PAttack.Attack attack, EnemyBehaviour target)
+    { }
+
     private void SetUpSpecificAttackBehaviour(PAttack.Attack attack)
     {
         switch (attack.attackType)
         {
-            case PAttack.AttackName.S:
-                attack.onHitAttackMethod = SAttackMethod;
+            case PAttack.AttackTypes.S:
+                attack.onExecuteAttackMethod = SExecuteAttackMethod;
+                attack.onHitAttackMethod = SHitAttackMethod;
                 break;
 
-            case PAttack.AttackName.SS:
-                attack.onHitAttackMethod = SSAttackMethod;
+            case PAttack.AttackTypes.SS:
+                attack.onExecuteAttackMethod = SSExecuteAttackMethod;
+                attack.onHitAttackMethod = SSHitAttackMethod;
                 break;
 
-            case PAttack.AttackName.SSS:
-                attack.onHitAttackMethod = SSSAttackMethod;
+            case PAttack.AttackTypes.SSS:
+                attack.onExecuteAttackMethod = SSSExecuteAttackMethod;
+                attack.onHitAttackMethod = SSSHitAttackMethod;
                 break;
 
-            case PAttack.AttackName.HS:
-                attack.onHitAttackMethod = HSAttackMethod;
+            case PAttack.AttackTypes.HS:
+                attack.onExecuteAttackMethod = HSExecuteAttackMethod;
+                attack.onHitAttackMethod = HSHitAttackMethod;
                 break;
 
-            case PAttack.AttackName.FHS:
-                attack.onHitAttackMethod = FHSAttackMethod;
+            case PAttack.AttackTypes.FHS:
+                attack.onExecuteAttackMethod = FHSExecuteAttackMethod;
+                attack.onHitAttackMethod = FHSHitAttackMethod;
                 break;
 
-            case PAttack.AttackName.THS:
-                attack.onHitAttackMethod = THSAttackMethod;
+            case PAttack.AttackTypes.THS:
+                attack.onExecuteAttackMethod = THSExecuteAttackMethod;
+                attack.onHitAttackMethod = THSHitAttackMethod;
                 break;
 
-            case PAttack.AttackName.BHS:
-                attack.onHitAttackMethod = BHSAttackMethod;
+            case PAttack.AttackTypes.BHS:
+                attack.onExecuteAttackMethod = BHSExecuteAttackMethod;
+                attack.onHitAttackMethod = BHSHitAttackMethod;
                 break;
 
-            case PAttack.AttackName.jS:
-                attack.onHitAttackMethod = jSAttackMethod;
+            case PAttack.AttackTypes.jS:
+                attack.onExecuteAttackMethod = jSExecuteAttackMethod;
+                attack.onHitAttackMethod = jSHitAttackMethod;
                 break;
 
-            case PAttack.AttackName.jTS:
-                attack.onHitAttackMethod = jTSAttackMethod;
+            case PAttack.AttackTypes.jTS:
+                attack.onExecuteAttackMethod = jTSExecuteAttackMethod;
+                attack.onHitAttackMethod = jTSHitAttackMethod;
                 break;
 
-            case PAttack.AttackName.jBS:
-                attack.onHitAttackMethod = jBSAttackMethod;
+            case PAttack.AttackTypes.jBS:
+                attack.onExecuteAttackMethod = jBSExecuteAttackMethod;
+                attack.onHitAttackMethod = jBSHitAttackMethod;
                 break;
 
-            case PAttack.AttackName.jHS:
-                attack.onHitAttackMethod = jHSAttackMethod;
+            case PAttack.AttackTypes.jHS:
+                attack.onExecuteAttackMethod = jHSExecuteAttackMethod;
+                attack.onHitAttackMethod = jHSHitAttackMethod;
                 break;
 
-            case PAttack.AttackName.jFHS:
-                attack.onHitAttackMethod = jFHSAttackMethod;
+            case PAttack.AttackTypes.jFHS:
+                attack.onExecuteAttackMethod = jFHSExecuteAttackMethod;
+                attack.onHitAttackMethod = jFHSHitAttackMethod;
                 break;
 
-            case PAttack.AttackName.jTHS:
-                attack.onHitAttackMethod = jTHSAttackMethod;
+            case PAttack.AttackTypes.jTHS:
+                attack.onExecuteAttackMethod = jTHSExecuteAttackMethod;
+                attack.onHitAttackMethod = jTHSHitAttackMethod;
                 break;
 
-            case PAttack.AttackName.jBHS:
-                attack.onHitAttackMethod = jBHSAttackMethod;
+            case PAttack.AttackTypes.jBHS:
+                attack.onExecuteAttackMethod = jBHSExecuteAttackMethod;
+                attack.onHitAttackMethod = jBHSHitAttackMethod;
                 break;
         }
     }

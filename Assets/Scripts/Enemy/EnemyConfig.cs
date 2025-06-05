@@ -8,4 +8,7 @@ public class EnemyConfig : MonoBehaviour
 
     [Header("Special")]
     public float linkSpeed;
+
+    [Header("Movement State")]
+    public float baseGravity;
 }

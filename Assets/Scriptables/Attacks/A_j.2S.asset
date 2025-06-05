@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: A_j.2S
   m_EditorClassIdentifier: 
   attackType: 9
-  anticipation: 3
-  active: 5
-  recovery: 9
+  anticipation: 2
+  active: 3
+  recovery: 2
   maxChargeInflicted: 5
   potentialUse: 0
   potentialGenerated: 5
@@ -25,4 +25,10 @@ MonoBehaviour:
   airborne: 1
   chargeable: 0
   cancellable: 1
-  cancellableInto: []
+  cancellableInto:
+  - {fileID: 11400000, guid: 5133f12128c9e7c4fa3692d1e7d085a0, type: 2}
+  - {fileID: 11400000, guid: fe7a2581c646a3f49a32b0a8ded7e01c, type: 2}
+  - {fileID: 11400000, guid: 8843fa08b35e95a42b625782935178a5, type: 2}
+  - {fileID: 11400000, guid: 941ae549a7c7caa42bb99fa2577e5bdc, type: 2}
+  - {fileID: 11400000, guid: f10449987b7a7b64c8af88350f4ea6ab, type: 2}
+  - {fileID: 11400000, guid: 4323d2e023c98ec4b8fcd4adbbb78bea, type: 2}

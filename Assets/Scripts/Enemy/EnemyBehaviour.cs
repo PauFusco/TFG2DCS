@@ -29,6 +29,7 @@ public class EnemyBehaviour : MonoBehaviour
     {
         AttackBehaviour.HitEnemy += BeAttackedCasual;
         AttackBehaviour.ParryEnemy += BeParriedCasual;
+        AttackBehaviour.ExitAttackCollision += ExitAttack;
 
         spriteRenderer = GetComponent<SpriteRenderer>();
         rigidBody = GetComponent<Rigidbody2D>();
@@ -55,19 +56,17 @@ public class EnemyBehaviour : MonoBehaviour
         {
             transform.position = Vector3.MoveTowards(
                 transform.position,
-                linkedGO.transform.position,
+                linkedGO.transform.position,+
                 linkSpeed);
         }
     }
 
     private void FixedUpdate()
-    {
-        attackFSM.FixedUpdate();
-    }
+    { attackFSM.FixedUpdate(); }
 
     public void SetLink(GameObject linkedGO)
     {
-        if (attackFSM.currentState != EFSM.AttackFSM.stun) return;
+        if (!IsStunned()) return;
 
         this.linkedGO = linkedGO;
         IsLinked = true;
@@ -78,9 +77,10 @@ public class EnemyBehaviour : MonoBehaviour
         linkedGO = null;
         IsLinked = false;
     }
+
     public void Knockup(float strength)
     {
-        if (attackFSM.currentState != EFSM.AttackFSM.stun) return;
+        if (!IsStunned()) return;
         rigidBody.AddForceY(strength, ForceMode2D.Impulse);
     }
 
@@ -89,11 +89,22 @@ public class EnemyBehaviour : MonoBehaviour
         AddCharge(charge * attack.maxChargeInflicted);
     }
 
+    public void ExitAttack(PAttack.Attack attack)
+    {
+        if(IsLinked) {SeverLink(); }
+
+        if (IsAirborne() &&
+            attack.attackType == PAttack.AttackTypes.THS)
+        {
+            SetSpeedY(0);
+        }
+    }
+
     public void BeParriedCasual(PAttack.Attack attack)
     {
         AddCharge(attack.maxChargeInflicted);
 
-        if (attackFSM.currentState != EFSM.AttackFSM.stun)
+        if (!IsStunned())
         {
             attackFSM.ChangeState(EFSM.AttackFSM.stagger);
         }
@@ -101,7 +112,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     private void AddCharge(float amount)
     {
-        if (attackFSM.currentState == EFSM.AttackFSM.stun) return;
+        if (IsStunned()) return;
 
         charge += amount;
 
@@ -128,10 +139,19 @@ public class EnemyBehaviour : MonoBehaviour
         staggerFrames = config.staggerFrames;
         stunFrames = config.stunFrames;
         linkSpeed = config.linkSpeed;
+
+        rigidBody.gravityScale = config.baseGravity;
     }
 
     public void SetEnemyColor(Color color)
-    {
-        spriteRenderer.color = color;
-    }
+    { spriteRenderer.color = color; }
+
+    public bool IsStunned()
+    { return attackFSM.currentState == EFSM.AttackFSM.stun; }
+
+    public bool IsAirborne()
+    { return rigidBody.linearVelocity.y != 0; }
+
+    public void SetSpeedY(float value)
+    { rigidBody.linearVelocityY = value; }
 }

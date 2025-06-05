@@ -15,7 +15,7 @@ MonoBehaviour:
   attackType: 13
   anticipation: 3
   active: 5
-  recovery: 9
+  recovery: 2
   maxChargeInflicted: 5
   potentialUse: 20
   potentialGenerated: 0
