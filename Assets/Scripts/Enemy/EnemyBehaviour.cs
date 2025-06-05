@@ -57,8 +57,6 @@ public class EnemyBehaviour : MonoBehaviour
                 transform.position,
                 linkedGO.transform.position,
                 linkSpeed);
-
-            Debug.Log("LINKED");
         }
     }
 
@@ -79,6 +77,11 @@ public class EnemyBehaviour : MonoBehaviour
     {
         linkedGO = null;
         IsLinked = false;
+    }
+    public void Knockup(float strength)
+    {
+        if (attackFSM.currentState != EFSM.AttackFSM.stun) return;
+        rigidBody.AddForceY(strength, ForceMode2D.Impulse);
     }
 
     public void BeAttackedCasual(float charge, PAttack.Attack attack)

@@ -17,4 +17,7 @@ public class PlayerConfig : MonoBehaviour
 
     [Header("Attack")]
     public float minChargeFrames; public float effectiveChargeFrames;  public float maxChargeFrames; public Attack[] attacks;
+
+    [Header("Attack Effect Variables")]
+    public float pogoSpeed; public float THSAirSpeed; public float BHSKnockupStrength;
 }

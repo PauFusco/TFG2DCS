@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -62,6 +61,51 @@ public class PlayerAttackControl : MonoBehaviour
     }
 
     #region Attack Methods
+    public void SAttackMethod(PAttack.Attack attack, GameObject target)
+    { }
+    public void SSAttackMethod(PAttack.Attack attack, GameObject target)
+    { }
+    public void SSSAttackMethod(PAttack.Attack attack, GameObject target)
+    { }
+    public void HSAttackMethod(PAttack.Attack attack, GameObject target)
+    { }
+    public void FHSAttackMethod(PAttack.Attack attack, GameObject target)
+    { }
+    public void THSAttackMethod(PAttack.Attack attack, GameObject target)
+    {
+        var hitEnemyBehaviour = target.GetComponent<EnemyBehaviour>();
+
+        if (hitEnemyBehaviour != null)
+        { hitEnemyBehaviour.SetLink(attacks[attack]); }
+        else
+        { Debug.Log("Attack target invelid, couldn't link."); }
+    }
+    public void BHSAttackMethod(PAttack.Attack attack, GameObject target)
+    {
+        var hitEnemyBehaviour = target.GetComponent<EnemyBehaviour>();
+        if (hitEnemyBehaviour != null)
+        { hitEnemyBehaviour.Knockup(config.BHSKnockupStrength); }
+        else
+        { Debug.Log("Attack target invalid, couldn't apply knockup."); }
+    }
+    public void jSAttackMethod(PAttack.Attack attack, GameObject target)
+    {
+        player.SetSpeedY(5);
+    }
+    public void jTSAttackMethod(PAttack.Attack attack, GameObject target)
+    { }
+    public void jBSAttackMethod(PAttack.Attack attack, GameObject target)
+    {
+        player.SetSpeedY(config.pogoSpeed);
+    }
+    public void jHSAttackMethod(PAttack.Attack attack, GameObject target)
+    { }
+    public void jFHSAttackMethod(PAttack.Attack attack, GameObject target)
+    { }
+    public void jTHSAttackMethod(PAttack.Attack attack, GameObject target)
+    { }
+    public void jBHSAttackMethod(PAttack.Attack attack, GameObject target)
+    { }
     private void SetUpSpecificAttackBehaviour(PAttack.Attack attack)
     {
         switch (attack.attackType)
@@ -122,69 +166,6 @@ public class PlayerAttackControl : MonoBehaviour
                 attack.onHitAttackMethod = jBHSAttackMethod;
                 break;
         }
-    }
-
-    public void SAttackMethod(PAttack.Attack attack, GameObject target)
-    {
-        Debug.Log("5S behaviour not implemented");
-    }
-    public void SSAttackMethod(PAttack.Attack attack, GameObject target)
-    {
-        Debug.Log("5SS behaviour not implemented");
-    }
-    public void SSSAttackMethod(PAttack.Attack attack, GameObject target)
-    {
-        Debug.Log("5SSS behaviour not implemented");
-    }
-    public void HSAttackMethod(PAttack.Attack attack, GameObject target)
-    {
-        Debug.Log("5HS behaviour not implemented");
-    }
-    public void FHSAttackMethod(PAttack.Attack attack, GameObject target)
-    {
-        Debug.Log("6HS behaviour not implemented");
-    }
-    public void THSAttackMethod(PAttack.Attack attack, GameObject target)
-    {
-        var hitEnemyBehaviour = target.GetComponent<EnemyBehaviour>();
-
-        if (hitEnemyBehaviour != null)
-        { hitEnemyBehaviour.SetLink(attacks[attack]); }
-        else
-        { Debug.Log("Attack didn't hit an enemy, couldn't link."); }
-        
-    }
-    public void BHSAttackMethod(PAttack.Attack attack, GameObject target)
-    {
-        Debug.Log("2HS behaviour not implemented");
-    }
-    public void jSAttackMethod(PAttack.Attack attack, GameObject target)
-    {
-        Debug.Log("j5S behaviour not implemented");
-    }
-    public void jTSAttackMethod(PAttack.Attack attack, GameObject target)
-    {
-        Debug.Log("j8S behaviour not implemented");
-    }
-    public void jBSAttackMethod(PAttack.Attack attack, GameObject target)
-    {
-        Debug.Log("j2S behaviour not implemented");
-    }
-    public void jHSAttackMethod(PAttack.Attack attack, GameObject target)
-    {
-        Debug.Log("j5HS behaviour not implemented");
-    }
-    public void jFHSAttackMethod(PAttack.Attack attack, GameObject target)
-    {
-        Debug.Log("j6HS behaviour not implemented");
-    }
-    public void jTHSAttackMethod(PAttack.Attack attack, GameObject target)
-    {
-        Debug.Log("j8HS behaviour not implemented");
-    }
-    public void jBHSAttackMethod(PAttack.Attack attack, GameObject target)
-    {
-        Debug.Log("j2HS behaviour not implemented");
     }
     #endregion
 }
