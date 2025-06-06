@@ -1,8 +1,10 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyBehaviour : MonoBehaviour
 {
     [SerializeField] private GameObject attackHitbox;
+    [SerializeField] private Slider chargeSlider;
 
     private float
         attackCooldown,
@@ -56,13 +58,25 @@ public class EnemyBehaviour : MonoBehaviour
         {
             transform.position = Vector3.MoveTowards(
                 transform.position,
-                linkedGO.transform.position,+
+                linkedGO.transform.position, +
                 linkSpeed);
         }
+
+        UpdateUI();
     }
 
     private void FixedUpdate()
     { attackFSM.FixedUpdate(); }
+
+    private void UpdateUI()
+    {
+        chargeSlider.value = charge / 100;
+
+        if (chargeSlider.value <= 0)
+            chargeSlider.gameObject.SetActive(false);
+        else
+            chargeSlider.gameObject.SetActive(true);
+    }
 
     public void SetLink(GameObject linkedGO)
     {
@@ -91,7 +105,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     public void ExitAttack(PAttack.Attack attack)
     {
-        if(IsLinked) {SeverLink(); }
+        if (IsLinked) { SeverLink(); }
 
         if (IsAirborne() &&
             attack.attackType == PAttack.AttackTypes.THS)
