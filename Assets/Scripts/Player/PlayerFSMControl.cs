@@ -23,6 +23,8 @@ public class PlayerFSMControl : MonoBehaviour
 
     private PFSM.PlayerFSM[] PFSMs;
 
+    private bool paused;
+
     public PFSM.MoveStateE currentMoveState = new();
     public PFSM.JumpStateE currentJumpState = new();
 
@@ -80,11 +82,14 @@ public class PlayerFSMControl : MonoBehaviour
     private void Update()
     {
         UpdatePlayerConfig();
-        
-        SendInputToFSMs();
 
-        foreach (PFSM.PlayerFSM FSM in PFSMs)
-        { FSM.Update(); }
+        if (!paused)
+        {
+            SendInputToFSMs();
+
+            foreach (PFSM.PlayerFSM FSM in PFSMs)
+            { FSM.Update(); }
+        }
 
         currentMoveState = PFSMs[moveFSMIdx].currentState.thisMoveState;
         currentJumpState = PFSMs[jumpFSMIdx].currentState.thisJumpState;
@@ -92,9 +97,27 @@ public class PlayerFSMControl : MonoBehaviour
 
     private void FixedUpdate()
     {
-        foreach (PFSM.PlayerFSM FSM in PFSMs)
-        { FSM.FixedUpdate(); }
+        if (!paused)
+        {
+            foreach (PFSM.PlayerFSM FSM in PFSMs)
+            { FSM.FixedUpdate(); }
+        }
     }
+
+    public void Pause()
+    {
+        paused = true;
+
+        var rigidbody = GetComponent<Rigidbody2D>();
+        rigidbody.gravityScale = 0;
+        rigidbody.linearVelocity = Vector2.zero;
+    }
+
+    public void UnPause()
+    {
+        paused = false;
+    }
+
 
     public void ResetFSMs()
     {

@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class EnemyBehaviour : MonoBehaviour
 {
+    [SerializeField] private GameObject floor;
     [SerializeField] private GameObject attackHitbox;
     [SerializeField] private Slider chargeSlider;
 
@@ -23,6 +24,9 @@ public class EnemyBehaviour : MonoBehaviour
     private SpriteRenderer spriteRenderer;
 
     private Vector3 OGPos;
+
+    private bool paused;
+    private bool airborne;
 
     public bool IsLinked { get; private set; }
     private GameObject linkedGO;
@@ -56,22 +60,47 @@ public class EnemyBehaviour : MonoBehaviour
 
     private void Update()
     {
-        attackFSM.Update();
-
-        if (IsLinked)
+        if (!paused)
         {
-            transform.position = Vector3.MoveTowards(
-                transform.position,
-                linkedGO.transform.position,
-                linkSpeed);
+            attackFSM.Update();
+
+            if (IsLinked)
+            {
+                transform.position = Vector3.MoveTowards(
+                    transform.position,
+                    linkedGO.transform.position,
+                    linkSpeed);
+            }
         }
 
-        if(chargeSlider != null)
+        if (chargeSlider != null)
             UpdateUI();
     }
 
     private void FixedUpdate()
-    { attackFSM.FixedUpdate(); }
+    {
+        if (!paused)
+        {
+            attackFSM.FixedUpdate();
+        }
+    }
+
+    public void Pause()
+    {
+        paused = true;
+        rigidBody.gravityScale = 0;
+        rigidBody.linearVelocity = Vector2.zero;
+    }
+
+    public void UnPause()
+    {
+        paused = false;
+        
+        if(IsAirborne())
+        {
+            rigidBody.gravityScale = config.baseGravity;
+        }
+    }
 
     private void UpdateUI()
     {
@@ -177,8 +206,19 @@ public class EnemyBehaviour : MonoBehaviour
     { return attackFSM.currentState == EFSM.AttackFSM.stun; }
 
     public bool IsAirborne()
-    { return rigidBody.linearVelocity.y != 0; }
+    { return airborne; }
 
     public void SetSpeedY(float value)
     { rigidBody.linearVelocityY = value; }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.Equals(floor))
+            airborne = false;
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.Equals(floor))
+            airborne = true;
+    }
 }

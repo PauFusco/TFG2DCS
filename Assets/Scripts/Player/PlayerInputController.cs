@@ -11,11 +11,14 @@ namespace CustomInputControl
         [SerializeField] private bool useController;
 
         public UnityEvent ResetPosition;
+        public UnityEvent Pause;
+        public UnityEvent UnPause;
 
         public InputState input;
 
         private InputState prevFrameInput;
         private bool controllerConnected;
+        private bool paused;
 
         private void Awake()
         {
@@ -24,6 +27,8 @@ namespace CustomInputControl
 
             useController = Gamepad.current != null;
             controllerConnected = Gamepad.current != null;
+
+            paused = false;
         }
 
         // Update is called once per frame
@@ -40,11 +45,25 @@ namespace CustomInputControl
                 else useController = controllerConnected;
             }
 
+            #region Control
             if (!useController)
             {
                 if (Input.GetKeyDown(KeyCode.R))
                 {
                     ResetPosition.Invoke();
+                }
+                if (Input.GetKeyDown(KeyCode.Escape))
+                {
+                    if (!paused)
+                    {
+                        Pause.Invoke();
+                        paused = true;
+                    }
+                    else
+                    {
+                        UnPause.Invoke();
+                        paused = false;
+                    }
                 }
             }
             else
@@ -53,8 +72,22 @@ namespace CustomInputControl
                 {
                     ResetPosition.Invoke();
                 }
-            }
+                if (Gamepad.current.startButton.isPressed)
+                {
+                    if (!paused)
+                    {
+                        Pause.Invoke();
+                        paused = true;
+                    }
+                    else
+                    {
+                        UnPause.Invoke();
+                        paused = false;
+                    }
 
+                }
+            }
+            #endregion
             #region Movement
             input.movement = new(0.0f, 0.0f);
             // Keyboard
