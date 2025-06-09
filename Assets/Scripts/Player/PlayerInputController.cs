@@ -59,11 +59,6 @@ namespace CustomInputControl
                         Pause.Invoke();
                         paused = true;
                     }
-                    else
-                    {
-                        UnPause.Invoke();
-                        paused = false;
-                    }
                 }
             }
             else
@@ -79,12 +74,6 @@ namespace CustomInputControl
                         Pause.Invoke();
                         paused = true;
                     }
-                    else
-                    {
-                        UnPause.Invoke();
-                        paused = false;
-                    }
-
                 }
             }
             #endregion
@@ -367,6 +356,15 @@ namespace CustomInputControl
             #endregion
 
             prevFrameInput = input;
+        }
+
+        public void UnPauseGame()
+        {
+            if (paused)
+            {
+                UnPause.Invoke();
+                paused = false;
+            }
         }
     }
 
