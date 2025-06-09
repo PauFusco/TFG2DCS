@@ -54,11 +54,6 @@ public class PlayerBehaviour : MonoBehaviour
     private void UpdateUI()
     {
         potentialSlider.value = currentPotential / 100;
-
-        if (potentialSlider.value <= 0)
-            potentialSlider.gameObject.SetActive(false);
-        else
-            potentialSlider.gameObject.SetActive(true);
     }
 
     public void ResetPosition()

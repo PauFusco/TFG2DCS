@@ -105,11 +105,6 @@ public class EnemyBehaviour : MonoBehaviour
     private void UpdateUI()
     {
         chargeSlider.value = charge / 100;
-
-        if (chargeSlider.value <= 0)
-            chargeSlider.gameObject.SetActive(false);
-        else
-            chargeSlider.gameObject.SetActive(true);
     }
 
     public void ResetPosition()

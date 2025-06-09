@@ -59,6 +59,11 @@ namespace CustomInputControl
                         Pause.Invoke();
                         paused = true;
                     }
+                    else
+                    {
+                        UnPause.Invoke();
+                        paused = false;
+                    }
                 }
             }
             else
@@ -73,6 +78,11 @@ namespace CustomInputControl
                     {
                         Pause.Invoke();
                         paused = true;
+                    }
+                    else
+                    {
+                        UnPause.Invoke();
+                        paused = false;
                     }
                 }
             }

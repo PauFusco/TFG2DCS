@@ -6,13 +6,15 @@ public class PauseMenuManager : MonoBehaviour
     private GameObject
         pauseCanvasObject,
         baseMenuObject,
-        controlsMenuObject;
+        controlsMenuObject,
+        informationMenuObject;
 
     private void Awake()
     {
         pauseCanvasObject.SetActive(false);
         baseMenuObject.SetActive(false);
         controlsMenuObject.SetActive(false);
+        informationMenuObject.SetActive(false);
     }
 
     #region PauseMenu
@@ -36,6 +38,18 @@ public class PauseMenuManager : MonoBehaviour
     public void DisableControlsUI()
     {
         controlsMenuObject.SetActive(false);
+        baseMenuObject.SetActive(true);
+    }
+    #endregion
+    #region InformationMenu
+    public void EnableInformationUI()
+    {
+        baseMenuObject.SetActive(false);
+        informationMenuObject.SetActive(true);
+    }
+    public void DisableInformationUI()
+    {
+        informationMenuObject.SetActive(false);
         baseMenuObject.SetActive(true);
     }
     #endregion
