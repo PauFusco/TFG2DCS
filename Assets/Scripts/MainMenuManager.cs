@@ -6,7 +6,8 @@ public class MainMenuManager : MonoBehaviour
     private GameObject
         mainmenuCanvasObject,
         baseMenuObject,
-        controlsMenuObject;
+        controlsMenuObject,
+        infoMenuObject;
     
     private void Awake()
     {
@@ -24,6 +25,18 @@ public class MainMenuManager : MonoBehaviour
     public void DisableControlsUI()
     {
         controlsMenuObject.SetActive(false);
+        baseMenuObject.SetActive(true);
+    }
+    #endregion
+    #region InformationMenu
+    public void EnableInformationUI()
+    {
+        baseMenuObject.SetActive(false);
+        infoMenuObject.SetActive(true);
+    }
+    public void DisableInformationUI()
+    {
+        infoMenuObject.SetActive(false);
         baseMenuObject.SetActive(true);
     }
     #endregion
