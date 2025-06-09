@@ -15,6 +15,8 @@ public class PlayerBehaviour : MonoBehaviour
     private Rigidbody2D rigidBody;
     private SpriteRenderer spriteRenderer;
 
+    private Vector3 OGPos;
+
     public bool airborne;
     public bool invulnerable;
     public bool lookDirection;
@@ -29,6 +31,8 @@ public class PlayerBehaviour : MonoBehaviour
 
         spriteRenderer = GetComponent<SpriteRenderer>();
         rigidBody = GetComponent<Rigidbody2D>();
+
+        OGPos = transform.position;
 
         #region Debug Variables
         currentSpeed = .0f;
@@ -57,6 +61,13 @@ public class PlayerBehaviour : MonoBehaviour
             potentialSlider.gameObject.SetActive(true);
     }
 
+    public void ResetPosition()
+    {
+        ResetPotential();
+        FSMControl.ResetFSMs();
+        transform.position = OGPos;
+    }
+
     public void GetHit()
     {
         Debug.Log("Enemy Hit Player");
@@ -76,6 +87,9 @@ public class PlayerBehaviour : MonoBehaviour
         currentPotential = currentPotential < 0 ?
             0 : currentPotential;
     }
+
+    public void ResetPotential()
+    { currentPotential = 0; }
 
     public bool EnoughPotentialForAttack(float potentialNeeded)
     {

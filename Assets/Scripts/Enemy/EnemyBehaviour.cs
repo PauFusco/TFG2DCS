@@ -22,6 +22,8 @@ public class EnemyBehaviour : MonoBehaviour
     private Rigidbody2D rigidBody;
     private SpriteRenderer spriteRenderer;
 
+    private Vector3 OGPos;
+
     public bool IsLinked { get; private set; }
     private GameObject linkedGO;
 
@@ -36,6 +38,8 @@ public class EnemyBehaviour : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         rigidBody = GetComponent<Rigidbody2D>();
         config = GetComponent<EnemyConfig>();
+
+        OGPos = transform.position;
 
         UpdateConfig();
 
@@ -77,6 +81,14 @@ public class EnemyBehaviour : MonoBehaviour
             chargeSlider.gameObject.SetActive(false);
         else
             chargeSlider.gameObject.SetActive(true);
+    }
+
+    public void ResetPosition()
+    {
+        SeverLink();
+        ResetCharge();
+        attackFSM.currentState = EFSM.AttackFSM.idle;
+        transform.position = OGPos;
     }
 
     public void SetLink(GameObject linkedGO)

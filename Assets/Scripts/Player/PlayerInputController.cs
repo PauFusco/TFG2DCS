@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 namespace CustomInputControl
@@ -8,6 +9,8 @@ namespace CustomInputControl
     public class PlayerInputController : MonoBehaviour
     {
         [SerializeField] private bool useController;
+
+        public UnityEvent ResetPosition;
 
         public InputState input;
 
@@ -35,6 +38,21 @@ namespace CustomInputControl
             {
                 if (useController) useController = false;
                 else useController = controllerConnected;
+            }
+
+            if (!useController)
+            {
+                if (Input.GetKeyDown(KeyCode.R))
+                {
+                    ResetPosition.Invoke();
+                }
+            }
+            else
+            {
+                if (Gamepad.current.selectButton.isPressed)
+                {
+                    ResetPosition.Invoke();
+                }
             }
 
             #region Movement

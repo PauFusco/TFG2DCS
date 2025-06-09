@@ -96,6 +96,14 @@ public class PlayerFSMControl : MonoBehaviour
         { FSM.FixedUpdate(); }
     }
 
+    public void ResetFSMs()
+    {
+        ((PFSM.MovementFSM)PFSMs[moveFSMIdx]).currentState = PFSM.MovementFSM.idle;
+        ((PFSM.JumpFSM)PFSMs[jumpFSMIdx]).currentState = PFSM.JumpFSM.ground;
+        ((PFSM.DashFSM)PFSMs[dashFSMIdx]).currentState = PFSM.DashFSM.idle;
+        ((PFSM.AttackFSM)PFSMs[attaFSMIdx]).currentState = PFSM.AttackFSM.idle;
+    }
+
     private void UpdatePlayerConfig()
     {
         maxSpeed = config.maxSpeed;
