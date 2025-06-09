@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackType: 11
   anticipation: 3
-  active: 5
+  active: 20
   recovery: 9
   maxChargeInflicted: 5
   potentialUse: 20

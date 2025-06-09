@@ -58,11 +58,12 @@ public class EnemyBehaviour : MonoBehaviour
         {
             transform.position = Vector3.MoveTowards(
                 transform.position,
-                linkedGO.transform.position, +
+                linkedGO.transform.position,
                 linkSpeed);
         }
 
-        UpdateUI();
+        if(chargeSlider != null)
+            UpdateUI();
     }
 
     private void FixedUpdate()

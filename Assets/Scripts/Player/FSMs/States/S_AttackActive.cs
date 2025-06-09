@@ -60,6 +60,7 @@ namespace PFSM
             player.DisableCurrentAttackCollider(currentAttack);
 
             player.SetSpeedY(0);
+            
         }
     }
 }

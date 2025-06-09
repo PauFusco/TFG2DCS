@@ -43,7 +43,8 @@ public class PlayerBehaviour : MonoBehaviour
     {
         currentSpeed = rigidBody.linearVelocityX;
 
-        UpdateUI();
+        if (potentialSlider != null)
+            UpdateUI();
     }
 
     private void UpdateUI()

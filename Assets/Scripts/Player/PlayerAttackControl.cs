@@ -130,9 +130,14 @@ public class PlayerAttackControl : MonoBehaviour
     { }
 
     public void jFHSExecuteAttackMethod()
-    { }
+    {
+        player.SetSpeedX(config.jFHSSideSpeed * (player.lookDirection ? 1 : -1));
+        player.SetSpeedY(0);
+    }
     public void jFHSHitAttackMethod(PAttack.Attack attack, EnemyBehaviour target)
-    { }
+    {
+        target.SetLink(attacks[attack]);
+    }
 
     public void jTHSExecuteAttackMethod()
     { }
@@ -140,9 +145,14 @@ public class PlayerAttackControl : MonoBehaviour
     { }
 
     public void jBHSExecuteAttackMethod()
-    { }
+    {
+        player.SetSpeedY(config.jBHSDownSpeed);
+        player.SetSpeedX(config.jBHSSideSpeed * (player.lookDirection ? 1 : -1));
+    }
     public void jBHSHitAttackMethod(PAttack.Attack attack, EnemyBehaviour target)
-    { }
+    {
+        target.SetLink(attacks[attack]);
+    }
 
     private void SetUpSpecificAttackBehaviour(PAttack.Attack attack)
     {
