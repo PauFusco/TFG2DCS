@@ -22,6 +22,8 @@ MonoBehaviour:
   hitbox: {fileID: 2699706844854387602, guid: e3f104e7b7c29614097e31843369317f, type: 3}
   input:
   - {fileID: 11400000, guid: c7a99d29b3a3bc547a34653ce00b9724, type: 2}
+  - {fileID: 11400000, guid: ae6491195846ccd448267b1b0797dc7b, type: 2}
+  - {fileID: 11400000, guid: 5c812fd1ae6db09478477cd66d999c6a, type: 2}
   airborne: 1
   chargeable: 0
   cancellable: 1

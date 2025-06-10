@@ -14,6 +14,7 @@ public class InfoMenuManager : MonoBehaviour
     {
         text1 = "This Prototype will let you test a Combat System.\n\n" +
             "You are the entity that spawns at the left, and the enemy is the one that spawns in the right.\n\n" +
+            "You can reset your position and the enemie's by pressing the R key (keyboard) or the Select button (controller).\n\n" +
             "After playing this Prototype, please respond the provided feedback form so I can fix any issue.";
        
         text2 = "There exist 2 different resources in the game: Potential and Charge.\n\n" +

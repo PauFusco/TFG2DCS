@@ -3179,7 +3179,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 941ae549a7c7caa42bb99fa2577e5bdc, type: 2}
   - {fileID: 11400000, guid: f10449987b7a7b64c8af88350f4ea6ab, type: 2}
   - {fileID: 11400000, guid: 9f4ce2d04600b6d43ab3485068ccdea4, type: 2}
-  pogoSpeed: 3000
   THSAirSpeed: 10
   BHSKnockupStrength: 20
   jBHSDownSpeed: -20
