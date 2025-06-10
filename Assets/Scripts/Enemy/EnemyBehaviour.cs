@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class EnemyBehaviour : MonoBehaviour
@@ -6,6 +8,8 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField] private GameObject floor;
     [SerializeField] private GameObject attackHitbox;
     [SerializeField] private Slider chargeSlider;
+
+    public static Action<float> AttackCameraShake;
 
     private float
         attackCooldown,
@@ -139,6 +143,7 @@ public class EnemyBehaviour : MonoBehaviour
     public void BeAttackedCasual(float charge, PAttack.Attack attack)
     {
         AddCharge(charge * attack.maxChargeInflicted);
+        AttackCameraShake?.Invoke(charge * attack.maxChargeInflicted);
     }
 
     public void ExitAttack(PAttack.Attack attack)
@@ -155,6 +160,8 @@ public class EnemyBehaviour : MonoBehaviour
     public void BeParriedCasual(PAttack.Attack attack)
     {
         AddCharge(attack.maxChargeInflicted);
+
+        AttackCameraShake?.Invoke(attack.maxChargeInflicted);
 
         if (!IsStunned())
         {
