@@ -107,9 +107,9 @@ public class PlayerAttackControl : MonoBehaviour
     { }
     public void jSHitAttackMethod(PAttack.Attack attack, EnemyBehaviour target)
     {
-        player.SetSpeedY(5);
+        player.SetSpeedY(7);
 
-        if (target.IsAirborne()) target.SetSpeedY(2);
+        if (target.IsAirborne()) target.SetSpeedY(5);
     }
 
     public void jTSExecuteAttackMethod()
@@ -121,7 +121,7 @@ public class PlayerAttackControl : MonoBehaviour
     { }
     public void jBSHitAttackMethod(PAttack.Attack attack, EnemyBehaviour target)
     {
-        player.SetSpeedY(config.pogoSpeed);
+        player.GetFSM(PlayerFSMControl.jumpFSMIdx).ChangeState(PFSM.JumpFSM.jump);
     }
 
     public void jHSExecuteAttackMethod()

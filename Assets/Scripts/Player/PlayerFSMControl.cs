@@ -122,7 +122,7 @@ public class PlayerFSMControl : MonoBehaviour
     public void ResetFSMs()
     {
         ((PFSM.MovementFSM)PFSMs[moveFSMIdx]).currentState = PFSM.MovementFSM.idle;
-        ((PFSM.JumpFSM)PFSMs[jumpFSMIdx]).currentState = PFSM.JumpFSM.ground;
+        ((PFSM.JumpFSM)PFSMs[jumpFSMIdx]).currentState = PFSM.JumpFSM.freeFall;
         ((PFSM.DashFSM)PFSMs[dashFSMIdx]).currentState = PFSM.DashFSM.idle;
         ((PFSM.AttackFSM)PFSMs[attaFSMIdx]).currentState = PFSM.AttackFSM.idle;
     }

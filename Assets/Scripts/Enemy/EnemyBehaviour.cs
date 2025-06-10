@@ -117,7 +117,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     public void SetLink(GameObject linkedGO)
     {
-        if (!IsStunned()) return;
+        if (!IsStunned() && !IsAirborne()) return;
 
         this.linkedGO = linkedGO;
         IsLinked = true;
@@ -131,7 +131,8 @@ public class EnemyBehaviour : MonoBehaviour
 
     public void Knockup(float strength)
     {
-        if (!IsStunned()) return;
+        if (!IsStunned() && !IsAirborne()) return;
+
         rigidBody.AddForceY(strength, ForceMode2D.Impulse);
     }
 
