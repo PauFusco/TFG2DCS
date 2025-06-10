@@ -16,9 +16,9 @@ public class PlayerConfig : MonoBehaviour
     public float baseGravity; public float fallGravityMultiplier;
 
     [Header("Attack")]
-    public float minChargeFrames; public float effectiveChargeFrames;  public float maxChargeFrames; public Attack[] attacks;
+    public float minChargeFrames; public float effectiveChargeFrames; public float maxChargeFrames; public Attack[] attacks;
 
     [Header("Attack Effect Variables")]
-public float THSAirSpeed; public float BHSKnockupStrength; public float jBHSDownSpeed; public float jBHSSideSpeed;
+    public float THSAirSpeed; public float BHSKnockupStrength; public float jBHSDownSpeed; public float jBHSSideSpeed;
     public float jFHSSideSpeed;
 }
