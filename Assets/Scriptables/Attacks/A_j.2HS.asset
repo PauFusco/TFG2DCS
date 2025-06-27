@@ -16,7 +16,7 @@ MonoBehaviour:
   anticipation: 3
   active: 15
   recovery: 5
-  maxChargeInflicted: 5
+  maxChargeInflicted: 10
   potentialUse: 20
   potentialGenerated: 0
   hitbox: {fileID: 2699706844854387602, guid: 98539ddb8b2607f45b8300a006723bc5, type: 3}
