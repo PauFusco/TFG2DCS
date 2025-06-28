@@ -20,6 +20,9 @@ namespace CustomInputControl
         private bool controllerConnected;
         private bool paused;
 
+        private bool startDown;
+        private bool selectDown;
+
         private void Awake()
         {
             input = new();
@@ -68,12 +71,23 @@ namespace CustomInputControl
             }
             else
             {
-                if (Gamepad.current.selectButton.isPressed)
+                if (!Gamepad.current.selectButton.isPressed)
+                { selectDown = false; }
+
+                if (Gamepad.current.selectButton.isPressed && !selectDown)
                 {
+                    selectDown = true;
+
                     ResetPosition.Invoke();
                 }
-                if (Gamepad.current.startButton.isPressed)
+
+                if (!Gamepad.current.startButton.isPressed)
+                { startDown = false; }
+
+                if (Gamepad.current.startButton.isPressed && !startDown)
                 {
+                    startDown = true;
+
                     if (!paused)
                     {
                         Pause.Invoke();
@@ -162,7 +176,7 @@ namespace CustomInputControl
                 {
                     Vector2 stick = Gamepad.current.leftStick.value.normalized;
 
-                    if (stick.x < 0.1f &&
+                    if (stick.x < -0.2f &&
                          0.71f >= stick.y &&
                         -0.71f < stick.y)
                     {
@@ -176,7 +190,7 @@ namespace CustomInputControl
                     {
                         input.left = KeyState.UP;
                     }
-                    if (stick.x > 0.1f &&
+                    if (stick.x > 0.2f &&
                          0.71f >= stick.y &&
                         -0.71f < stick.y)
                     {
@@ -279,7 +293,6 @@ namespace CustomInputControl
                 {
                     input.dash = KeyState.UP;
                 }
-
                 if (Gamepad.current.buttonSouth.ReadValue() != .0f)
                 {
                     input.jump =
@@ -292,7 +305,6 @@ namespace CustomInputControl
                 {
                     input.jump = KeyState.UP;
                 }
-
                 if (Gamepad.current.rightShoulder.ReadValue() != .0f)
                 {
                     input.parry =

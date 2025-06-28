@@ -116,6 +116,9 @@ public class PlayerFSMControl : MonoBehaviour
     public void UnPause()
     {
         paused = false;
+
+        var rigidbody = GetComponent<Rigidbody2D>();
+        rigidbody.gravityScale = baseGravity;
     }
 
 

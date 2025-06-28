@@ -99,11 +99,10 @@ public class EnemyBehaviour : MonoBehaviour
     public void UnPause()
     {
         paused = false;
-        
-        if(IsAirborne())
-        {
-            rigidBody.gravityScale = config.baseGravity;
-        }
+
+
+        rigidBody.gravityScale = config.baseGravity;
+
     }
 
     private void UpdateUI()
