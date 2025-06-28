@@ -2468,8 +2468,8 @@ MonoBehaviour:
   recoveryFrames: 30
   staggerFrames: 45
   stunFrames: 300
-  linkSpeed: 1
-  baseGravity: 1
+  linkSpeed: 0.5
+  baseGravity: 1.5
 --- !u!1 &846769347
 GameObject:
   m_ObjectHideFlags: 0
@@ -3171,10 +3171,10 @@ MonoBehaviour:
   dashFrames: 10
   dashCooldownFrames: 60
   jumpSpeed: 15
-  jumpHeight: 2
+  jumpHeight: 1.5
   jumpCutoffFrames: 5
-  baseGravity: 2
-  fallGravityMultiplier: 4
+  baseGravity: 3
+  fallGravityMultiplier: 5
   minChargeFrames: 20
   effectiveChargeFrames: 30
   maxChargeFrames: 100
