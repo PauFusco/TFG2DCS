@@ -32,8 +32,12 @@ public class AttackBehaviour : MonoBehaviour
             var hitEnemyBehaviour = collision.gameObject.GetComponent<EnemyBehaviour>();
             if (hitEnemyBehaviour != null)
             {
-                AttackHitEnemy?.Invoke(PFSM.AttackFSM.active.GetAttackCharge(), attack, hitEnemyBehaviour);
-                HitEnemy?.Invoke(PFSM.AttackFSM.active.GetAttackCharge(), attack);
+                AttackHitEnemy?.Invoke(PFSM.AttackFSM.active.GetAttackCharge(), 
+                    attack,
+                    hitEnemyBehaviour);
+
+                HitEnemy?.Invoke(PFSM.AttackFSM.active.GetAttackCharge(),
+                    attack);
             }
         }
 

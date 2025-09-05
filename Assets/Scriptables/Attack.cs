@@ -43,7 +43,8 @@ namespace PAttack
         [Tooltip("List of attacks it can be cancelled into.")]
         public Attack[] cancellableInto;
 
-        public delegate void AttackEnemyDelegate(Attack attack, EnemyBehaviour target);
+        public delegate void AttackEnemyDelegate(Attack attack, 
+                                                 EnemyBehaviour target);
         public AttackEnemyDelegate onHitAttackMethod;
 
         public delegate void AttackDelegate();
